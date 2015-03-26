@@ -1,21 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ant;
+
+
+import javax.swing.*;
 
 /**
  *
  * @author joycecorsel
  */
-public class gameGUI extends javax.swing.JFrame {
+public class gameGUI extends JFrame {
+    
 
     /**
      * Creates new form gameGUI
      */
     public gameGUI() {
         initComponents();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Ant Game");
+        //setSize(WIDTH, HEIGHT);   // sets the window size to certain dimensions
+        pack();             // sets the size to fit components
+        setVisible(true);   // shows the frame
     }
 
     /**
