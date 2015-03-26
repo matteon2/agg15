@@ -1,25 +1,23 @@
 package ant;
 
-
 import javax.swing.*;
 
 /**
  *
  * @author joycecorsel
  */
-public class gameGUI extends JFrame {
-    
+public class AntGameGUI extends JFrame {
+    int WINDOW_WIDTH = 500;
+    int WINDOW_HEIGHT = 500;
 
     /**
      * Creates new form gameGUI
      */
-    public gameGUI() {
+    public AntGameGUI() {
         initComponents();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Ant Game");
-        //setSize(WIDTH, HEIGHT);   // sets the window size to certain dimensions
-        pack();             // sets the size to fit components
-        setVisible(true);   // shows the frame
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -31,56 +29,21 @@ public class gameGUI extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Screen = new javax.swing.JPanel();
-        MenuBar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        MenuBarExit = new javax.swing.JMenu();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout ScreenLayout = new javax.swing.GroupLayout(Screen);
-        Screen.setLayout(ScreenLayout);
-        ScreenLayout.setHorizontalGroup(
-            ScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        ScreenLayout.setVerticalGroup(
-            ScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 263, Short.MAX_VALUE)
-        );
-
-        jMenu1.setText("File");
-        MenuBar.add(jMenu1);
-
-        MenuBarExit.setText("Exit");
-        MenuBarExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuBarExitActionPerformed(evt);
-            }
-        });
-        MenuBar.add(MenuBarExit);
-
-        setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Screen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 15, Short.MAX_VALUE)
-                .addComponent(Screen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void MenuBarExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuBarExitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_MenuBarExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -99,28 +62,25 @@ public class gameGUI extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(gameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AntGameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(gameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AntGameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(gameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AntGameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(gameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AntGameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new gameGUI().setVisible(true);
+                new AntGameGUI().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JMenu MenuBarExit;
-    private javax.swing.JPanel Screen;
-    private javax.swing.JMenu jMenu1;
     // End of variables declaration//GEN-END:variables
 }
