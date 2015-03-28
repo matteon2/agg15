@@ -17,8 +17,14 @@ public class Turn extends Instruction{
     public Turn(TurnDir direction, int state){
         this.direction = direction;
         this.state = state;
+        tokenLength = 3;
     }
 
+    @Override
+    public int getTokenLength(){
+        return tokenLength;
+    }
+    
     @Override
     public void execute() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

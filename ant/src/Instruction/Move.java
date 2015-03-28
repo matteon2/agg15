@@ -17,6 +17,12 @@ public class Move extends Instruction{
     public Move(int state1, int state2){
         this.state1 = state1;
         this.state2 = state2;
+        tokenLength = 3;
+    }
+    
+    @Override
+    public int getTokenLength(){
+        return tokenLength;
     }
 
     @Override

@@ -21,8 +21,16 @@ public class Sense extends Instruction{
         this.state1 = st1;
         this.state2 = st2;
         this.condition = condition;
+        tokenLength = 5;
     }
 
+    @Override
+    public int getTokenLength(){
+        return tokenLength;
+    }
+    
+    
+    
     @Override
     public void execute() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

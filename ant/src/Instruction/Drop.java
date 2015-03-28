@@ -15,8 +15,14 @@ public class Drop extends Instruction {
     
     public Drop(int state){
         this.state = state;
+        tokenLength = 2;
     }
 
+    @Override
+    public int getTokenLength(){
+        return tokenLength;
+    }
+    
     @Override
     public void execute() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

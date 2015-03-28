@@ -11,10 +11,12 @@ package Instruction;
  * @author Andrew
  */
 public abstract class Instruction {
+    int tokenLength;
     
-    String instruction;
+    public abstract int getTokenLength();
     /*
     To run the current instruction
     */
     public abstract void execute();
+    
 }

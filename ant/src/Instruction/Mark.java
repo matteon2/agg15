@@ -11,14 +11,20 @@ package Instruction;
  * @author Andrew
  */
 public class Mark extends Instruction{
-    int scent;
+    int marker;
     int state;
     
-    public Mark(int scent, int state){
-        this.scent = scent;
+    public Mark(int marker, int state){
+        this.marker = marker;
         this.state = state;
+        tokenLength = 3;
     }
 
+    @Override
+    public int getTokenLength(){
+        return tokenLength;
+    }
+    
     @Override
     public void execute() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
