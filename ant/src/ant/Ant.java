@@ -9,13 +9,21 @@ package ant;
  * @author mk448
  */
 public class Ant {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        //
-        // TEST
+    private Cell position;
+    private boolean hasFood;
+    private boolean alive;
+    
+    public Ant(Cell startPos){
+        position = startPos;
+        alive = true;
+        hasFood = false;
     }
+    
+    public Cell getPos(){return position;}
+    
+    public void move(int direction){
+        //update position cell based on direction
+    }
+    
+    
 }
