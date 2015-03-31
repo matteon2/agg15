@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * The enumeration class used for holding 4 sense directions.
  * @author Andrew
  */
 public enum SenseDir {

@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * This class represents turn left or right and moving state.
  * @author Andrew
  */
 public class Turn extends Instruction{
@@ -27,6 +27,7 @@ public class Turn extends Instruction{
     
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        System.out.println("Turn " + "'"+direction+"'" +  " and go to " + "'"+state+"'" + ".");
     }
 }

@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * This class represents picking up food from current cell and moving state.
  * @author Andrew
  */
 public class PickUp extends Instruction{
@@ -27,6 +27,7 @@ public class PickUp extends Instruction{
     
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        System.out.println("Pick up food from current cell and go to " + "'"+state1+"'" + ";" +  " go to " + "'"+state2+"'" + " if there is no food in the current cell.");
     }
 }

@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * The enumeration class used for holding 10 conditions.
  * @author Andrew
  */
 public enum Condition {

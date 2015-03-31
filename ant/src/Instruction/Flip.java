@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * This class represents choosing a random number x and moving state.
  * @author Andrew
  */
 public class Flip extends Instruction {
@@ -29,6 +29,7 @@ public class Flip extends Instruction {
     
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        System.out.println("Choose a random number x from 0 to " + "'"+p+"'" + "-1;" + " go to state " + "'"+state1+"'" + " if x=0 and " + "'"+state2+"'" + " otherwise.");
     }
 }

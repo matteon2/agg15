@@ -7,7 +7,7 @@ package Instruction;
  */
 
 /**
- *
+ * An abstract super class that represent the structure of instruction
  * @author Andrew
  */
 public abstract class Instruction {

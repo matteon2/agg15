@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * This class represents clearing mark in the current cell and moving state.
  * @author Andrew
  */
 public class Unmark extends Instruction{
@@ -27,6 +27,7 @@ public class Unmark extends Instruction{
     
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        System.out.println("Clear mark " + "'"+marker+"'" + "  in current cell and go to " + "'"+state+"'" + ".");
     }
 }

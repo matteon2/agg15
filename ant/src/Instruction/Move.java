@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * This class represents moving forward and moving state.
  * @author Andrew
  */
 public class Move extends Instruction{
@@ -27,6 +27,7 @@ public class Move extends Instruction{
 
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        System.out.println("Move forward and go to " + "'"+state1+"'" + ";" + " go to " + "'"+state2+"'" + " if the cell ahead is blocked.");
     }
 }

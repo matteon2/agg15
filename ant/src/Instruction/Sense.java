@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * This class represents moving state after sensing the direction.
  * @author Andrew
  */
 public class Sense extends Instruction{
@@ -15,6 +15,8 @@ public class Sense extends Instruction{
     int state1;
     int state2;
     Condition condition;
+    int marker;
+    
     
     public Sense(SenseDir senseDir, int st1, int st2, Condition condition){
         this.senseDir = senseDir;
@@ -22,6 +24,14 @@ public class Sense extends Instruction{
         this.state2 = st2;
         this.condition = condition;
         tokenLength = 5;
+    }
+    
+    public Sense(SenseDir senseDir, int st1, int st2, Condition condition, int marker){
+        this.senseDir = senseDir;
+        this.state1 = st1;
+        this.state2 = st2;
+        this.condition = condition;
+        tokenLength = 6;
     }
 
     @Override
@@ -33,6 +43,14 @@ public class Sense extends Instruction{
     
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(tokenLength == 5){
+            System.out.println("Go to state " + "'"+state1+"'" + " if " + "'"+condition+"'" + " holds in " + "'"+senseDir+"'" + ";" + " and to state " + "'"+state2+"'"  + " otherwise.");
+        }
+        if(tokenLength == 6){
+            System.out.println("Go to state " + "'"+state1+"'" + " if " + "'"+condition+"'" + "'"+marker+"'" + " holds in " + "'"+senseDir+"'" + ";" + " and to state " + "'"+state2+"'"  + " otherwise.");
+        }
+        else{
+            System.out.println("false!");
+        }     
     }
 }

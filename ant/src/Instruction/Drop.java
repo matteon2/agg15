@@ -7,12 +7,16 @@
 package Instruction;
 
 /**
- *
+ * This class represents dropping the food in the current file and moving state
  * @author Andrew
  */
 public class Drop extends Instruction {
     int state;
     
+    /**
+     * Create the drop instruction
+     * @param state 
+     */
     public Drop(int state){
         this.state = state;
         tokenLength = 2;
@@ -25,6 +29,7 @@ public class Drop extends Instruction {
     
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        System.out.println("Drop food in current cell and go to state " + "'"+state+"'");
     }
 }

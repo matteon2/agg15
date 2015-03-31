@@ -26,7 +26,7 @@ import java.io.IOException;
  */
 
 /**
- *
+ * This class is used for parsing the ant brain file and creating a ant brain which is defined by a simple, finite state machine.
  * @author Andrew
  */
 public class AntBrainParser {
@@ -34,7 +34,7 @@ public class AntBrainParser {
     /**
      * Read the brain file and convert it to string
      * @param brainFile
-     * @return the instruciton string in the brainFile
+     * @return the instruction string in the brainFile
      * @throws FileNotFoundException
      * @throws IOException 
      */
@@ -50,6 +50,11 @@ public class AntBrainParser {
         return brainStr;
     }
     
+    /**
+     * Read the file path of brain file and convert it to string
+     * @param filePath
+     * @return the instruction string
+     */
     public static String readBrainFile(String filePath){
         try{
             File f = new File(filePath);
@@ -60,11 +65,21 @@ public class AntBrainParser {
         return null;    
     }
     
+    /**
+     * Convert all the instruction string to the instruction list
+     * @param input
+     * @return instruction list
+     */
     public static String[] convertToInstructionList(String input){
         String[] instructionList = input.trim().split("\n"); 
         return instructionList;
     }
     
+    /**
+     * Create the ant brain file by reading its file path
+     * @param filePath
+     * @return AntBrain
+     */
     public static AntBrain createBrain(String filePath){
         try{
             File f = new File(filePath);
@@ -75,7 +90,13 @@ public class AntBrainParser {
         return null;    
     }
     
- 
+    /**
+     * Create the ant brain by reading the antbrain file
+     * @param brainFile
+     * @return AntBrain 
+     * @throws IOException
+     * @throws Exception 
+     */
     public static AntBrain createBrain(File brainFile) throws IOException, Exception{
         String[] list = convertToInstructionList(readBrainFile(brainFile));
         Instruction[] insList = new Instruction[list.length];
@@ -88,6 +109,12 @@ public class AntBrainParser {
         return new AntBrain(insList, brainFile.getName());
     }
     
+    /**
+     * Allocate individual instruction string to the corresponding instruction class by split the instruction into token list
+     * @param ins
+     * @return Instrucition
+     * @throws Exception 
+     */
     public static Instruction allocateInstruction(String ins) throws Exception{
         Instruction instruction;
         String[] insToken = ins.trim().split(" ");
@@ -97,7 +124,12 @@ public class AntBrainParser {
                 int st1 = checkStateNumber(insToken[2]);
                 int st2 = checkStateNumber(insToken[3]);
                 Condition cond = checkCondition(insToken[4]);
-                instruction = new Sense(sensedir, st1, st2, cond);
+                if(cond == cond.MARKER){
+                    int marker = checkMarker(insToken[5]);
+                    instruction = new Sense(sensedir, st1, st2, cond, marker);
+                }else{
+                    instruction = new Sense(sensedir, st1, st2, cond);
+                } 
                 break;
                 
             case "MARK":
@@ -146,11 +178,17 @@ public class AntBrainParser {
                 throw new Exception("The instruction is invalid!");
         }
         if(insToken.length != instruction.getTokenLength()){
-            throw new Exception("The instruction is invalid!");
+            throw new Exception("The instruction length is invalid!");
         }
         return instruction;
     }
     
+    /**
+     * Check the sense direction from the direction token string in the individual instruction
+     * @param dirString
+     * @return SenseDir
+     * @throws Exception 
+     */
     public static SenseDir checkSenseDirection(String dirString) throws Exception{
         SenseDir direction;
         switch(dirString.toUpperCase()){
@@ -172,6 +210,12 @@ public class AntBrainParser {
         return direction;
     }
     
+    /**
+     * Check the condition from the condition token string in the individual instruction
+     * @param condString
+     * @return Condition
+     * @throws Exception 
+     */
     public static Condition checkCondition(String condString) throws Exception{
         Condition condition;
         switch(condString.toUpperCase()){
@@ -211,6 +255,12 @@ public class AntBrainParser {
         return condition;
     }
     
+    /**
+     * Check the state number from the state number token string in the individual instruction
+     * @param stateNumString
+     * @return int
+     * @throws Exception 
+     */
     public static int checkStateNumber(String stateNumString) throws Exception{
         int stateNum = Integer.valueOf(stateNumString);
         if(stateNum < 0 || stateNum > 9999){
@@ -219,6 +269,12 @@ public class AntBrainParser {
         return stateNum;
     }
     
+    /**
+     * Check the marker from the marker token string in the individual instruction
+     * @param markerString
+     * @return int
+     * @throws Exception 
+     */
     public static int checkMarker(String markerString) throws Exception{
         int marker = Integer.valueOf(markerString);
         if(marker < 0 || marker > 5){
@@ -227,6 +283,12 @@ public class AntBrainParser {
         return marker;
     }
     
+    /**
+     * Check the turn direction from the  turn direction token string in the individual instruction
+     * @param lrString
+     * @return TurnDir
+     * @throws Exception 
+     */
     public static TurnDir checkTurnDirection(String lrString) throws Exception{
         TurnDir lr;
         switch(lrString.toUpperCase()){
@@ -242,9 +304,16 @@ public class AntBrainParser {
         return lr;      
     }
     
+    /**
+     * Main method
+     * @param args
+     * @throws IOException 
+     */
     public static void main(String args[]) throws IOException{
+        AntBrain ant = AntBrainParser.createBrain("/Users/Andrew/NetBeansProjects/SoftwareEngineering/src/antbrain.brain");
+        for (Instruction insList : ant.insList) {
+            insList.execute();
+        }
         
-        //File f = new File("/Users/Andrew/NetBeansProjects/SoftwareEngineering/src/antbrain.brain");
-        System.out.println(AntBrainParser.readBrainFile("Users/Andrew/NetBeansProjects/SoftwareEngineering/src/antbrain.brain"));
     }
 }

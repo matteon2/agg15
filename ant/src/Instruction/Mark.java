@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * This class represents setting mark in current cell and move state.
  * @author Andrew
  */
 public class Mark extends Instruction{
@@ -27,6 +27,7 @@ public class Mark extends Instruction{
     
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        System.out.println("Set mark " + "'"+marker+"'" + " in current cell and go to " + state);
     }
 }

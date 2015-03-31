@@ -7,7 +7,7 @@
 package Instruction;
 
 /**
- *
+ * The enumeration class used for holding 2 turn directions.
  * @author Andrew
  */
 public enum TurnDir {
