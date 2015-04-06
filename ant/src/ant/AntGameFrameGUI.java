@@ -10,8 +10,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-
-
 /**
  *
  * @author joycecorsel
@@ -34,6 +32,7 @@ public class AntGameFrameGUI extends JFrame {
     
     private void createPanel()
     {
+        // Loads image from within package
         BufferedImage wPic = null;
         try {
             wPic = ImageIO.read(this.getClass().getResource("intro.jpg"));
@@ -42,7 +41,13 @@ public class AntGameFrameGUI extends JFrame {
         }
         antImg = new JLabel(new ImageIcon(wPic));
         
+        // Creates JPanels for different 'windows'
         mMenu = new JPanel();
+        duelMode = new JPanel();
+        tournamentMode = new JPanel();
+        settingsDisplay = new JPanel();
+        
+        // Creates features for Main Menu JPanel
         duel = new JButton("Duel");
         duel.setFont(new Font("Comic Sans MS", 0, 11));
         duel.addActionListener(new addButtonListener() {
@@ -88,8 +93,8 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
         
-        duelMode = new JPanel();
         
+        // Creates features for Duel Mode JPanel
         uploadBrainDuel = new JButton("Upload Ant Brain");
         uploadBrainDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainDuel.addActionListener(new addButtonListener() {
@@ -145,8 +150,8 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
         
-        tournamentMode = new JPanel();
         
+        // Creates features for Tournament Mode JPanel
         uploadBrainTournament = new JButton("Upload Ant Brain");
         uploadBrainTournament.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainTournament.addActionListener(new addButtonListener() {
@@ -200,8 +205,8 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
         
-        settingsDisplay = new JPanel();
         
+        // Creates features for Settings JPanel
         backSettings = new JButton("Back");
         backSettings.setFont(new Font("Comic Sans MS", 0, 11));
         backSettings.addActionListener(new addButtonListener() {
@@ -219,11 +224,13 @@ public class AntGameFrameGUI extends JFrame {
     
     private void addPanel()
     {
+        // Adding features to JPanels
         mMenu.add(antImg);
         mMenu.add(duel);
         mMenu.add(tourn);
         mMenu.add(quit);
         mMenu.add(settings);
+        // Adding main menu to JFrame - only main menu added so first thing shown
         add(mMenu);
         
         duelMode.add(uploadBrainDuel);
@@ -246,6 +253,7 @@ public class AntGameFrameGUI extends JFrame {
     public static void main(String args[])
     {
         AntGameFrameGUI frame = new AntGameFrameGUI();
+        // JFrame properties
         frame.setTitle("Ant Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500,500);
@@ -254,8 +262,9 @@ public class AntGameFrameGUI extends JFrame {
         frame.setVisible(true);
     }
 
+    // Class added to enable Button Clicking
+    // To be left empty
     private static abstract class addButtonListener implements ActionListener {
-
         public addButtonListener() {
         }
     }
