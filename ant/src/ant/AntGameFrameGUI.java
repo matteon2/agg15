@@ -17,11 +17,11 @@ import javax.swing.*;
 
 public class AntGameFrameGUI extends JFrame {
     private JPanel mMenu, tournamentMode, duelMode, settingsDisplay, gameDisplay;
-    private JButton duel, tourn, quit, settings, 
+    private JButton duel, tournament, quit, settings, 
             uploadBrainDuel, uploadWorldDuel,playDuel, backDuel, 
             uploadBrainTournament, uploadWorldTournament, playTournament, backTournament, backSettings;
     private JCheckBox randomWorldDuel, randomWorldTournament;
-    private JLabel antImg;
+    private JLabel antImg, duelModeText, tournamentModeText, settingsText;
 //    private JTextField pathName;
     
     public AntGameFrameGUI()
@@ -60,9 +60,9 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
         
-        tourn = new JButton("Tournament");
-        tourn.setFont(new Font("Comic Sans MS", 0, 11));
-        tourn.addActionListener(new addButtonListener() {
+        tournament = new JButton("Tournament");
+        tournament.setFont(new Font("Comic Sans MS", 0, 11));
+        tournament.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 getContentPane().removeAll();
@@ -72,7 +72,7 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
         
-        quit = new JButton("Quit");
+        quit = new JButton("Exit");
         quit.setFont(new Font("Comic Sans MS", 0, 11));
         quit.addActionListener(new addButtonListener() {
             @Override
@@ -95,6 +95,9 @@ public class AntGameFrameGUI extends JFrame {
         
         
         // Creates features for Duel Mode JPanel
+        duelModeText = new JLabel("Multiplayer Mode");
+        duelModeText.setFont(new Font("Comic Sans MS", 0, 36));
+        
         uploadBrainDuel = new JButton("Upload Ant Brain");
         uploadBrainDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainDuel.addActionListener(new addButtonListener() {
@@ -109,6 +112,7 @@ public class AntGameFrameGUI extends JFrame {
         });
         
 //        pathName = new JTextField();
+//        pathName.setEditable(False);
         
         uploadWorldDuel = new JButton("Upload Ant World");
         uploadWorldDuel.setFont(new Font("Comic Sans MS", 0, 11));
@@ -152,6 +156,9 @@ public class AntGameFrameGUI extends JFrame {
         
         
         // Creates features for Tournament Mode JPanel
+        tournamentModeText = new JLabel("Tournament Mode");
+        tournamentModeText.setFont(new Font("Comic Sans MS", 0, 36));
+        
         uploadBrainTournament = new JButton("Upload Ant Brain");
         uploadBrainTournament.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainTournament.addActionListener(new addButtonListener() {
@@ -207,6 +214,9 @@ public class AntGameFrameGUI extends JFrame {
         
         
         // Creates features for Settings JPanel
+        settingsText = new JLabel("Settings");
+        settingsText.setFont(new Font("Comic Sans MS", 0, 36));
+        
         backSettings = new JButton("Back");
         backSettings.setFont(new Font("Comic Sans MS", 0, 11));
         backSettings.addActionListener(new addButtonListener() {
@@ -227,12 +237,13 @@ public class AntGameFrameGUI extends JFrame {
         // Adding features to JPanels
         mMenu.add(antImg);
         mMenu.add(duel);
-        mMenu.add(tourn);
-        mMenu.add(quit);
+        mMenu.add(tournament);
         mMenu.add(settings);
+        mMenu.add(quit);
         // Adding main menu to JFrame - only main menu added so first thing shown
         add(mMenu);
         
+        duelMode.add(duelModeText);
         duelMode.add(uploadBrainDuel);
 //        duelMode.add(pathName);
         duelMode.add(uploadWorldDuel);
@@ -240,12 +251,14 @@ public class AntGameFrameGUI extends JFrame {
         duelMode.add(playDuel);
         duelMode.add(backDuel);
         
+        tournamentMode.add(tournamentModeText);
         tournamentMode.add(uploadBrainTournament);
         tournamentMode.add(uploadWorldTournament);
         tournamentMode.add(randomWorldTournament);
         tournamentMode.add(playTournament);
         tournamentMode.add(backTournament);
         
+        settingsDisplay.add(settingsText);
         settingsDisplay.add(backSettings);
         
     }
@@ -257,7 +270,7 @@ public class AntGameFrameGUI extends JFrame {
         frame.setTitle("Ant Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500,500);
-        //frame.pack();
+//        frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
