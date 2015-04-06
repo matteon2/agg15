@@ -3,6 +3,7 @@ package ant;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ public class AntGameFrameGUI extends JFrame {
             uploadBrainTournament, uploadWorldTournament, playTournament, backTournament, backSettings;
     private JCheckBox randomWorldDuel, randomWorldTournament;
     private JLabel antImg;
+//    private JTextField pathName;
     
     public AntGameFrameGUI()
     {
@@ -90,8 +92,31 @@ public class AntGameFrameGUI extends JFrame {
         
         uploadBrainDuel = new JButton("Upload Ant Brain");
         uploadBrainDuel.setFont(new Font("Comic Sans MS", 0, 11));
+        uploadBrainDuel.addActionListener(new addButtonListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.showOpenDialog(null);
+                File f = chooser.getSelectedFile();
+//                String filename = f.getAbsolutePath();
+//                pathName.setText(filename);
+            }
+        });
+        
+//        pathName = new JTextField();
+        
         uploadWorldDuel = new JButton("Upload Ant World");
         uploadWorldDuel.setFont(new Font("Comic Sans MS", 0, 11));
+        uploadWorldDuel.addActionListener(new addButtonListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.showOpenDialog(null);
+                File f = chooser.getSelectedFile();
+//                String filename = f.getAbsolutePath();
+//                pathName.setText(filename);
+            }
+        });
         
         randomWorldDuel = new JCheckBox("Random World");
         randomWorldDuel.setFont(new Font("Comic Sans MS", 0, 11));
@@ -124,9 +149,29 @@ public class AntGameFrameGUI extends JFrame {
         
         uploadBrainTournament = new JButton("Upload Ant Brain");
         uploadBrainTournament.setFont(new Font("Comic Sans MS", 0, 11));
+        uploadBrainTournament.addActionListener(new addButtonListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.showOpenDialog(null);
+                File f = chooser.getSelectedFile();
+//                String filename = f.getAbsolutePath();
+//                pathName.setText(filename);
+            }
+        });
         
         uploadWorldTournament = new JButton("Upload Ant World");
         uploadWorldTournament.setFont(new Font("Comic Sans MS", 0, 11));
+        uploadWorldTournament.addActionListener(new addButtonListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.showOpenDialog(null);
+                File f = chooser.getSelectedFile();
+//                String filename = f.getAbsolutePath();
+//                pathName.setText(filename);
+            }
+        });
         
         randomWorldTournament = new JCheckBox("Random World");
         randomWorldTournament.setFont(new Font("Comic Sans MS", 0, 11));
@@ -182,6 +227,7 @@ public class AntGameFrameGUI extends JFrame {
         add(mMenu);
         
         duelMode.add(uploadBrainDuel);
+//        duelMode.add(pathName);
         duelMode.add(uploadWorldDuel);
         duelMode.add(randomWorldDuel);
         duelMode.add(playDuel);
