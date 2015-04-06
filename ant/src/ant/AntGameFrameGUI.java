@@ -1,7 +1,14 @@
 package ant;
 
+import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
+
 
 
 /**
@@ -15,6 +22,7 @@ public class AntGameFrameGUI extends JFrame {
             uploadBrainDuel, uploadWorldDuel,playDuel, backDuel, 
             uploadBrainTournament, uploadWorldTournament, playTournament, backTournament, backSettings;
     private JCheckBox randomWorldDuel, randomWorldTournament;
+    private JLabel antImg;
     
     public AntGameFrameGUI()
     {
@@ -24,8 +32,17 @@ public class AntGameFrameGUI extends JFrame {
     
     private void createPanel()
     {
+        BufferedImage wPic = null;
+        try {
+            wPic = ImageIO.read(this.getClass().getResource("intro.jpg"));
+        } catch (IOException ex) {
+            Logger.getLogger(AntGameFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        antImg = new JLabel(new ImageIcon(wPic));
+        
         mMenu = new JPanel();
         duel = new JButton("Duel");
+        duel.setFont(new Font("Comic Sans MS", 0, 11));
         duel.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -35,7 +52,9 @@ public class AntGameFrameGUI extends JFrame {
                 printAll(getGraphics());
             }
         });
+        
         tourn = new JButton("Tournament");
+        tourn.setFont(new Font("Comic Sans MS", 0, 11));
         tourn.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -45,14 +64,18 @@ public class AntGameFrameGUI extends JFrame {
                 printAll(getGraphics());
             }
         });
+        
         quit = new JButton("Quit");
+        quit.setFont(new Font("Comic Sans MS", 0, 11));
         quit.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 System.exit(0);
             }
         });
+        
         settings = new JButton("Settings");
+        settings.setFont(new Font("Comic Sans MS", 0, 11));
         settings.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -66,12 +89,15 @@ public class AntGameFrameGUI extends JFrame {
         duelMode = new JPanel();
         
         uploadBrainDuel = new JButton("Upload Ant Brain");
-        
+        uploadBrainDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadWorldDuel = new JButton("Upload Ant World");
-               
+        uploadWorldDuel.setFont(new Font("Comic Sans MS", 0, 11));
+        
         randomWorldDuel = new JCheckBox("Random World");
+        randomWorldDuel.setFont(new Font("Comic Sans MS", 0, 11));
         
         playDuel = new JButton("Play");
+        playDuel.setFont(new Font("Comic Sans MS", 0, 11));
         playDuel.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -83,6 +109,7 @@ public class AntGameFrameGUI extends JFrame {
         });
         
         backDuel = new JButton("Back");
+        backDuel.setFont(new Font("Comic Sans MS", 0, 11));
         backDuel.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -94,13 +121,18 @@ public class AntGameFrameGUI extends JFrame {
         });
         
         tournamentMode = new JPanel();
+        
         uploadBrainTournament = new JButton("Upload Ant Brain");
-                
+        uploadBrainTournament.setFont(new Font("Comic Sans MS", 0, 11));
+        
         uploadWorldTournament = new JButton("Upload Ant World");
+        uploadWorldTournament.setFont(new Font("Comic Sans MS", 0, 11));
         
         randomWorldTournament = new JCheckBox("Random World");
+        randomWorldTournament.setFont(new Font("Comic Sans MS", 0, 11));
         
         playTournament = new JButton("Play");
+        playTournament.setFont(new Font("Comic Sans MS", 0, 11));
         playTournament.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -112,6 +144,7 @@ public class AntGameFrameGUI extends JFrame {
         });
         
         backTournament = new JButton("Back");
+        backTournament.setFont(new Font("Comic Sans MS", 0, 11));
         backTournament.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -121,9 +154,11 @@ public class AntGameFrameGUI extends JFrame {
                 printAll(getGraphics());
             }
         });
+        
         settingsDisplay = new JPanel();
         
         backSettings = new JButton("Back");
+        backSettings.setFont(new Font("Comic Sans MS", 0, 11));
         backSettings.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -139,6 +174,7 @@ public class AntGameFrameGUI extends JFrame {
     
     private void addPanel()
     {
+        mMenu.add(antImg);
         mMenu.add(duel);
         mMenu.add(tourn);
         mMenu.add(quit);
