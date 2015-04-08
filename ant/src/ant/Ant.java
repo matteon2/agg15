@@ -24,17 +24,26 @@ public class Ant {
     private Position position; //the current location of the ant
     private boolean alive;
     
-    public Ant(Color color, int id, Dir d){
+    public Ant(Color color, int id, Dir d, Position p){
         this.color = color;
         this.id = id;
         this.state = 0;
         this.resting = 0;
-        this.direction = d;
+        this.direction = d.EAST;
         this.hasFood = false;
-        //position.setX(0);
-        //position.setY(0);
+        this.position = p;
         this.alive = true;       
     }
+    
+    
+    public int getID(){
+        return id;
+    }
+    
+    public Position getPosition(){
+        return position;
+    }
+    
     
     /**
      * get the state of ant a
@@ -133,13 +142,13 @@ public class Ant {
      * @throws Exception 
      */
     public Color getEnemyColor(Color c) throws Exception{
-        Color enemyColor = c;
-        switch(enemyColor){
+        Color enemyColor = null;
+        switch(c){
             case RED:
-                enemyColor = Color.BLACK;
+                enemyColor = enemyColor.BLACK;
                 break;
             case BLACK:
-                enemyColor = Color.RED;
+                enemyColor = enemyColor.RED;
                 break;
             default:
                 throw new Exception("The color is invalid!");
@@ -311,10 +320,11 @@ public class Ant {
     }
 
     public static void main(String args[]) throws Exception{
-        Ant a = new Ant(Color.RED, 0, Dir.EAST);
+        
 //        Dir d = a.turn(TurnDir.RIGHT, Dir.NORTHEAST);
 //        System.out.println(d);
         Position p = new Position(3,2);
+        Ant a = new Ant(Color.RED, 0, Dir.EAST, p);
         Position sensedP = a.sensedCell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
         System.out.println(sensedP.getX() + ", " + sensedP.getY());
     }

@@ -16,6 +16,7 @@ public class Cell {
     private boolean isRocky;
     private int foodNumber;
     private HashMap<Color, HashSet<Integer>> markerWithColor; //the marker with color label shows which ant team leaves this marker
+    private Ant ant;
     
     //assume all cell start from clear
     public Cell(Position p){
@@ -25,7 +26,7 @@ public class Cell {
         this.markerWithColor = new HashMap<Color, HashSet<Integer>>();
         markerWithColor.put(Color.RED, new HashSet<Integer>());
         markerWithColor.put(Color.BLACK, new HashSet<Integer>());
-        assert (foodNumber >= 0);
+        ant = null;
     }
        
     /**
@@ -52,13 +53,14 @@ public class Cell {
         return foodNumber;
     }
     
+    
+    
     /**
      * set the number of food in this cell, the food numebr is non-negative
      * @param foodNum 
      */
     public void setFoodNumber(int foodNum){
         this.foodNumber = foodNum;
-        assert (this.foodNumber >= 0);
     }
     
     /**
@@ -111,6 +113,43 @@ public class Cell {
         return !markerWithColor.get(c).isEmpty();
     }
     
+    /**
+     * check if the current cell has ant
+     * @return boolean
+     */
+    public boolean hasAnt(){
+        return (ant != null);
+    }
+    
+    /**
+     * get the ant if there is an ant in the current cell
+     * @return Ant 
+     * @throws Exception 
+     */
+    public Ant getAnt() throws Exception{
+        if(!this.hasAnt()){
+            throw new Exception("No ant to get!");
+        }else{
+            return ant;
+        }
+    }
+    
+    /**
+     * Set an ant for the current cell
+     * @param a 
+     */
+    public void setAnt(Ant a){
+        this.ant = a;
+    }
+    
+    /**
+     * clear the ant in the current cell
+     */
+    public void clearAnt(){
+        setAnt(null);
+    }
+    
+    
     public static void main(String args[]) throws Exception{
         Position p = new Position(0,0);
         Cell c1 = new Cell(p);
@@ -130,5 +169,6 @@ public class Cell {
         //c1.clearMarker(Color.RED, 5);
         System.out.println(c1.checkAnyMarker(Color.RED));
         System.out.println(c1.checkAnyMarker(Color.BLACK));
+        System.out.println(c1.hasAnt());
     }
 }
