@@ -29,7 +29,7 @@ public class Ant {
         this.id = id;
         this.state = 0;
         this.resting = 0;
-        this.direction = d.EAST;
+        this.direction = d;//Must be Dir.EAST
         this.hasFood = false;
         //position.setX(0);
         //position.setY(0);
@@ -133,13 +133,13 @@ public class Ant {
      * @throws Exception 
      */
     public Color getEnemyColor(Color c) throws Exception{
-        Color enemyColor = null;
-        switch(c){
+        Color enemyColor = c;
+        switch(enemyColor){
             case RED:
-                enemyColor = enemyColor.BLACK;
+                enemyColor = Color.BLACK;
                 break;
             case BLACK:
-                enemyColor = enemyColor.RED;
+                enemyColor = Color.RED;
                 break;
             default:
                 throw new Exception("The color is invalid!");
@@ -271,7 +271,7 @@ public class Ant {
      */
     public void setMarkerAt(Position p, Color c, Marker i){
         Cell mCell = new Cell(p);
-        mCell.setMarker(c, );
+//        mCell.setMarker(c, );
     }
     
     
@@ -280,10 +280,27 @@ public class Ant {
 
     public static void main(String args[]) throws Exception{
         Ant a = new Ant(Color.RED, 0, Dir.EAST);
-//        Dir d = a.turn(TurnDir.RIGHT, Dir.NORTHEAST);
-//        System.out.println(d);
-        Position p = new Position(3,2);
-        Position sensedP = a.sensedCell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
-        System.out.println(sensedP.getX() + ", " + sensedP.getY());
+////        Dir d = a.turn(TurnDir.RIGHT, Dir.NORTHEAST);
+////        System.out.println(d);
+//        Position p = new Position(3,2);
+//        Position sensedP = a.sensedCell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
+//        System.out.println(sensedP.getX() + ", " + sensedP.getY());
+        
+//        System.out.println(a.alive);
+//        System.out.println(a.color);
+//        System.out.println(a.direction);
+//        System.out.println(a.hasFood);
+//        System.out.println(a.id);
+//        System.out.println(a.resting);
+//        System.out.println(a.state);
+//        Position p = a.adjacentCell(new Position(6,8), Dir.NORTHWEST);
+//        System.out.println("Adjacent: "+p.getX() + ","+ p.getY());
+//        System.out.println(a.isAlive());
+//        a.setHasFood(a, false);
+//        System.out.println("a has food: "+a.hasFood(a));
+//        System.out.println("Enemy color: "+a.getEnemyColor(Color.BLACK));
+//        System.out.println("Turn: "+a.turn(TurnDir.LEFT, Dir.EAST));
+
+        
     }
 }
