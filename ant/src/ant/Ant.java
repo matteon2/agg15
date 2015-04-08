@@ -29,7 +29,7 @@ public class Ant {
         this.id = id;
         this.state = 0;
         this.resting = 0;
-        this.direction = d;//Must be Dir.EAST
+        this.direction = d.EAST;
         this.hasFood = false;
         //position.setX(0);
         //position.setY(0);
@@ -133,13 +133,13 @@ public class Ant {
      * @throws Exception 
      */
     public Color getEnemyColor(Color c) throws Exception{
-        Color enemyColor = c;
-        switch(enemyColor){
+        Color enemyColor = null;
+        switch(c){
             case RED:
-                enemyColor = Color.BLACK;
+                enemyColor = enemyColor.BLACK;
                 break;
             case BLACK:
-                enemyColor = Color.RED;
+                enemyColor = enemyColor.RED;
                 break;
             default:
                 throw new Exception("The color is invalid!");
@@ -262,45 +262,60 @@ public class Ant {
         }
         return sensedPos;
     }
-    
+
     /**
-     * Let ant set marker to a cell in the world
+     * set marker i of color c in cell p
      * @param p
      * @param c
-     * @param i 
+     * @param marker
+     * @throws Exception 
      */
-    public void setMarkerAt(Position p, Color c, Marker i){
-        Cell mCell = new Cell(p);
-//        mCell.setMarker(c, );
+    public void setMarkerAt(Position p, Color c, int marker) throws Exception{
+        Cell cell = new Cell(p);//should add this cell to world
+        cell.setMarker(c, marker);
     }
     
+    /**
+     * clear marker i of color c in cell p
+     * @param p
+     * @param c
+     * @param marker
+     * @throws Exception 
+     */
+    public void clearMarkAt(Position p, Color c, int marker) throws Exception{
+        Cell cell = new Cell(p);//should add this cell to world
+        cell.clearMarker(c, marker);
+    }
     
+    /**
+     * true if marker i of color c is set in cell p
+     * @param p
+     * @param c
+     * @param marker
+     * @return boolean
+     */
+    public boolean checkMarkAt(Position p, Color c, int marker){
+        Cell cell = new Cell(p);//should add this cell to world
+        return cell.checkMarker(c, marker);
+    }
     
-    
+    /**
+     * true if ANY marker of color c is set in cell p
+     * @param p
+     * @param c
+     * @return boolean
+     */
+    public boolean checkAnyMarker(Position p, Color c){
+        Cell cell = new Cell(p);//should add this cell to world
+        return cell.checkAnyMarker(c);
+    }
 
     public static void main(String args[]) throws Exception{
         Ant a = new Ant(Color.RED, 0, Dir.EAST);
-////        Dir d = a.turn(TurnDir.RIGHT, Dir.NORTHEAST);
-////        System.out.println(d);
-//        Position p = new Position(3,2);
-//        Position sensedP = a.sensedCell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
-//        System.out.println(sensedP.getX() + ", " + sensedP.getY());
-        
-//        System.out.println(a.alive);
-//        System.out.println(a.color);
-//        System.out.println(a.direction);
-//        System.out.println(a.hasFood);
-//        System.out.println(a.id);
-//        System.out.println(a.resting);
-//        System.out.println(a.state);
-//        Position p = a.adjacentCell(new Position(6,8), Dir.NORTHWEST);
-//        System.out.println("Adjacent: "+p.getX() + ","+ p.getY());
-//        System.out.println(a.isAlive());
-//        a.setHasFood(a, false);
-//        System.out.println("a has food: "+a.hasFood(a));
-//        System.out.println("Enemy color: "+a.getEnemyColor(Color.BLACK));
-//        System.out.println("Turn: "+a.turn(TurnDir.LEFT, Dir.EAST));
-
-        
+//        Dir d = a.turn(TurnDir.RIGHT, Dir.NORTHEAST);
+//        System.out.println(d);
+        Position p = new Position(3,2);
+        Position sensedP = a.sensedCell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
+        System.out.println(sensedP.getX() + ", " + sensedP.getY());
     }
 }
