@@ -9,10 +9,6 @@ package ant;
 import Instruction.SenseDir;
 import Instruction.TurnDir;
 
-
-
-
-
 /**
  *
  * @author Andrew
@@ -22,11 +18,11 @@ public class Ant {
     private int id; //A unique integer id that determines the order in which the ant takes its turn to move or sense during each round of gameplay.
     private int state;  //An integer between 0 and 9999 representing the current state of its brain.
     private int resting;    //An integer resting that keeps track of how long the ant has to rest after its last move before any other action. 
-    private Dir direction;  //current direction
-    private boolean hasFood;    //a boolean indicating whether the ant is currently carrying a food particle. 
+    private Dir direction;  //the current direction that the ant faces to
+    private boolean hasFood;    //a boolean indicating whether the ant is currently carrying a food particle.(An ant can only hold a single unit of food at a time)
     
-    private Position p;
-    //private boolean isAlive;
+    private Position position; //the current location of the ant
+    private boolean alive;
     
     public Ant(Color color, int id, Dir d){
         this.color = color;
@@ -35,47 +31,107 @@ public class Ant {
         this.resting = 0;
         this.direction = d.EAST;
         this.hasFood = false;
-        //p.setX(0);
-        //p.setY(0);
-        //this.isAlive = true;       
+        //position.setX(0);
+        //position.setY(0);
+        this.alive = true;       
     }
     
+    /**
+     * get the state of ant a
+     * @param a
+     * @return 
+     */
     public int getState(Ant a){
         return a.state;
     }
     
+    /**
+     * get the color of ant a
+     * @param a
+     * @return 
+     */
     public Color getColor(Ant a){
         return a.color;
     }
     
+    /**
+     * get the length of the resting for ant a 
+     * @param a
+     * @return 
+     */
     public int getResting(Ant a){
         return a.resting;
     }
     
+    /**
+     * get the direction of the ant a faces to 
+     * @param a
+     * @return 
+     */
     public Dir getDirection(Ant a){
         return a.direction;
     }
     
+    /**
+     * check whether the ant a has food(single unit of food)
+     * @param a
+     * @return 
+     */
     public boolean hasFood(Ant a){
         return a.hasFood;
     }
     
+    /**
+     * see if this ant is alive
+     * @return 
+     */
+    public boolean isAlive(){
+        return alive;
+    }
+    
+    /**
+     * set the state of ant a to state s
+     * @param a
+     * @param s 
+     */
     public void setState(Ant a, int s){
         a.state = s;
     }
            
+    /**
+     * set the length of resting for ant a to r
+     * @param a
+     * @param r 
+     */
     public void setResting(Ant a, int r){
         a.resting = r;
     }
     
+    /**
+     * set the direction that the ant a faces to d
+     * @param a
+     * @param d
+     * @throws Exception 
+     */
     public void setDirection(Ant a, Dir d) throws Exception{
         a.direction = d;
     }
             
+    /**
+     * let ant a has food
+     * @param a
+     * @param b 
+     */
     public void setHasFood(Ant a, boolean b){
         a.hasFood = b;
     }
-            
+         
+    /**
+     * Give one color, get the other color, aka enemy color
+     * @param c
+     * @return
+     * @throws Exception 
+     */
     public Color getEnemyColor(Color c) throws Exception{
         Color enemyColor = null;
         switch(c){
@@ -178,6 +234,14 @@ public class Ant {
         return enumDir.getDir(dirInt);
     }
     
+    /**
+     * calculates the coordinates of the cell being sensed.
+     * @param p
+     * @param d
+     * @param sd
+     * @return
+     * @throws Exception 
+     */
     public Position sensedCell(Position p, Dir d, SenseDir sd) throws Exception{
         Position sensedPos = null;
         switch(sd){
@@ -199,10 +263,27 @@ public class Ant {
         return sensedPos;
     }
     
+    /**
+     * Let ant set marker to a cell in the world
+     * @param p
+     * @param c
+     * @param i 
+     */
+    public void setMarkerAt(Position p, Color c, Marker i){
+        Cell mCell = new Cell(p);
+        mCell.setMarker(c, );
+    }
+    
+    
+    
+    
 
-//    public static void main(String args[]) throws Exception{
-//        Ant a = new Ant(Color.RED, 0, Dir.EAST);
+    public static void main(String args[]) throws Exception{
+        Ant a = new Ant(Color.RED, 0, Dir.EAST);
 //        Dir d = a.turn(TurnDir.RIGHT, Dir.NORTHEAST);
 //        System.out.println(d);
-//    }
+        Position p = new Position(3,2);
+        Position sensedP = a.sensedCell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
+        System.out.println(sensedP.getX() + ", " + sensedP.getY());
+    }
 }
