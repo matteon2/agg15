@@ -8,7 +8,8 @@ package ant;
 
 import Instruction.SenseDir;
 import Instruction.TurnDir;
-import static ant.Dir.EAST;
+
+
 
 
 
@@ -25,19 +26,18 @@ public class Ant {
     private boolean hasFood;    //a boolean indicating whether the ant is currently carrying a food particle. 
     
     private Position p;
-    private boolean isAlive;
+    //private boolean isAlive;
     
     public Ant(Color color, int id, Dir d){
         this.color = color;
         this.id = id;
         this.state = 0;
         this.resting = 0;
-        this.direction = d;
+        this.direction = d.EAST;
         this.hasFood = false;
-        p.setX(0);
-        p.setY(0);
-        this.isAlive = true;
-        
+        //p.setX(0);
+        //p.setY(0);
+        //this.isAlive = true;       
     }
     
     public int getState(Ant a){
@@ -68,7 +68,6 @@ public class Ant {
         a.resting = r;
     }
     
-    //may have some issue in this method, i need a better way to represent the direction 
     public void setDirection(Ant a, Dir d) throws Exception{
         a.direction = d;
     }
@@ -92,6 +91,13 @@ public class Ant {
         return enemyColor;
     }
     
+    /**
+     * Calculates the position of the cell adjacent to position p in direction d.
+     * @param p
+     * @param d
+     * @return Position
+     * @throws Exception 
+     */
     public Position adjacentCell(Position p, Dir d) throws Exception{
         Position adjPos = new Position(0,0);
         switch(d.getDirection()){
@@ -149,16 +155,27 @@ public class Ant {
         return adjPos;
     }
     
+    /**
+     * Takes an element of left or right and a direction and returns a suitably adjusted direction
+     * @param lr
+     * @param d
+     * @return Dir
+     * @throws Exception 
+     */
     public Dir turn(TurnDir lr, Dir d) throws Exception{
-        Dir direction = EAST;
-        int dir = d.getDirection();
-        if(lr == lr.LEFT){
-            dir = (dir+5)%6;
+        Dir enumDir = Dir.EAST;
+        int dirInt = d.getDirection();
+        switch(lr){
+            case LEFT:
+                dirInt = (dirInt + 5) % 6;
+                break;
+            case RIGHT:
+                dirInt = (dirInt + 1) % 6;
+                break;
+            default:
+                throw new Exception("The input turn direction is invalid!");
         }
-        else{
-            dir = (dir+1)%6;
-        }        
-        return direction.getDir(dir);      
+        return enumDir.getDir(dirInt);
     }
     
     public Position sensedCell(Position p, Dir d, SenseDir sd) throws Exception{
@@ -181,5 +198,11 @@ public class Ant {
         }
         return sensedPos;
     }
+    
 
+//    public static void main(String args[]) throws Exception{
+//        Ant a = new Ant(Color.RED, 0, Dir.EAST);
+//        Dir d = a.turn(TurnDir.RIGHT, Dir.NORTHEAST);
+//        System.out.println(d);
+//    }
 }

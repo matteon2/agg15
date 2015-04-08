@@ -13,6 +13,11 @@ package ant;
 public enum Dir {
     EAST, SOUTHEAST, SOUTHWEST, WEST, NORTHWEST, NORTHEAST;
     
+    /**
+     * Get the integer that represents the direction
+     * @return int
+     * @throws Exception 
+     */
     public int getDirection() throws Exception{
         int dir;
         switch(this){
@@ -40,6 +45,12 @@ public enum Dir {
         return dir;
     }
     
+    /**
+     * Convert the integer direction to the enum Dir type
+     * @param numDir
+     * @return Dir
+     * @throws Exception 
+     */
     public Dir getDir(int numDir) throws Exception{
         Dir dir;
         switch(numDir){
@@ -68,7 +79,12 @@ public enum Dir {
     }
     
     public static void main(String args[]) throws Exception{
-        Dir d = EAST;
-        System.out.println(d.getDir(5));
+//        Dir d = EAST;
+//        try{
+//        System.out.println(d.getDir(6));
+//        }catch(Exception e){
+//            System.out.println("I caught it");
+//        }
+        
     }
 }
