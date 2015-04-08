@@ -29,7 +29,7 @@ public class Ant {
         this.id = id;
         this.state = 0;
         this.resting = 0;
-        this.direction = d.EAST;
+        this.direction = d;
         this.hasFood = false;
         this.position = p;
         this.alive = true;       
@@ -142,13 +142,13 @@ public class Ant {
      * @throws Exception 
      */
     public Color getEnemyColor(Color c) throws Exception{
-        Color enemyColor = null;
-        switch(c){
+        Color enemyColor = c;
+        switch(enemyColor){
             case RED:
-                enemyColor = enemyColor.BLACK;
+                enemyColor = Color.BLACK;
                 break;
             case BLACK:
-                enemyColor = enemyColor.RED;
+                enemyColor = Color.RED;
                 break;
             default:
                 throw new Exception("The color is invalid!");
