@@ -282,9 +282,9 @@ public class AntGameFrameGUI extends JFrame {
         // JFrame properties
         frame.setTitle("Ant Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
-//        frame.pack();
-        frame.setLocationRelativeTo(null);
+        frame.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
+        frame.pack();
+        frame.setLocationRelativeTo(null);  // to show at center of screen
         frame.setVisible(true);
     }
 
