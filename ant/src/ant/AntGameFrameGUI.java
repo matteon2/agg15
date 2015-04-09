@@ -2,7 +2,7 @@ package ant;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
+import java.io.*;
 import javax.swing.*;
 
 /**
@@ -17,35 +17,30 @@ public class AntGameFrameGUI extends JFrame {
             uploadBrainTournament, uploadWorldTournament, playTournament, backTournament, backSettings, backFromDisplay;
     private JCheckBox randomWorldDuel, randomWorldTournament;
     private JLabel antImg, duelModeText, tournamentModeText, settingsText;
-//    private JTextField pathName;
+    private JTextField pathName;
     
     public AntGameFrameGUI()
     {
        createPanel();
        addPanel();
+       formatComponents();
     }
     
     private void createPanel()
     {
-        // Loads image from within package
-//        BufferedImage wPic = null;
-//        try {
-//            wPic = ImageIO.read(this.getClass().getResource("intro.jpg"));
-//        } catch (IOException ex) {
-//            Logger.getLogger(AntGameFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        antImg = new JLabel(new ImageIcon(wPic));
-        
-        antImg = new JLabel();
-        antImg.setIcon(new ImageIcon(getClass().getResource("/ant/intro.jpg")));
         
         // Creates JPanels for different 'windows'
         mMenu = new JPanel();
         duelMode = new JPanel();
-        tournamentMode = new JPanel();
-//        settingsDisplay = new JPanel();
+        tournamentMode = new JPanel();        
         
         // Creates features for Main Menu JPanel
+        
+        // Loads image from within package     
+        antImg = new JLabel();
+        antImg.setIcon(new ImageIcon(getClass().getResource("/ant/intro.jpg")));
+        
+        
         duel = new JButton("Duel");
         duel.setFont(new Font("Comic Sans MS", 0, 11));
         duel.addActionListener(new addButtonListener() {
@@ -266,23 +261,78 @@ public class AntGameFrameGUI extends JFrame {
         tournamentMode.add(randomWorldTournament);
         tournamentMode.add(playTournament);
         tournamentMode.add(backTournament);
-        
-//        settingsDisplay.add(settingsText);
-//        settingsDisplay.add(backSettings);
-        
+                
         gameDisplay.add(backFromDisplay);
         
     }
     
+    private void formatComponents() {
+        // Formatting of mMenu
+        
+        javax.swing.GroupLayout mMenuLayout = new javax.swing.GroupLayout(mMenu);
+        mMenu.setLayout(mMenuLayout);
+        mMenuLayout.setHorizontalGroup(
+            mMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mMenuLayout.createSequentialGroup()
+                .addGroup(mMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(mMenuLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(duel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(tournament)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(quit))
+                    .addGroup(mMenuLayout.createSequentialGroup()
+                        .addContainerGap(19, Short.MAX_VALUE)
+                        .addComponent(antImg)))
+                .addGap(18, 18, 18))
+        );
+        mMenuLayout.setVerticalGroup(
+            mMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mMenuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(antImg)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(duel)
+                    .addComponent(tournament)
+                    .addComponent(quit))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(mMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        
+        // Formatting of duelMode
+        
+        
+        
+        // Formatting of tournamentMode
+
+        pack();
+    }
+    
+    
     public static void main(String args[])
     {
-        int WINDOW_WIDTH = 500;
-        int WINDOW_HEIGHT = 500;
+        int WINDOW_WIDTH = 600;
+        int WINDOW_HEIGHT = 600;
         AntGameFrameGUI frame = new AntGameFrameGUI();
         // JFrame properties
         frame.setTitle("Ant Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
+        frame.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
         frame.pack();
         frame.setLocationRelativeTo(null);  // to show at center of screen
         frame.setVisible(true);
