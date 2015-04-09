@@ -8,12 +8,12 @@ package ant;
  *
  * @author wkk21
  */
-public class VS extends javax.swing.JFrame {
+public class Tournament extends javax.swing.JFrame {
 
     /**
      * Creates new form VS
      */
-    public VS() {
+    public Tournament() {
         initComponents();
     }
 
