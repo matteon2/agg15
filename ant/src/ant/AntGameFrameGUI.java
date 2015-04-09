@@ -2,12 +2,7 @@ package ant;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -19,7 +14,7 @@ public class AntGameFrameGUI extends JFrame {
     private JPanel mMenu, tournamentMode, duelMode, settingsDisplay, gameDisplay;
     private JButton duel, tournament, quit, settings, 
             uploadBrainDuel, uploadWorldDuel,playDuel, backDuel, 
-            uploadBrainTournament, uploadWorldTournament, playTournament, backTournament, backSettings;
+            uploadBrainTournament, uploadWorldTournament, playTournament, backTournament, backSettings, backFromDisplay;
     private JCheckBox randomWorldDuel, randomWorldTournament;
     private JLabel antImg, duelModeText, tournamentModeText, settingsText;
 //    private JTextField pathName;
@@ -33,19 +28,22 @@ public class AntGameFrameGUI extends JFrame {
     private void createPanel()
     {
         // Loads image from within package
-        BufferedImage wPic = null;
-        try {
-            wPic = ImageIO.read(this.getClass().getResource("intro.jpg"));
-        } catch (IOException ex) {
-            Logger.getLogger(AntGameFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        antImg = new JLabel(new ImageIcon(wPic));
+//        BufferedImage wPic = null;
+//        try {
+//            wPic = ImageIO.read(this.getClass().getResource("intro.jpg"));
+//        } catch (IOException ex) {
+//            Logger.getLogger(AntGameFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        antImg = new JLabel(new ImageIcon(wPic));
+        
+        antImg = new JLabel();
+        antImg.setIcon(new ImageIcon(getClass().getResource("/ant/intro.jpg")));
         
         // Creates JPanels for different 'windows'
         mMenu = new JPanel();
         duelMode = new JPanel();
         tournamentMode = new JPanel();
-        settingsDisplay = new JPanel();
+//        settingsDisplay = new JPanel();
         
         // Creates features for Main Menu JPanel
         duel = new JButton("Duel");
@@ -217,9 +215,22 @@ public class AntGameFrameGUI extends JFrame {
         settingsText = new JLabel("Settings");
         settingsText.setFont(new Font("Comic Sans MS", 0, 36));
         
-        backSettings = new JButton("Back");
-        backSettings.setFont(new Font("Comic Sans MS", 0, 11));
-        backSettings.addActionListener(new addButtonListener() {
+//        backSettings = new JButton("Back");
+//        backSettings.setFont(new Font("Comic Sans MS", 0, 11));
+//        backSettings.addActionListener(new addButtonListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent ae) {
+//                getContentPane().removeAll();
+//                getContentPane().add(mMenu); //Adding to content pane, not to AntGameFrameGUI
+//                repaint();
+//                printAll(getGraphics());
+//            }
+//        });
+        
+        gameDisplay = new JPanel();
+        backFromDisplay = new JButton("Exit to Menu");
+        backFromDisplay.setFont(new Font("Comic Sans MS", 0, 11));
+        backFromDisplay.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 getContentPane().removeAll();
@@ -228,8 +239,6 @@ public class AntGameFrameGUI extends JFrame {
                 printAll(getGraphics());
             }
         });
-        
-        gameDisplay = new JPanel();
     }
     
     private void addPanel()
@@ -238,7 +247,7 @@ public class AntGameFrameGUI extends JFrame {
         mMenu.add(antImg);
         mMenu.add(duel);
         mMenu.add(tournament);
-        mMenu.add(settings);
+//        mMenu.add(settings);
         mMenu.add(quit);
         // Adding main menu to JFrame - only main menu added so first thing shown
         add(mMenu);
@@ -258,18 +267,22 @@ public class AntGameFrameGUI extends JFrame {
         tournamentMode.add(playTournament);
         tournamentMode.add(backTournament);
         
-        settingsDisplay.add(settingsText);
-        settingsDisplay.add(backSettings);
+//        settingsDisplay.add(settingsText);
+//        settingsDisplay.add(backSettings);
+        
+        gameDisplay.add(backFromDisplay);
         
     }
     
     public static void main(String args[])
     {
+        int WINDOW_WIDTH = 500;
+        int WINDOW_HEIGHT = 500;
         AntGameFrameGUI frame = new AntGameFrameGUI();
         // JFrame properties
         frame.setTitle("Ant Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,500);
+        frame.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 //        frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
