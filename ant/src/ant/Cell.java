@@ -7,28 +7,39 @@ import java.util.HashSet;
 
 
 /**
- *
+ *  This cell represent the normal cell instead of antHill cell
  * @author Andrew
  */
 public class Cell {
     
-    private Position cellPosition;
+    //private Position cellPosition;
     private boolean isRocky;
     private int foodNumber;
     private HashMap<Color, HashSet<Integer>> markerWithColor; //the marker with color label shows which ant team leaves this marker
     private Ant ant;
     
+    
     //assume all cell start from clear
-    public Cell(Position p){
-        this.cellPosition = p;
+    public Cell(int foodNum){
+        //this.cellPosition = p;
         isRocky = false;
-        foodNumber = 0;
+        foodNumber = foodNum;
         this.markerWithColor = new HashMap<Color, HashSet<Integer>>();
         markerWithColor.put(Color.RED, new HashSet<Integer>());
         markerWithColor.put(Color.BLACK, new HashSet<Integer>());
         ant = null;
     }
-       
+    
+    public Cell(){
+        this(0);
+    }
+    
+    public boolean isAntHill(){
+        return false;
+    }
+    
+    
+    
     /**
      * check whether this cell is rocky
      * @return boolean
@@ -151,8 +162,8 @@ public class Cell {
     
     
     public static void main(String args[]) throws Exception{
-        Position p = new Position(0,0);
-        Cell c1 = new Cell(p);
+
+        Cell c1 = new Cell(0);
         c1.setMarker(Color.RED, 0);
         c1.setMarker(Color.RED, 1);
         c1.setMarker(Color.RED, 2);

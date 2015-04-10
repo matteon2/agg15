@@ -20,24 +20,27 @@ public class Ant {
     private int resting;    //An integer resting that keeps track of how long the ant has to rest after its last move before any other action. 
     private Dir direction;  //the current direction that the ant faces to
     private boolean hasFood;    //a boolean indicating whether the ant is currently carrying a food particle.(An ant can only hold a single unit of food at a time)
-    
+    private AntBrain brain;
     private Position position; //the current location of the ant
-    private boolean alive;
     
-    public Ant(Color color, int id, Dir d, Position p){
+    public Ant(Color color, int id, Dir d){
         this.color = color;
         this.id = id;
         this.state = 0;
         this.resting = 0;
         this.direction = d;
         this.hasFood = false;
-        this.position = p;
-        this.alive = true;       
+        this.position.setX(0);
+        this.position.setY(0);
     }
     
     
     public int getID(){
         return id;
+    }
+    
+    public void setPosition(Position p){
+        this.position = p;
     }
     
     public Position getPosition(){
@@ -86,24 +89,24 @@ public class Ant {
      * @param a
      * @return 
      */
-    public boolean hasFood(Ant a){
+    public boolean has_food(Ant a){
         return a.hasFood;
     }
     
-    /**
-     * see if this ant is alive
-     * @return 
-     */
-    public boolean isAlive(){
-        return alive;
-    }
+//    /**
+//     * see if this ant is alive
+//     * @return 
+//     */
+//    public boolean isAlive(){
+//        return alive;
+//    }
     
     /**
      * set the state of ant a to state s
      * @param a
      * @param s 
      */
-    public void setState(Ant a, int s){
+    public void set_state(Ant a, int s){
         a.state = s;
     }
            
@@ -112,7 +115,7 @@ public class Ant {
      * @param a
      * @param r 
      */
-    public void setResting(Ant a, int r){
+    public void set_resting(Ant a, int r){
         a.resting = r;
     }
     
@@ -122,7 +125,7 @@ public class Ant {
      * @param d
      * @throws Exception 
      */
-    public void setDirection(Ant a, Dir d) throws Exception{
+    public void set_direction(Ant a, Dir d) throws Exception{
         a.direction = d;
     }
             
@@ -131,7 +134,7 @@ public class Ant {
      * @param a
      * @param b 
      */
-    public void setHasFood(Ant a, boolean b){
+    public void set_has_food(Ant a, boolean b){
         a.hasFood = b;
     }
          
@@ -141,7 +144,7 @@ public class Ant {
      * @return
      * @throws Exception 
      */
-    public Color getEnemyColor(Color c) throws Exception{
+    public Color other_color(Color c) throws Exception{
         Color enemyColor = c;
         switch(enemyColor){
             case RED:
@@ -163,7 +166,7 @@ public class Ant {
      * @return Position
      * @throws Exception 
      */
-    public Position adjacentCell(Position p, Dir d) throws Exception{
+    public Position adjacent_cell(Position p, Dir d) throws Exception{
         Position adjPos = new Position(0,0);
         switch(d.getDirection()){
             case 0:
@@ -251,20 +254,20 @@ public class Ant {
      * @return
      * @throws Exception 
      */
-    public Position sensedCell(Position p, Dir d, SenseDir sd) throws Exception{
+    public Position sensed_cell(Position p, Dir d, SenseDir sd) throws Exception{
         Position sensedPos = null;
         switch(sd){
             case HERE:
                 sensedPos = p;
                 break;
             case AHEAD:
-                sensedPos = this.adjacentCell(p, d);
+                sensedPos = this.adjacent_cell(p, d);
                 break;
             case LEFTAHEAD:
-                sensedPos = this.adjacentCell(p, turn(TurnDir.LEFT, d));
+                sensedPos = this.adjacent_cell(p, turn(TurnDir.LEFT, d));
                 break;
             case RIGHTAHEAD:
-                sensedPos = this.adjacentCell(p, turn(TurnDir.RIGHT, d));
+                sensedPos = this.adjacent_cell(p, turn(TurnDir.RIGHT, d));
                 break;
             default:
                 throw new Exception("no valid sensed cell!");
@@ -272,60 +275,60 @@ public class Ant {
         return sensedPos;
     }
 
-    /**
-     * set marker i of color c in cell p
-     * @param p
-     * @param c
-     * @param marker
-     * @throws Exception 
-     */
-    public void setMarkerAt(Position p, Color c, int marker) throws Exception{
-        Cell cell = new Cell(p);//should add this cell to world
-        cell.setMarker(c, marker);
-    }
-    
-    /**
-     * clear marker i of color c in cell p
-     * @param p
-     * @param c
-     * @param marker
-     * @throws Exception 
-     */
-    public void clearMarkAt(Position p, Color c, int marker) throws Exception{
-        Cell cell = new Cell(p);//should add this cell to world
-        cell.clearMarker(c, marker);
-    }
-    
-    /**
-     * true if marker i of color c is set in cell p
-     * @param p
-     * @param c
-     * @param marker
-     * @return boolean
-     */
-    public boolean checkMarkAt(Position p, Color c, int marker){
-        Cell cell = new Cell(p);//should add this cell to world
-        return cell.checkMarker(c, marker);
-    }
-    
-    /**
-     * true if ANY marker of color c is set in cell p
-     * @param p
-     * @param c
-     * @return boolean
-     */
-    public boolean checkAnyMarker(Position p, Color c){
-        Cell cell = new Cell(p);//should add this cell to world
-        return cell.checkAnyMarker(c);
-    }
+//    /**
+//     * set marker i of color c in cell p
+//     * @param p
+//     * @param c
+//     * @param marker
+//     * @throws Exception 
+//     */
+//    public void setMarkerAt(Position p, Color c, int marker) throws Exception{
+//        Cell cell = new Cell(p);//should add this cell to world
+//        cell.setMarker(c, marker);
+//    }
+//    
+//    /**
+//     * clear marker i of color c in cell p
+//     * @param p
+//     * @param c
+//     * @param marker
+//     * @throws Exception 
+//     */
+//    public void clearMarkAt(Position p, Color c, int marker) throws Exception{
+//        Cell cell = new Cell(p);//should add this cell to world
+//        cell.clearMarker(c, marker);
+//    }
+//    
+//    /**
+//     * true if marker i of color c is set in cell p
+//     * @param p
+//     * @param c
+//     * @param marker
+//     * @return boolean
+//     */
+//    public boolean checkMarkAt(Position p, Color c, int marker){
+//        Cell cell = new Cell(p);//should add this cell to world
+//        return cell.checkMarker(c, marker);
+//    }
+//    
+//    /**
+//     * true if ANY marker of color c is set in cell p
+//     * @param p
+//     * @param c
+//     * @return boolean
+//     */
+//    public boolean checkAnyMarker(Position p, Color c){
+//        Cell cell = new Cell(p);//should add this cell to world
+//        return cell.checkAnyMarker(c);
+//    }
 
     public static void main(String args[]) throws Exception{
         
 //        Dir d = a.turn(TurnDir.RIGHT, Dir.NORTHEAST);
 //        System.out.println(d);
         Position p = new Position(3,2);
-        Ant a = new Ant(Color.RED, 0, Dir.EAST, p);
-        Position sensedP = a.sensedCell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
+        Ant a = new Ant(Color.RED, 0, Dir.EAST);
+        Position sensedP = a.sensed_cell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
         System.out.println(sensedP.getX() + ", " + sensedP.getY());
     }
 }
