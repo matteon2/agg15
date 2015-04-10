@@ -21,7 +21,7 @@ public class Ant {
     private Dir direction;  //the current direction that the ant faces to
     private boolean hasFood;    //a boolean indicating whether the ant is currently carrying a food particle.(An ant can only hold a single unit of food at a time)
     private AntBrain brain;
-    private Position position; //the current location of the ant
+    private Position antPosition; //the current location of the ant
     
     public Ant(Color color, int id, Dir d){
         this.color = color;
@@ -30,8 +30,8 @@ public class Ant {
         this.resting = 0;
         this.direction = d;
         this.hasFood = false;
-        this.position.setX(0);
-        this.position.setY(0);
+        this.antPosition.setX(0);
+        this.antPosition.setY(0);
     }
     
     
@@ -40,11 +40,11 @@ public class Ant {
     }
     
     public void setPosition(Position p){
-        this.position = p;
+        this.antPosition = p;
     }
     
     public Position getPosition(){
-        return position;
+        return antPosition;
     }
     
     
@@ -169,6 +169,32 @@ public class Ant {
         return enemyColor;
     }
     
+    
+    
+    /**
+     * GEOMETRY
+     * Takes an element of left or right and a direction and returns a suitably adjusted direction
+     * @param lr
+     * @param d
+     * @return Dir
+     * @throws Exception 
+     */
+    public Dir turn(TurnDir lr, Dir d) throws Exception{
+        Dir enumDir = Dir.EAST;
+        int dirInt = d.getDirection();
+        switch(lr){
+            case LEFT:
+                dirInt = (dirInt + 5) % 6;
+                break;
+            case RIGHT:
+                dirInt = (dirInt + 1) % 6;
+                break;
+            default:
+                throw new Exception("The input turn direction is invalid!");
+        }
+        return enumDir.getDir(dirInt);
+    }
+    
     /**
      * GEOMETRY
      * Calculates the position of the cell adjacent to position p in direction d.
@@ -236,30 +262,6 @@ public class Ant {
     
     /**
      * GEOMETRY
-     * Takes an element of left or right and a direction and returns a suitably adjusted direction
-     * @param lr
-     * @param d
-     * @return Dir
-     * @throws Exception 
-     */
-    public Dir turn(TurnDir lr, Dir d) throws Exception{
-        Dir enumDir = Dir.EAST;
-        int dirInt = d.getDirection();
-        switch(lr){
-            case LEFT:
-                dirInt = (dirInt + 5) % 6;
-                break;
-            case RIGHT:
-                dirInt = (dirInt + 1) % 6;
-                break;
-            default:
-                throw new Exception("The input turn direction is invalid!");
-        }
-        return enumDir.getDir(dirInt);
-    }
-    
-    /**
-     * GEOMETRY
      * calculates the coordinates of the cell being sensed.
      * @param p
      * @param d
@@ -287,6 +289,7 @@ public class Ant {
         }
         return sensedPos;
     }
+    
 
 
     public static void main(String args[]) throws Exception{
@@ -295,7 +298,7 @@ public class Ant {
 //        System.out.println(d);
         Position p = new Position(3,2);
         Ant a = new Ant(Color.RED, 0, Dir.EAST);
-        Position sensedP = a.sensed_cell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
-        System.out.println(sensedP.getX() + ", " + sensedP.getY());
+        //Position sensedP = a.sensed_cell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
+        //System.out.println(sensedP.getX() + ", " + sensedP.getY());
     }
 }

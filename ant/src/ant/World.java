@@ -242,4 +242,60 @@ public class World {
         return match;
     }
     
+    
+    /**
+     * MARTIAL ARTS
+     * check the number of adjacent ants from one group
+     * @param p
+     * @param c
+     * @return int
+     * @throws Exception 
+     */
+    public int adjacent_ants(Position p, Color c) throws Exception{
+        int n = 0;
+        for(int i = 0; i < 6; i++){
+            Dir d = Dir.EAST;
+            Position cel = ant_at(p).adjacent_cell(p, d.getDir(i));
+            if(some_ant_is_at(cel) && ant_at(cel).get_color(ant_at(cel)) == c){
+                n++;
+            }
+        }
+        return n;
+    }
+    
+    /**
+     * MARTIAL ARTS
+     * Ant in position p die and become 3 units of food, the food number in the position p is changed.
+     * @param p 
+     */
+    public void check_for_surrounded_ant_at(Position p) throws Exception{
+        if(some_ant_is_at(p)){
+            Ant a = ant_at(p);
+            if(adjacent_ants(p, a.other_color(a.get_color(a))) >= 5){
+                kill_ant_at(p);
+                //if has_food(a) then 1 else 0
+                int food;
+                if(a.has_food(a)){
+                    food = 1;
+                }else{
+                    food = 0;
+                }
+                set_food_at(p, food_at(p) + 3 + food);
+            }
+        }
+    }
+    
+    /**
+     * MARTIAL ARTS
+     * checking possible death each time an ant moves
+     * @param p 
+     */
+    public void check_for_surrounded_ants(Position p) throws Exception{
+        check_for_surrounded_ant_at(p);
+        for(int i = 0; i < 6; i++){
+            Dir d = Dir.EAST;
+            check_for_surrounded_ant_at(ant_at(p).adjacent_cell(p, d.getDir(i)));
+        }
+    }
+    
 }
