@@ -189,6 +189,7 @@ public class World {
     
     
     /**
+     * PHENOMENOLOGY
      * takes a position p, a condition cond, and a color c (the color of the ant that is doing the sensing), 
      * and checks whether cond holds at p.
      * @param p
@@ -196,11 +197,11 @@ public class World {
      * @param c
      * @return boolean
      */
-    public boolean cellMatches(Position p, Condition cond, Color c) throws Exception{
+    public boolean cellMatches(Position p, Condition cond, Color c, int marker) throws Exception{
         boolean match;
         
         if(rocky(p)){
-            return cond == Condition.ROCK;
+            match = cond.equals(Condition.ROCK);
         }
         else{
             switch(cond){
@@ -210,9 +211,35 @@ public class World {
                 case FOE:
                     match = (some_ant_is_at(p)) && (ant_at(p).get_color(ant_at(p)) != c);
                     break;
+                case FRIENDWITHFOOD:
+                    match = (some_ant_is_at(p)) && (ant_at(p).get_color(ant_at(p)) == c) && ant_at(p).has_food(ant_at(p));
+                    break;
+                case FOEWITHFOOD:
+                    match = (some_ant_is_at(p)) && (ant_at(p).get_color(ant_at(p)) != c) && ant_at(p).has_food(ant_at(p));
+                    break;
+                case FOOD:
+                    match = food_at(p) > 0;
+                    break;
+                case ROCK:
+                    match = false;
+                    break;
+                case MARKER:
+                    match = check_marker_at(p, c, marker);
+                    break;
+                case FOEMARKER:
+                    match = check_any_marker_at(p, ant_at(p).other_color(c));
+                    break;
+                case HOME:
+                    match = anthill_at(p, c);
+                    break;
+                case FOEHOME:
+                    match = anthill_at(p, ant_at(p).other_color(c));
+                    break;
+                default:
+                    match = false;
             }
         }
-        return false;
+        return match;
     }
     
 }
