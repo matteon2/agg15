@@ -63,8 +63,7 @@ public class Cell {
     public int getFoodNumber(){
         return foodNumber;
     }
-    
-    
+     
     
     /**
      * set the number of food in this cell, the food numebr is non-negative
@@ -164,22 +163,22 @@ public class Cell {
     public static void main(String args[]) throws Exception{
 
         Cell c1 = new Cell(0);
-        c1.setMarker(Color.RED, 0);
-        c1.setMarker(Color.RED, 1);
-        c1.setMarker(Color.RED, 2);
-        c1.setMarker(Color.RED, 3);
-        c1.setMarker(Color.RED, 4);
-        c1.setMarker(Color.RED, 5);
-        c1.setMarker(Color.RED, 0);
-        c1.setMarker(Color.BLACK, 4);
-        c1.clearMarker(Color.RED, 0);
-        c1.clearMarker(Color.RED, 1);
-        c1.clearMarker(Color.RED, 2);
-        c1.clearMarker(Color.RED, 3);
-        c1.clearMarker(Color.RED, 4);
-        //c1.clearMarker(Color.RED, 5);
-        System.out.println(c1.checkAnyMarker(Color.RED));
-        System.out.println(c1.checkAnyMarker(Color.BLACK));
+//        c1.setMarker(Color.RED, 0);
+//        c1.setMarker(Color.RED, 1);
+//        c1.setMarker(Color.RED, 2);
+//        c1.setMarker(Color.RED, 3);
+//        c1.setMarker(Color.RED, 4);
+//        c1.setMarker(Color.RED, 5);
+//        c1.setMarker(Color.RED, 0);
+//        c1.setMarker(Color.BLACK, 4);
+//        c1.clearMarker(Color.RED, 0);
+//        c1.clearMarker(Color.RED, 1);
+//        c1.clearMarker(Color.RED, 2);
+//        c1.clearMarker(Color.RED, 3);
+//        c1.clearMarker(Color.RED, 4);
+//        //c1.clearMarker(Color.RED, 5);
+//        System.out.println(c1.checkAnyMarker(Color.RED));
+//        System.out.println(c1.checkAnyMarker(Color.BLACK));
         System.out.println(c1.hasAnt());
     }
 }

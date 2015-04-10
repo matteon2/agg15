@@ -24,6 +24,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * check if the cell at position p is rocky and false if p is clear
      * @param p
      * @return boolean
@@ -33,6 +34,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * true if there is an ant in the cell at position p
      * @param p
      * @return boolean
@@ -42,6 +44,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * return the ant in the cell at position p
      * @param p
      * @return Ant
@@ -52,6 +55,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * record the fact that the given ant is at position p
      * @param p
      * @param a 
@@ -62,6 +66,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * record the fact that no ant is at position p
      * @param p 
      */
@@ -70,6 +75,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * true if an ant with the given id exists somewhere in the world
      * @param id
      * @return boolean
@@ -79,6 +85,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * return current position of the ant with the given id
      * @param id
      * @return Position
@@ -94,6 +101,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * kill the ant at position p means that the ant is not exist anymore, it should be removed from the ant list
      * @param p 
      */
@@ -103,6 +111,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * return the amount of food in the cell at position p
      * @param p
      * @return int
@@ -112,6 +121,7 @@ public class World {
     }
 
     /**
+     * GEOGRAPHY
      * record the fact that a given amount of food is at position p
      * @param p
      * @param f 
@@ -121,6 +131,7 @@ public class World {
     }
     
     /**
+     * GEOGRAPHY
      * true if the cell at position p is in the anthill of color c
      * @param p
      * @param c
@@ -129,7 +140,54 @@ public class World {
     public boolean anthill_at(Position p, Color c){
         return antWorld[p.getX()][p.getY()].isAntHill();
     }
+    
+    /**
+     * CHEMISTRY
+     * set marker i of color c in cell p
+     * @param p
+     * @param c
+     * @param marker
+     * @throws Exception 
+     */
+    public void set_marker_at(Position p, Color c, int marker) throws Exception{
+        antWorld[p.getX()][p.getY()].setMarker(c, marker);
+    }
+    
+    /**
+     * CHEMISTRY
+     * clear marker i of color c in cell p
+     * @param p
+     * @param c
+     * @param marker 
+     */
+    public void clear_marker_at(Position p, Color c, int marker) throws Exception{
+        antWorld[p.getX()][p.getY()].clearMarker(c, marker);
+    }
+    
+    /**
+     * CHEMISTRY
+     * true if marker i of color c is set in cell p
+     * @param p
+     * @param c
+     * @param marker
+     * @return boolean
+     */
+    public boolean check_marker_at(Position p, Color c, int marker){
+        return antWorld[p.getX()][p.getY()].checkMarker(c, marker);
+    }
  
+    /**
+     * CHEMISTRY
+     * true if ANY marker of color c is set in cell p
+     * @param p
+     * @param c
+     * @return boolean
+     */
+    public boolean check_any_marker_at(Position p, Color c){
+        return antWorld[p.getX()][p.getY()].checkAnyMarker(c);
+    }
+    
+    
     /**
      * takes a position p, a condition cond, and a color c (the color of the ant that is doing the sensing), 
      * and checks whether cond holds at p.
@@ -147,10 +205,10 @@ public class World {
         else{
             switch(cond){
                 case FRIEND:
-                    match = (some_ant_is_at(p)) && (ant_at(p).getColor(ant_at(p)) == c);
+                    match = (some_ant_is_at(p)) && (ant_at(p).get_color(ant_at(p)) == c);
                     break;
                 case FOE:
-                    match = (some_ant_is_at(p)) && (ant_at(p).getColor(ant_at(p)) != c);
+                    match = (some_ant_is_at(p)) && (ant_at(p).get_color(ant_at(p)) != c);
                     break;
             }
         }

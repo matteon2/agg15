@@ -49,42 +49,47 @@ public class Ant {
     
     
     /**
+     * BIOLOGY
      * get the state of ant a
      * @param a
      * @return 
      */
-    public int getState(Ant a){
+    public int get_state(Ant a){
         return a.state;
     }
     
     /**
+     * BIOLOGY
      * get the color of ant a
      * @param a
      * @return 
      */
-    public Color getColor(Ant a){
+    public Color get_color(Ant a){
         return a.color;
     }
     
     /**
+     * BIOLOGY
      * get the length of the resting for ant a 
      * @param a
      * @return 
      */
-    public int getResting(Ant a){
+    public int get_resting(Ant a){
         return a.resting;
     }
     
     /**
+     * BIOLOGY
      * get the direction of the ant a faces to 
      * @param a
      * @return 
      */
-    public Dir getDirection(Ant a){
+    public Dir get_direction(Ant a){
         return a.direction;
     }
     
     /**
+     * BIOLOGY
      * check whether the ant a has food(single unit of food)
      * @param a
      * @return 
@@ -102,6 +107,7 @@ public class Ant {
 //    }
     
     /**
+     * BIOLOGY
      * set the state of ant a to state s
      * @param a
      * @param s 
@@ -111,6 +117,7 @@ public class Ant {
     }
            
     /**
+     * BIOLOGY
      * set the length of resting for ant a to r
      * @param a
      * @param r 
@@ -120,6 +127,7 @@ public class Ant {
     }
     
     /**
+     * BIOLOGY
      * set the direction that the ant a faces to d
      * @param a
      * @param d
@@ -130,6 +138,7 @@ public class Ant {
     }
             
     /**
+     * BIOLOGY
      * let ant a has food
      * @param a
      * @param b 
@@ -139,6 +148,7 @@ public class Ant {
     }
          
     /**
+     * BIOLOGY
      * Give one color, get the other color, aka enemy color
      * @param c
      * @return
@@ -160,6 +170,7 @@ public class Ant {
     }
     
     /**
+     * GEOMETRY
      * Calculates the position of the cell adjacent to position p in direction d.
      * @param p
      * @param d
@@ -224,6 +235,7 @@ public class Ant {
     }
     
     /**
+     * GEOMETRY
      * Takes an element of left or right and a direction and returns a suitably adjusted direction
      * @param lr
      * @param d
@@ -247,6 +259,7 @@ public class Ant {
     }
     
     /**
+     * GEOMETRY
      * calculates the coordinates of the cell being sensed.
      * @param p
      * @param d
@@ -275,52 +288,6 @@ public class Ant {
         return sensedPos;
     }
 
-//    /**
-//     * set marker i of color c in cell p
-//     * @param p
-//     * @param c
-//     * @param marker
-//     * @throws Exception 
-//     */
-//    public void setMarkerAt(Position p, Color c, int marker) throws Exception{
-//        Cell cell = new Cell(p);//should add this cell to world
-//        cell.setMarker(c, marker);
-//    }
-//    
-//    /**
-//     * clear marker i of color c in cell p
-//     * @param p
-//     * @param c
-//     * @param marker
-//     * @throws Exception 
-//     */
-//    public void clearMarkAt(Position p, Color c, int marker) throws Exception{
-//        Cell cell = new Cell(p);//should add this cell to world
-//        cell.clearMarker(c, marker);
-//    }
-//    
-//    /**
-//     * true if marker i of color c is set in cell p
-//     * @param p
-//     * @param c
-//     * @param marker
-//     * @return boolean
-//     */
-//    public boolean checkMarkAt(Position p, Color c, int marker){
-//        Cell cell = new Cell(p);//should add this cell to world
-//        return cell.checkMarker(c, marker);
-//    }
-//    
-//    /**
-//     * true if ANY marker of color c is set in cell p
-//     * @param p
-//     * @param c
-//     * @return boolean
-//     */
-//    public boolean checkAnyMarker(Position p, Color c){
-//        Cell cell = new Cell(p);//should add this cell to world
-//        return cell.checkAnyMarker(c);
-//    }
 
     public static void main(String args[]) throws Exception{
         
