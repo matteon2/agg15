@@ -17,13 +17,13 @@ public class AntGameFrameGUI extends JFrame {
             uploadBrainTournament, uploadWorldTournament, playTournament, backTournament, backSettings, backFromDisplay;
     private JCheckBox randomWorldDuel, randomWorldTournament;
     private JLabel antImg, duelModeText, tournamentModeText, settingsText;
-    private JTextField pathName;
+    private JTextField pathName, playerName;
     
     public AntGameFrameGUI()
     {
        createPanel();
        addPanel();
-       formatComponents();
+       // formatComponents();       // THIS DOES NOT WORK YET
     }
     
     private void createPanel()
@@ -91,6 +91,8 @@ public class AntGameFrameGUI extends JFrame {
         duelModeText = new JLabel("Multiplayer Mode");
         duelModeText.setFont(new Font("Comic Sans MS", 0, 36));
         
+        playerName = new JTextField("Enter Player Name");
+        
         uploadBrainDuel = new JButton("Upload Ant Brain");
         uploadBrainDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainDuel.addActionListener(new addButtonListener() {
@@ -123,7 +125,7 @@ public class AntGameFrameGUI extends JFrame {
         randomWorldDuel = new JCheckBox("Random World");
         randomWorldDuel.setFont(new Font("Comic Sans MS", 0, 11));
         
-        playDuel = new JButton("Play");
+        playDuel = new JButton("PLAY");
         playDuel.setFont(new Font("Comic Sans MS", 0, 11));
         playDuel.addActionListener(new addButtonListener() {
             @Override
@@ -181,7 +183,7 @@ public class AntGameFrameGUI extends JFrame {
         randomWorldTournament = new JCheckBox("Random World");
         randomWorldTournament.setFont(new Font("Comic Sans MS", 0, 11));
         
-        playTournament = new JButton("Play");
+        playTournament = new JButton("PLAY");
         playTournament.setFont(new Font("Comic Sans MS", 0, 11));
         playTournament.addActionListener(new addButtonListener() {
             @Override
@@ -248,6 +250,7 @@ public class AntGameFrameGUI extends JFrame {
         add(mMenu);
         
         duelMode.add(duelModeText);
+        duelMode.add(playerName);
         duelMode.add(uploadBrainDuel);
 //        duelMode.add(pathName);
         duelMode.add(uploadWorldDuel);
@@ -266,7 +269,7 @@ public class AntGameFrameGUI extends JFrame {
         
     }
     
-    private void formatComponents() {
+    private void formatComponents() {           // DOES NOT WORK YET
         // Formatting of mMenu
         
         javax.swing.GroupLayout mMenuLayout = new javax.swing.GroupLayout(mMenu);
@@ -316,6 +319,65 @@ public class AntGameFrameGUI extends JFrame {
         
         // Formatting of duelMode
         
+        javax.swing.GroupLayout duelModeLayout = new javax.swing.GroupLayout(duelMode);
+        duelMode.setLayout(duelModeLayout);
+        duelModeLayout.setHorizontalGroup(
+            duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(duelModeLayout.createSequentialGroup()
+                .addGroup(duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(duelModeLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(backDuel))
+                    .addGroup(duelModeLayout.createSequentialGroup()
+                        .addGap(200, 200, 200)
+                        .addGroup(duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(duelModeText)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, duelModeLayout.createSequentialGroup()
+                                .addComponent(playDuel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(7, 7, 7))))
+                    .addGroup(duelModeLayout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addGroup(duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(uploadWorldDuel)
+                            .addComponent(uploadBrainDuel))
+                        .addGap(18, 18, 18)
+                        .addComponent(randomWorldDuel)))
+                .addContainerGap(109, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, duelModeLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(playerName, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(161, 161, 161))
+        );
+        duelModeLayout.setVerticalGroup(
+            duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(duelModeLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(duelModeText)
+                .addGap(80, 80, 80)
+                .addComponent(playerName, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(uploadBrainDuel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(uploadWorldDuel)
+                    .addComponent(randomWorldDuel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addComponent(playDuel, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78)
+                .addComponent(backDuel)
+                .addContainerGap())
+        );
+
+        //javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(duelMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(duelMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
         
         
         // Formatting of tournamentMode
@@ -326,14 +388,14 @@ public class AntGameFrameGUI extends JFrame {
     
     public static void main(String args[])
     {
-        int WINDOW_WIDTH = 600;
-        int WINDOW_HEIGHT = 600;
+        int WINDOW_WIDTH = 500;
+        int WINDOW_HEIGHT = 500;
         AntGameFrameGUI frame = new AntGameFrameGUI();
         // JFrame properties
         frame.setTitle("Ant Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
-        frame.pack();
+        //frame.pack();
         frame.setLocationRelativeTo(null);  // to show at center of screen
         frame.setVisible(true);
     }
