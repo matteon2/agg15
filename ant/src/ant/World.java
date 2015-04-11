@@ -18,10 +18,13 @@ public class World {
     
     private final Cell[][] antWorld;
     private HashMap<Integer, Ant> ants; //a list of alived ants with id as the key and the Ant object as the object
+    private int seed;
+    private int randomCallCounter = 0;
     
     public World(int antNum){
         antWorld = new Cell[150][150];
         ants = new HashMap<>();
+        seed = 12345;
     }
     
     /**
@@ -315,6 +318,40 @@ public class World {
             }else{
                 a.get_instruction(a.get_color(), a.get_state()).execute(this, a);
             }
+        }
+    }
+    
+    public void setSeed(int seed){
+        this.seed = seed;
+    }
+    
+    public int getSeed(){
+        return seed;
+    }
+    
+    /**
+     * NUMBER THEORY
+     * random number generator that same as customer's
+     * @param n
+     * @return int 
+     */
+    public int randomint(int n){
+        for(; randomCallCounter < 3; randomCallCounter++){
+            seed = seed * 22695477 + 1;
+        }
+        seed = (seed * 22695477) + 1;
+	randomCallCounter++;
+	int x = (int) ((Math.floor((double) seed / 65536)) % 16384);
+	if (x < 0) {
+            x = ((x + 16384) % 16384);
+	}
+        return x % n;
+    }
+    
+    public static void main(String args[]){
+        World w = new World(5);
+        for(int i = 0; i < 100; i++){
+            System.out.println(w.randomint(16383));
         }
     }
     

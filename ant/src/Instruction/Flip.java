@@ -14,12 +14,12 @@ import ant.World;
  * @author Andrew
  */
 public class Flip extends Instruction {
-    int p;
+    int n;
     int state1;
     int state2;
     
-    public Flip(int p, int state1, int state2){
-        this.p = p;
+    public Flip(int n, int state1, int state2){
+        this.n = n;
         this.state1 = state1;
         this.state2 = state2;
         tokenLength = 4;
@@ -45,7 +45,12 @@ public class Flip extends Instruction {
     @Override
     public void execute(World world, Ant ant) {
         int st;
-        
+        if(world.randomint(n) == 0){
+            st = state1;
+        }else{
+            st = state2;
+        }
+        ant.set_state(st);
     }
 
 }
