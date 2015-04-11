@@ -6,6 +6,9 @@
 
 package Instruction;
 
+import ant.Ant;
+import ant.World;
+
 /**
  * This class represents picking up food from current cell and moving state.
  * @author Andrew
@@ -25,9 +28,27 @@ public class PickUp extends Instruction{
         return tokenLength;
     }
     
-    @Override
-    public void execute() {
+//    @Override
+//    public void execute() {
+//        System.out.println("Pick up food from current cell and go to " + "'"+state1+"'" + ";" +  " go to " + "'"+state2+"'" + " if there is no food in the current cell.");
+//    }
 
-        System.out.println("Pick up food from current cell and go to " + "'"+state1+"'" + ";" +  " go to " + "'"+state2+"'" + " if there is no food in the current cell.");
+    /**
+     * KINETICS step method
+     * execute the PickUp instruction 
+     * @param world
+     * @param ant
+     */
+    @Override
+    public void execute(World world, Ant ant) {
+        if(ant.has_food() || world.food_at(ant.getPosition()) == 0){
+            ant.set_state(state2);
+        }
+        else{
+            world.set_food_at(ant.getPosition(), world.food_at(ant.getPosition())-1);
+            ant.set_has_food(true);
+            ant.set_state(state1);
+        }       
     }
+
 }

@@ -6,6 +6,12 @@
 
 package Instruction;
 
+import ant.Ant;
+import ant.Position;
+import ant.World;
+
+
+
 /**
  * This class represents moving state after sensing the direction.
  * @author Andrew
@@ -31,6 +37,7 @@ public class Sense extends Instruction{
         this.state1 = st1;
         this.state2 = st2;
         this.condition = condition;
+        this.marker = marker;
         tokenLength = 6;
     }
 
@@ -39,18 +46,39 @@ public class Sense extends Instruction{
         return tokenLength;
     }
     
-    
-    
+//    @Override
+//    public void execute() {
+//        if(tokenLength == 5){
+//            System.out.println("Go to state " + "'"+state1+"'" + " if " + "'"+condition+"'" + " holds in " + "'"+senseDir+"'" + ";" + " and to state " + "'"+state2+"'"  + " otherwise.");
+//        }
+//        if(tokenLength == 6){
+//            System.out.println("Go to state " + "'"+state1+"'" + " if " + "'"+condition+"'" + "'"+marker+"'" + " holds in " + "'"+senseDir+"'" + ";" + " and to state " + "'"+state2+"'"  + " otherwise.");
+//        }
+//        else{
+//            System.out.println("false!");
+//        }     
+//    }
+
+    /**
+     * KINETICS step method(may have bug)
+     * execute the Sense instruction 
+     * @param world
+     * @param ant
+     */
     @Override
-    public void execute() {
-        if(tokenLength == 5){
-            System.out.println("Go to state " + "'"+state1+"'" + " if " + "'"+condition+"'" + " holds in " + "'"+senseDir+"'" + ";" + " and to state " + "'"+state2+"'"  + " otherwise.");
+    public void execute(World world, Ant ant) {
+        try {
+            Position p2 = ant.sensed_cell(ant.getPosition(), ant.get_direction(), senseDir);
+            int st;
+            if(world.cellMatches(p2, condition, ant.get_color(), marker)){
+                st = state1;
+            }else{
+                st = state2;
+            }
+            ant.set_state(st);
+        } catch (Exception ex) {
+            System.out.println("Caught exception in Sense execute method!");
         }
-        if(tokenLength == 6){
-            System.out.println("Go to state " + "'"+state1+"'" + " if " + "'"+condition+"'" + "'"+marker+"'" + " holds in " + "'"+senseDir+"'" + ";" + " and to state " + "'"+state2+"'"  + " otherwise.");
-        }
-        else{
-            System.out.println("false!");
-        }     
     }
+
 }

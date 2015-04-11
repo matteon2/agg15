@@ -6,6 +6,9 @@
 
 package Instruction;
 
+import ant.Ant;
+import ant.World;
+
 /**
  * This class represents turn left or right and moving state.
  * @author Andrew
@@ -25,9 +28,25 @@ public class Turn extends Instruction{
         return tokenLength;
     }
     
-    @Override
-    public void execute() {
+//    @Override
+//    public void execute() {
+//        System.out.println("Turn " + "'"+direction+"'" +  " and go to " + "'"+state+"'" + ".");
+//    }
 
-        System.out.println("Turn " + "'"+direction+"'" +  " and go to " + "'"+state+"'" + ".");
+    /**
+     * KINETICS step method
+     * execute the Turn instruction 
+     * @param world
+     * @param ant
+     */
+    @Override
+    public void execute(World world, Ant ant) {
+        try {
+            ant.set_direction(ant.turn(direction, ant.get_direction()));     
+            ant.set_state(state);
+        } catch (Exception ex) {
+            System.out.println("Caught exception in Turn execute method!");
+        }
     }
+
 }

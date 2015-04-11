@@ -7,7 +7,7 @@
 package ant;
 
 /**
- *
+ * the x and y should be limited to 150
  * @author Andrew
  */
 public class Position {

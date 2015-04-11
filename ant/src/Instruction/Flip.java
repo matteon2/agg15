@@ -6,6 +6,9 @@
 
 package Instruction;
 
+import ant.Ant;
+import ant.World;
+
 /**
  * This class represents choosing a random number x and moving state.
  * @author Andrew
@@ -27,9 +30,22 @@ public class Flip extends Instruction {
         return tokenLength;
     }
     
-    @Override
-    public void execute() {
+//    @Override
+//    public void execute() {
+//
+//        System.out.println("Choose a random number x from 0 to " + "'"+p+"'" + "-1;" + " go to state " + "'"+state1+"'" + " if x=0 and " + "'"+state2+"'" + " otherwise.");
+//    }
 
-        System.out.println("Choose a random number x from 0 to " + "'"+p+"'" + "-1;" + " go to state " + "'"+state1+"'" + " if x=0 and " + "'"+state2+"'" + " otherwise.");
+    /**
+     * KINETICS step method
+     * execute the Flip instruction 
+     * @param world
+     * @param ant
+     */
+    @Override
+    public void execute(World world, Ant ant) {
+        int st;
+        
     }
+
 }

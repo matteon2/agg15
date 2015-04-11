@@ -6,6 +6,11 @@
 
 package Instruction;
 
+import ant.Ant;
+import ant.Position;
+import ant.World;
+
+
 /**
  * This class represents moving forward and moving state.
  * @author Andrew
@@ -25,9 +30,35 @@ public class Move extends Instruction{
         return tokenLength;
     }
 
-    @Override
-    public void execute() {
+//    @Override
+//    public void execute() {
+//
+//        System.out.println("Move forward and go to " + "'"+state1+"'" + ";" + " go to " + "'"+state2+"'" + " if the cell ahead is blocked.");
+//    }
 
-        System.out.println("Move forward and go to " + "'"+state1+"'" + ";" + " go to " + "'"+state2+"'" + " if the cell ahead is blocked.");
+    /**
+     * KINETICS step method
+     * execute the Move instruction 
+     * @param world
+     * @param ant
+     */
+    @Override
+    public void execute(World world, Ant ant) {
+        try {
+            Position newp = ant.adjacent_cell(ant.getPosition(), ant.get_direction());
+            if(world.rocky(newp) || world.some_ant_is_at(newp)){
+                ant.set_state(state2);
+            }
+            else{
+                world.clear_ant_at(ant.getPosition());
+                world.set_ant_at(newp, ant);
+                ant.set_state(state1);
+                ant.set_resting(14);
+                world.check_for_surrounded_ants(newp);
+            }
+        } catch (Exception ex) {
+            System.out.println("Caught exception in move execute method!");
+        }
     }
+
 }

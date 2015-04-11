@@ -1,6 +1,5 @@
 package ant;
 
-
 import Instruction.Condition;
 import Instruction.Drop;
 import Instruction.Flip;
@@ -19,11 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  * This class is used for parsing the ant brain file and creating a ant brain which is defined by a simple, finite state machine.
@@ -310,10 +305,9 @@ public class AntBrainParser {
      * @throws IOException 
      */
     public static void main(String args[]) throws IOException{
-        AntBrain ant = AntBrainParser.createBrain("/Users/Andrew/NetBeansProjects/SoftwareEngineering/src/antbrain.brain");
-        for (Instruction insList : ant.insList) {
-            insList.execute();
-        }
-        
+//        AntBrain ant = AntBrainParser.createBrain("/Users/Andrew/NetBeansProjects/SoftwareEngineering/src/ant/antbrain.brain");
+//        for (Instruction insList : ant.insList) {
+//            insList.execute();
+//        }
     }
 }

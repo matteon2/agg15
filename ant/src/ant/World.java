@@ -7,6 +7,7 @@
 package ant;
 
 import Instruction.Condition;
+
 import java.util.HashMap;
 
 /**
@@ -206,16 +207,16 @@ public class World {
         else{
             switch(cond){
                 case FRIEND:
-                    match = (some_ant_is_at(p)) && (ant_at(p).get_color(ant_at(p)) == c);
+                    match = (some_ant_is_at(p)) && (ant_at(p).get_color() == c);
                     break;
                 case FOE:
-                    match = (some_ant_is_at(p)) && (ant_at(p).get_color(ant_at(p)) != c);
+                    match = (some_ant_is_at(p)) && (ant_at(p).get_color() != c);
                     break;
                 case FRIENDWITHFOOD:
-                    match = (some_ant_is_at(p)) && (ant_at(p).get_color(ant_at(p)) == c) && ant_at(p).has_food(ant_at(p));
+                    match = (some_ant_is_at(p)) && (ant_at(p).get_color() == c) && ant_at(p).has_food();
                     break;
                 case FOEWITHFOOD:
-                    match = (some_ant_is_at(p)) && (ant_at(p).get_color(ant_at(p)) != c) && ant_at(p).has_food(ant_at(p));
+                    match = (some_ant_is_at(p)) && (ant_at(p).get_color() != c) && ant_at(p).has_food();
                     break;
                 case FOOD:
                     match = food_at(p) > 0;
@@ -256,7 +257,7 @@ public class World {
         for(int i = 0; i < 6; i++){
             Dir d = Dir.EAST;
             Position cel = ant_at(p).adjacent_cell(p, d.getDir(i));
-            if(some_ant_is_at(cel) && ant_at(cel).get_color(ant_at(cel)) == c){
+            if(some_ant_is_at(cel) && ant_at(cel).get_color() == c){
                 n++;
             }
         }
@@ -271,11 +272,11 @@ public class World {
     public void check_for_surrounded_ant_at(Position p) throws Exception{
         if(some_ant_is_at(p)){
             Ant a = ant_at(p);
-            if(adjacent_ants(p, a.other_color(a.get_color(a))) >= 5){
+            if(adjacent_ants(p, a.other_color(a.get_color())) >= 5){
                 kill_ant_at(p);
                 //if has_food(a) then 1 else 0
                 int food;
-                if(a.has_food(a)){
+                if(a.has_food()){
                     food = 1;
                 }else{
                     food = 0;
@@ -295,6 +296,25 @@ public class World {
         for(int i = 0; i < 6; i++){
             Dir d = Dir.EAST;
             check_for_surrounded_ant_at(ant_at(p).adjacent_cell(p, d.getDir(i)));
+        }
+    }
+    
+    /**
+     * KINETICS
+     * takes an ant id, let the ant actually executes an instruction
+     * @param id 
+     */
+    public void step(int id) throws Exception{
+        if(ant_is_alive(id)){
+            Position p;
+            Ant a;
+            p = find_ant(id);
+            a = ant_at(p);
+            if (a.get_resting() > 0){
+                a.set_resting(a.get_resting()-1);
+            }else{
+                a.get_instruction(a.get_color(), a.get_state()).execute(this, a);
+            }
         }
     }
     

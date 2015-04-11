@@ -1,5 +1,8 @@
 package Instruction;
 
+import ant.Ant;
+import ant.World;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,6 +20,7 @@ public abstract class Instruction {
     /*
     To run the current instruction
     */
-    public abstract void execute();
-    
+//    public abstract void execute();
+
+    public abstract void execute(World world, Ant ant);
 }

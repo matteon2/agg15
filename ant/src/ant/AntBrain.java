@@ -44,7 +44,4 @@ public class AntBrain {
     public String getFileName(){
         return fileName;
     }
-    
-    
-    
 }

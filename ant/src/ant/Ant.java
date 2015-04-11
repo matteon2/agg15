@@ -6,6 +6,7 @@
 
 package ant;
 
+import Instruction.Instruction;
 import Instruction.SenseDir;
 import Instruction.TurnDir;
 
@@ -54,8 +55,8 @@ public class Ant {
      * @param a
      * @return 
      */
-    public int get_state(Ant a){
-        return a.state;
+    public int get_state(){
+        return state;
     }
     
     /**
@@ -64,8 +65,8 @@ public class Ant {
      * @param a
      * @return 
      */
-    public Color get_color(Ant a){
-        return a.color;
+    public Color get_color(){
+        return color;
     }
     
     /**
@@ -74,8 +75,8 @@ public class Ant {
      * @param a
      * @return 
      */
-    public int get_resting(Ant a){
-        return a.resting;
+    public int get_resting(){
+        return resting;
     }
     
     /**
@@ -84,8 +85,8 @@ public class Ant {
      * @param a
      * @return 
      */
-    public Dir get_direction(Ant a){
-        return a.direction;
+    public Dir get_direction(){
+        return direction;
     }
     
     /**
@@ -94,8 +95,8 @@ public class Ant {
      * @param a
      * @return 
      */
-    public boolean has_food(Ant a){
-        return a.hasFood;
+    public boolean has_food(){
+        return hasFood;
     }
     
 //    /**
@@ -112,8 +113,8 @@ public class Ant {
      * @param a
      * @param s 
      */
-    public void set_state(Ant a, int s){
-        a.state = s;
+    public void set_state(int s){
+        state = s;
     }
            
     /**
@@ -122,8 +123,8 @@ public class Ant {
      * @param a
      * @param r 
      */
-    public void set_resting(Ant a, int r){
-        a.resting = r;
+    public void set_resting(int r){
+        resting = r;
     }
     
     /**
@@ -133,8 +134,8 @@ public class Ant {
      * @param d
      * @throws Exception 
      */
-    public void set_direction(Ant a, Dir d) throws Exception{
-        a.direction = d;
+    public void set_direction(Dir d) throws Exception{
+        direction = d;
     }
             
     /**
@@ -143,8 +144,8 @@ public class Ant {
      * @param a
      * @param b 
      */
-    public void set_has_food(Ant a, boolean b){
-        a.hasFood = b;
+    public void set_has_food(boolean b){
+        hasFood = b;
     }
          
     /**
@@ -288,6 +289,23 @@ public class Ant {
                 throw new Exception("no valid sensed cell!");
         }
         return sensedPos;
+    }
+    
+    /**
+     * NEUROLOGY
+     * This method uses to retrieve the instruction for state s in the brain of color c. 
+     * @param c
+     * @param state
+     * @return Instruction
+     * @throws Exception 
+     */
+    public Instruction get_instruction(Color c, int state) throws Exception{
+        if(this.color == c){
+            return brain.insList[state];
+        }
+        else{
+            throw new Exception("cannot get the instruction of this kind of ant!");
+        }
     }
     
 
