@@ -13,15 +13,15 @@ import javax.swing.JPanel;
 
 /**
  *Formulas for cell placement :
- * Odd  Rolls (x-coordinate) : x + (int) R * n * Math.sqrt(3) / 2
- * Even Rolls (x-coordinate) : x + (int) (R + 1) * n * Math.sqrt(3) / 2
- * Odd  Rolls (y-coordiante) : y + C * 3 * n
- * Even Rolls (y-coordiante) : y + (C + 1.5) * 3 * n
+ * Odd  Rows (x-coordinate) : x + (int) R * n * Math.sqrt(3) / 2
+ * Even Rows (x-coordinate) : x + (int) (R + 1) * n * Math.sqrt(3) / 2
+ * Odd  Rows (y-coordiante) : y + C * 3 * n
+ * Even Rows (y-coordiante) : y + (C + 1.5) * 3 * n
  * 
  * x is the inital x-coordinate
  * y is the inital y-coordinate
  * C is the sequence of Cell
- * R is the sequence of Roll
+ * R is the sequence of Row
  * @author Wayne Kwok
  */
 public class DrawHexagon extends JPanel {
@@ -117,6 +117,6 @@ public class DrawHexagon extends JPanel {
     Container contentPane = frame.getContentPane();
     contentPane.add(new DrawHexagon());
 
-    frame.show();
+    frame.setVisible(true);
   }
 }
