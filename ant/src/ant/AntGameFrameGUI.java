@@ -77,20 +77,20 @@ public class AntGameFrameGUI extends JFrame {
         // Creates features for Duel Mode JPanel
         duelModeText = new JLabel("Duel Mode");
         duelModeText.setFont(new Font("Comic Sans MS", 0, 36));
-        
-        playerName = new JTextField("Enter Player Name");
-        
+
         uploadBrainDuel = new JButton("Upload Ant Brain");
         uploadBrainDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainDuel.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 String Player_Name = JOptionPane.showInputDialog("Player Name", "Enter Your Player Name");
-                JFileChooser chooser = new JFileChooser();
-                chooser.showOpenDialog(null);
-                File f = chooser.getSelectedFile();
-//                String filename = f.getAbsolutePath();
-//                pathName.setText(filename);
+                if ((Player_Name != null) && (Player_Name.length() > 0)) {
+                    JFileChooser chooser = new JFileChooser();
+                    chooser.showOpenDialog(null);
+                    File f = chooser.getSelectedFile();
+    //                String filename = f.getAbsolutePath();
+    //                pathName.setText(filename);
+                }
             }
         });
         
@@ -147,11 +147,14 @@ public class AntGameFrameGUI extends JFrame {
         uploadBrainTournament.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                JFileChooser chooser = new JFileChooser();
-                chooser.showOpenDialog(null);
-                File f = chooser.getSelectedFile();
-//                String filename = f.getAbsolutePath();
-//                pathName.setText(filename);
+                String Player_Name = JOptionPane.showInputDialog("Player Name", "Enter Your Player Name");
+                if ((Player_Name != null) && (Player_Name.length() > 0)) {
+                    JFileChooser chooser = new JFileChooser();
+                    chooser.showOpenDialog(null);
+                    File f = chooser.getSelectedFile();
+    //                String filename = f.getAbsolutePath();
+    //                pathName.setText(filename);
+                }
             }
         });
         
@@ -220,7 +223,6 @@ public class AntGameFrameGUI extends JFrame {
         add(mMenu);
         
         duelMode.add(duelModeText);
-        duelMode.add(playerName);
         duelMode.add(uploadBrainDuel);
 //        duelMode.add(pathName);
         duelMode.add(uploadWorldDuel);
