@@ -11,12 +11,12 @@ import javax.swing.*;
  */
 
 public class AntGameFrameGUI extends JFrame {
-    private JPanel mMenu, tournamentMode, duelMode, settingsDisplay, gameDisplay;
-    private JButton duel, tournament, quit, settings, 
-            uploadBrainDuel, uploadWorldDuel,playDuel, backDuel, 
-            uploadBrainTournament, uploadWorldTournament, playTournament, backTournament, backSettings, backFromDisplay;
+    private JPanel mMenu, tournamentMode, duelMode, gameDisplay;
+    private JButton duel, tournament, quit, uploadBrainDuel, uploadWorldDuel, 
+            playDuel, backDuel, uploadBrainTournament, uploadWorldTournament, 
+            playTournament, backTournament, backFromDisplay;
     private JCheckBox randomWorldDuel, randomWorldTournament;
-    private JLabel antImg, duelModeText, tournamentModeText, settingsText;
+    private JLabel antImg, duelModeText, tournamentModeText;
     private JTextField pathName, playerName;
     
     public AntGameFrameGUI()
@@ -73,19 +73,6 @@ public class AntGameFrameGUI extends JFrame {
                 System.exit(0);
             }
         });
-        
-        settings = new JButton("Settings");
-        settings.setFont(new Font("Comic Sans MS", 0, 11));
-        settings.addActionListener(new addButtonListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                getContentPane().removeAll();
-                getContentPane().add(settingsDisplay); //Adding to content pane, not to AntGameFrameGUI
-                repaint();
-                printAll(getGraphics());
-            }
-        });
-        
         
         // Creates features for Duel Mode JPanel
         duelModeText = new JLabel("Multiplayer Mode");
@@ -207,23 +194,6 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
         
-        
-        // Creates features for Settings JPanel
-        settingsText = new JLabel("Settings");
-        settingsText.setFont(new Font("Comic Sans MS", 0, 36));
-        
-//        backSettings = new JButton("Back");
-//        backSettings.setFont(new Font("Comic Sans MS", 0, 11));
-//        backSettings.addActionListener(new addButtonListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent ae) {
-//                getContentPane().removeAll();
-//                getContentPane().add(mMenu); //Adding to content pane, not to AntGameFrameGUI
-//                repaint();
-//                printAll(getGraphics());
-//            }
-//        });
-        
         gameDisplay = new JPanel();
         backFromDisplay = new JButton("Exit to Menu");
         backFromDisplay.setFont(new Font("Comic Sans MS", 0, 11));
@@ -244,7 +214,6 @@ public class AntGameFrameGUI extends JFrame {
         mMenu.add(antImg);
         mMenu.add(duel);
         mMenu.add(tournament);
-//        mMenu.add(settings);
         mMenu.add(quit);
         // Adding main menu to JFrame - only main menu added so first thing shown
         add(mMenu);
