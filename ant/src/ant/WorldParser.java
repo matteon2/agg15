@@ -14,6 +14,8 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -32,6 +34,8 @@ public class WorldParser {
     //Scanner scanner = null;
     BufferedReader input = null;
     FileReader fReader = null;
+
+    ArrayList<Point> food = new ArrayList<>();
 
     private char[] parsedWorld;
 
@@ -256,7 +260,7 @@ public class WorldParser {
         System.out.println("how many rocks.." + rocks.size());
         System.out.println(rocks);
 
-        // Or make a getter from random world
+        // If there is not 14 rocks (not including the perimeter) return false
         if (rocks.size() != 14) {
             rockCheck = false;
             return rockCheck;
@@ -266,7 +270,7 @@ public class WorldParser {
             int rockY = p.y;
             //System.out.println("Y is: " + rockY);
 
-            // If the rock is located on a even line
+            // If the rock is located on a odd line (BELEIVE ME)
             if (rockY % 2 == 0) {
                 //System.out.println("even!");
                 //System.out.println("Cur Point(x,y): "+rockX+","+rockY);
@@ -312,15 +316,814 @@ public class WorldParser {
             for (int j = 1; j < worldX - 1; j++) {
                 // Find all rocky cells -> Add to hashset
                 if (worldArray[i][j] == '5') {
-                    //rocks.add(new Point(j, i));
+
+                    //do check function
+                    //if the point is on an odd line:
+                    if (i % 2 == 0) {
+                        if (!food.contains(new Point(j, i))) {
+                            isFood = doCheckShape(new Point(j, i), 1);
+                        }
+
+                    } else {
+                        //if the point is on an even line
+                        if (!food.contains(new Point(j, i))) {
+                            isFood = doCheckShape(new Point(j, i), 0);
+                        }
+                    }
+
                 }
             }
         }
+        System.out.println("food size: " + food.size());
+        if (food.size() != 275) {
+            isFood = false;
+            return isFood;
+        }
 
+//        //So we have the coorect amount of food cells at this point
+//        int rockX, rockY;
+//        //Is the orientation correct?
+//        for (Point p : food) {
+//            rockX = p.x;
+//            rockY = p.y;
+//            // If the rock is located on a odd line (BELEIVE ME)
+//            if (rockY % 2 == 0) {
+//                //Change 5 to food blob size later
+//
+//            } else {
+//                //The rock is located on a even line
+//                findAdjacent(food);
+//            }
+//        }
         return isFood;
     }
     //Find Red ant hill (right size? one clear cell?)
     //Find Black ant hill (right size? one clear cell?)
     //Are food blobs the correct size? and have one clear cell?
-    //Lastly -> are there any illegal characters
+
+//    //Finds all adjacent cells of the same time
+//    public void findAdjacent(HashSet<Point> hs) {
+//        HashSet<Point> group = new HashSet<>();
+////        int x = p.x;
+////        int y = p.y;
+//        for (Point p : hs) {
+//            if (sameType(p, new Point(p.x + 1, p.y))) {
+//                //System.out.println("BRAH");
+//            }
+//        }
+//
+//    }
+//    public boolean sameType(Point p1, Point p2) {
+//        boolean sameType = false;
+//        int x1, y1, x2, y2;
+//        x1 = p1.x;
+//        y1 = p1.y;
+//        x2 = p2.x;
+//        y2 = p2.y;
+//
+//        if (worldArray[y1][x1] == worldArray[y2][x2]) {
+//            sameType = true;
+//        }
+//
+//        return sameType;
+//    }
+    public boolean doCheckShape(Point p, int line) {
+        //Checks one food blob is the correct shape
+        //b is false if on an odd line -> true otherwise
+
+        boolean rightShape = true;
+        int count = line;
+
+        int pointX, pointY;
+        pointX = p.x;
+        pointY = p.y;
+
+        int xTemp = pointX;
+
+        int orientation = 1; //one or -1
+        if (worldArray[pointY + 3][pointX] == '5') {
+            orientation = -1;
+            //Small hack below, line numbers are infuriating!!!
+            if (count == 1) {
+                count = 0;
+            } else {
+                count = 1;
+            }
+        }
+
+        //Checks even lined slanted right food blob
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+
+                if (worldArray[pointY][pointX] != '5') {
+                    rightShape = false;
+                    return rightShape;
+                }
+                //Current cell shape must be a food blob
+                food.add(new Point(pointX, pointY));
+
+                pointX += 1;
+            }
+            pointX = xTemp;
+            if (count % 2 == 0) {
+                pointX += orientation;
+                xTemp += orientation;
+            }
+            pointY++;
+            count++;
+        }
+
+        return rightShape;
+    }
+
+    public boolean checkRedAnthill() {
+        boolean redHillCheck = true;
+        Integer count = new Integer(1);
+
+        HashMap<Integer, Point> redhill = new HashMap<>();
+        // Loop through world (excluding the rocky perimeter)
+        for (int i = 1; i < worldY - 1; i++) {
+            for (int j = 1; j < worldX - 1; j++) {
+                // Find all rocky cells -> Add to hashset
+                if (worldArray[i][j] == '+') {
+                    redhill.put(count, new Point(j, i));
+                    count++;
+                }
+            }
+        }
+        System.out.println("how many cells in redhill.." + redhill.size());
+        System.out.println(redhill);
+
+//        //Is there the right amount of cells that make up the redhill?
+//        if (redhill.size() != (57 * 2) + 13) {
+//            redHillCheck = false;
+//            return redHillCheck;
+//        }
+        //Now check the shape and make sure
+        System.out.println("First value? " + redhill.get(1));
+        int x = redhill.get(1).x;
+        int y = redhill.get(1).y;
+
+        int numb1 = x;
+        int numb2 = y;
+
+        int offsetX = numb1;
+        int offsetY = numb2;
+
+        for (int i = 0; i < (7 * 2) - 1; i++) {
+            //PRINTS FIRST ROW AWAY FROM PERIMETER
+            for (int j = 0; j < 7; j++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetX++;
+            }
+            //num++;
+            //Reset offset
+            offsetX = numb1;
+            //print 2nd 3rd and fourth
+            offsetY++;
+        }
+
+        if (y % 2 == 0) {
+            //The hill is on a odd line
+            //If red anthill is on an odd line
+            //Print the left line --------------
+            offsetX--;
+            offsetY = numb2 + 1;
+            for (int i = 0; i < 11; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Second line to left
+            offsetX--;
+            offsetY = numb2 + 3;
+            for (int i = 0; i < 7; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+
+            //third line to left 
+            offsetX--;
+            offsetY = numb2 + 5;
+            for (int i = 0; i < 3; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Make the right section  ---------
+            offsetX = numb1 + 7;
+            offsetY = numb2 + 2;
+            for (int i = 0; i < 9; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Next line
+            offsetX++;
+            offsetY = numb2 + 4;
+            for (int i = 0; i < 5; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Last line
+            offsetX++;
+            offsetY = numb2 + 6;
+            if (worldArray[offsetY][offsetX] != '+') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+
+        } else {
+            //The hill is on a even line
+            //Ant hill is on a even line 
+
+            //Print the left line --------------
+            offsetX--;
+            offsetY = numb2 + 2;
+            for (int i = 0; i < 9; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+            //Second line to left
+            offsetX--;
+            offsetY = numb2 + 4;
+            for (int i = 0; i < 5; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+
+            //third line to left 
+            offsetX--;
+            offsetY = numb2 + 6;
+            if (worldArray[offsetY][offsetX] != '+') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+
+            //Make the right section  ---------
+            offsetX = numb1 + 7;
+            offsetY = numb2 + 1;
+            for (int i = 0; i < 11; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Next line
+            offsetX++;
+            offsetY = numb2 + 3;
+            for (int i = 0; i < 7; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Last line
+            offsetX++;
+            offsetY = numb2 + 5;
+            for (int i = 0; i < 3; i++) {
+                if (worldArray[offsetY][offsetX] != '+') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetY++;
+            }
+
+        }
+
+        //Now check the perimeter is either clear or a food cell
+//        System.out.println("x = " + x);
+//        System.out.println("y = " + y);
+        offsetX = x;
+        offsetY = y;
+
+        if (y % 2 == 0) {
+            // If red anthill is on a odd line
+            //offsetX--;
+            offsetY--;
+            for (int i = 0; i < 8; i++) {
+                if (worldArray[offsetY][offsetX] != '.') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetX++;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the top right perimeter
+
+            offsetX -= 2;
+
+            if (worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+            // -----------------------------------------------------------
+            //bottom right perimeter
+
+            if (worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the start of the bottom perimeter
+            offsetX = x - 1;
+            offsetY = y + 13;
+            for (int i = 0; i < 7; i++) {
+                if (worldArray[offsetY][offsetX] != '.') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetX++;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the start of the bottom left perimeter
+
+            offsetX = x - 1;
+            offsetY--;
+            if (worldArray[offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+            // -----------------------------------------------------------
+            //top left perimeter
+
+            if (worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+        } else {
+            // The anthill is on a even line
+            //offsetX--;
+            offsetY--;
+            for (int i = 0; i < 8; i++) {
+                if (worldArray[offsetY][offsetX] != '.') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetX++;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the top right perimeter
+
+            offsetX--;
+
+            if (worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the bottom right perimeter
+            if (worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the bottom right perimeter
+            offsetX = x;
+            offsetY = y + 13;
+            for (int i = 0; i < 7; i++) {
+                if (worldArray[offsetY][offsetX] != '.') {
+                    redHillCheck = false;
+                    return redHillCheck;
+                }
+                offsetX++;
+            }
+
+            offsetX = x - 1;
+            offsetY--;
+
+            if (worldArray[offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+
+            if (worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.') {
+                redHillCheck = false;
+                return redHillCheck;
+            }
+        }
+
+        return redHillCheck;
+    }
+
+    public boolean checkBlackAnthill() {
+        boolean blackHillCheck = true;
+        Integer count = new Integer(1);
+
+        HashMap<Integer, Point> blackhill = new HashMap<>();
+        // Loop through world (excluding the rocky perimeter)
+        for (int i = 1; i < worldY - 1; i++) {
+            for (int j = 1; j < worldX - 1; j++) {
+                // Find all rocky cells -> Add to hashset
+                if (worldArray[i][j] == '-') {
+                    blackhill.put(count, new Point(j, i));
+                    count++;
+                }
+            }
+        }
+        System.out.println("how many cells in redhill.." + blackhill.size());
+        System.out.println(blackhill);
+
+//        //Is there the right amount of cells that make up the redhill?
+//        if (redhill.size() != (57 * 2) + 13) {
+//            redHillCheck = false;
+//            return redHillCheck;
+//        }
+        //Now check the shape and make sure
+        System.out.println("First value? " + blackhill.get(1));
+        int x = blackhill.get(1).x;
+        int y = blackhill.get(1).y;
+
+        int numb1 = x;
+        int numb2 = y;
+
+        int offsetX = numb1;
+        int offsetY = numb2;
+
+        for (int i = 0; i < (7 * 2) - 1; i++) {
+            //PRINTS FIRST ROW AWAY FROM PERIMETER
+            for (int j = 0; j < 7; j++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetX++;
+            }
+            //num++;
+            //Reset offset
+            offsetX = numb1;
+            //print 2nd 3rd and fourth
+            offsetY++;
+        }
+
+        if (y % 2 == 0) {
+            //The hill is on a odd line
+            //If red anthill is on an odd line
+            //Print the left line --------------
+            offsetX--;
+            offsetY = numb2 + 1;
+            for (int i = 0; i < 11; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Second line to left
+            offsetX--;
+            offsetY = numb2 + 3;
+            for (int i = 0; i < 7; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+
+            //third line to left 
+            offsetX--;
+            offsetY = numb2 + 5;
+            for (int i = 0; i < 3; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Make the right section  ---------
+            offsetX = numb1 + 7;
+            offsetY = numb2 + 2;
+            for (int i = 0; i < 9; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Next line
+            offsetX++;
+            offsetY = numb2 + 4;
+            for (int i = 0; i < 5; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Last line
+            offsetX++;
+            offsetY = numb2 + 6;
+            if (worldArray[offsetY][offsetX] != '-') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+
+        } else {
+            //The hill is on a even line
+            //Ant hill is on a even line 
+
+            //Print the left line --------------
+            offsetX--;
+            offsetY = numb2 + 2;
+            for (int i = 0; i < 9; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+            //Second line to left
+            offsetX--;
+            offsetY = numb2 + 4;
+            for (int i = 0; i < 5; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+
+            //third line to left 
+            offsetX--;
+            offsetY = numb2 + 6;
+            if (worldArray[offsetY][offsetX] != '-') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+
+            //Make the right section  ---------
+            offsetX = numb1 + 7;
+            offsetY = numb2 + 1;
+            for (int i = 0; i < 11; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Next line
+            offsetX++;
+            offsetY = numb2 + 3;
+            for (int i = 0; i < 7; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+
+            //Last line
+            offsetX++;
+            offsetY = numb2 + 5;
+            for (int i = 0; i < 3; i++) {
+                if (worldArray[offsetY][offsetX] != '-') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetY++;
+            }
+
+        }
+
+        //Now check the perimeter is either clear or a food cell
+//        System.out.println("x = " + x);
+//        System.out.println("y = " + y);
+        offsetX = x;
+        offsetY = y;
+
+        if (y % 2 == 0) {
+            // If red anthill is on a odd line
+            //offsetX--;
+            offsetY--;
+            for (int i = 0; i < 8; i++) {
+                if (worldArray[offsetY][offsetX] != '.') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetX++;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the top right perimeter
+
+            offsetX -= 2;
+
+            if (worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+            // -----------------------------------------------------------
+            //bottom right perimeter
+
+            if (worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the start of the bottom perimeter
+            offsetX = x - 1;
+            offsetY = y + 13;
+            for (int i = 0; i < 7; i++) {
+                if (worldArray[offsetY][offsetX] != '.') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetX++;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the start of the bottom left perimeter
+
+            offsetX = x - 1;
+            offsetY--;
+            if (worldArray[offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+            // -----------------------------------------------------------
+            //top left perimeter
+
+            if (worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+        } else {
+            // The anthill is on a even line
+            //offsetX--;
+            offsetY--;
+            for (int i = 0; i < 8; i++) {
+                if (worldArray[offsetY][offsetX] != '.') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetX++;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the top right perimeter
+
+            offsetX--;
+
+            if (worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][++offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the bottom right perimeter
+            if (worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.'
+                    || worldArray[++offsetY][--offsetX] != '.'
+                    || worldArray[++offsetY][offsetX] != '.') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+            // -----------------------------------------------------------
+            //set offSet to the bottom right perimeter
+            offsetX = x;
+            offsetY = y + 13;
+            for (int i = 0; i < 7; i++) {
+                if (worldArray[offsetY][offsetX] != '.') {
+                    blackHillCheck = false;
+                    return blackHillCheck;
+                }
+                offsetX++;
+            }
+
+            offsetX = x - 1;
+            offsetY--;
+
+            if (worldArray[offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][--offsetX] != '.') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+
+            if (worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.'
+                    || worldArray[--offsetY][++offsetX] != '.'
+                    || worldArray[--offsetY][offsetX] != '.') {
+                blackHillCheck = false;
+                return blackHillCheck;
+            }
+        }
+
+        return blackHillCheck;
+    }
+
 }
