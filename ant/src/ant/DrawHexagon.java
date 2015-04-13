@@ -12,7 +12,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- *
+ *Formulas for cell placement :
+ * Odd Rolls (x-coordiante): x + C * n
+ * Even Rolls (x-coordinate): x + (C + 1.5) * n
+ * 
+ * Rolls (y-coordinate) : y + (int) R * n * Math.sqrt(3) / 2
+ * 
+ * x is the inital x-coordinate
+ * y is the inital y-coordinate
+ * C is the sequence of Cell
+ * R is the sequence of Roll
  * @author Wayne Kwok
  */
 public class DrawHexagon extends JPanel {
@@ -24,21 +33,35 @@ public class DrawHexagon extends JPanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
+    //if cell is Rocky, block is black
+    
     g.setColor(java.awt.Color.black);
     this.getHexaX(200, 50);
     this.getHexaY(200, 50);
     g.fillPolygon(HexaX, HexaY, 6);
+    
+    //if cell is Black ant hill, block is grey
     g.setColor(java.awt.Color.gray);
     this.getHexaX(350, 50);
     this.getHexaY(200, 50);
     g.fillPolygon(HexaX,HexaY, 6);
+    
+    //if cell is food, block is green
     g.setColor(java.awt.Color.green);
     this.getHexaX(275, 50);
-    this.getHexaY(200+(int) (50 * Math.sqrt(3) / 2), 50);
+    this.getHexaY(200 + (int) (50 * Math.sqrt(3) / 2), 50);
     g.fillPolygon(HexaX,HexaY, 6);
+    
+    //if cell is Red ant hill, block is pink (as soften red color)
     g.setColor(java.awt.Color.pink);
     this.getHexaX(425, 50);
-    this.getHexaY(200+(int) (50 * Math.sqrt(3) / 2), 50);
+    this.getHexaY(200 + (int) (50 * Math.sqrt(3) / 2), 50);
+    g.fillPolygon(HexaX,HexaY, 6);
+    
+    //if cell is empty, block is white
+    g.setColor(java.awt.Color.white);
+    this.getHexaX(200, 50);
+    this.getHexaY(200 + (int) (50 * Math.sqrt(3)), 50);
     g.fillPolygon(HexaX,HexaY, 6);
 //    g.fillPolygon(this.getHexaX(200, 50), this.getHexaY(200, 50), 6);
     
