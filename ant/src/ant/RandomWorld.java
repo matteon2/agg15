@@ -51,6 +51,9 @@ public class RandomWorld {
         ran = new Random();
     }
 
+    /**
+     * make a empty world
+     */
     public void makeWorld() {
         // Sets the world to free cell
         for (int i = 0; i < Y; i++) {
@@ -102,6 +105,11 @@ public class RandomWorld {
     /* ***********
      2 anthills, 14 rocks, and 11 blobs of food.
      ************* */
+    /**
+     * add red ant hill in location x and y
+     * @param x
+     * @param y 
+     */
     public void redAnthill(int x, int y) {
 //        //Call once...SHAPE = +
 //        Random ranX = new Random();
@@ -268,6 +276,11 @@ public class RandomWorld {
         redAnthillCalled++;
     }
 
+    /**
+     * add black ant hill in location x and y
+     * @param x
+     * @param y 
+     */
     public void blackAnthill(int x, int y) {
         //x += 3;
         //y += 3;
@@ -402,6 +415,11 @@ public class RandomWorld {
         blackAnthillCalled++;
     }
 
+    /**
+     * add food blob in location x and y
+     * @param x
+     * @param y 
+     */
     public void foodBlob(int x, int y) {
         //Call 11(NO_OF_FOOD) times only or run loop 11 times
 
@@ -456,6 +474,11 @@ public class RandomWorld {
         foodCalled++;
     }
 
+    /**
+     * add rock in location x and y
+     * @param x
+     * @param y 
+     */
     public void rocks(int x, int y) {
         // if the random position is not a red/black anthill
         // and the cell is empty
@@ -496,6 +519,11 @@ public class RandomWorld {
 ////        }
 //        return cell;
 //    }
+    
+    /**
+     * get world
+     * @return 
+     */
     public char[][] getWorld() {
         int x, y;
 
