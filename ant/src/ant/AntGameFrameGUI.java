@@ -85,6 +85,7 @@ public class AntGameFrameGUI extends JFrame {
         uploadBrainDuel.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                String Player_Name = JOptionPane.showInputDialog("Player Name", "Enter Your Player Name");
                 JFileChooser chooser = new JFileChooser();
                 chooser.showOpenDialog(null);
                 File f = chooser.getSelectedFile();
