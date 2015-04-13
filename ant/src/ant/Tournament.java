@@ -73,7 +73,7 @@ public class Tournament extends javax.swing.JFrame {
         jTextField1.setBackground(new java.awt.Color(255, 153, 0));
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("VS Mode");
+        jTextField1.setText("Tournament Mode");
         jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

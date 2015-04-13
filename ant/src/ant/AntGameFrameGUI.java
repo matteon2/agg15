@@ -75,7 +75,7 @@ public class AntGameFrameGUI extends JFrame {
         });
         
         // Creates features for Duel Mode JPanel
-        duelModeText = new JLabel("Multiplayer Mode");
+        duelModeText = new JLabel("Duel Mode");
         duelModeText.setFont(new Font("Comic Sans MS", 0, 36));
         
         playerName = new JTextField("Enter Player Name");
