@@ -49,8 +49,8 @@ public class WorldParser {
 
     public void openFile() {
         //Change path when I refactor with git
-        //String name = "C:\\Users\\Mo\\Documents\\NetBeansProjects\\Learn Java\\ScreenTest\\src\\screentest\\antworld.world";
-        String name = "C:\\Users\\Mo\\Downloads\\2.world";
+        String name = "C:\\Users\\Mo\\Documents\\NetBeansProjects\\Learn Java\\ScreenTest\\src\\screentest\\antworld.world";
+        //String name = "C:\\Users\\Mo\\Downloads\\4.world";
         File file = new File(name/*fName*/);
 
         try {
@@ -257,8 +257,8 @@ public class WorldParser {
                 }
             }
         }
-        System.out.println("how many rocks.." + rocks.size());
-        System.out.println(rocks);
+//        System.out.println("how many rocks.." + rocks.size());
+//        System.out.println(rocks);
 
         // If there is not 14 rocks (not including the perimeter) return false
         if (rocks.size() != 14) {
@@ -322,19 +322,25 @@ public class WorldParser {
                     if (i % 2 == 0) {
                         if (!food.contains(new Point(j, i))) {
                             isFood = doCheckShape(new Point(j, i), 1);
+                            if(!isFood){
+                                return isFood;
+                            }
                         }
 
                     } else {
                         //if the point is on an even line
                         if (!food.contains(new Point(j, i))) {
                             isFood = doCheckShape(new Point(j, i), 0);
+                            if(!isFood){
+                                return isFood;
+                            }
                         }
                     }
 
                 }
             }
         }
-        System.out.println("food size: " + food.size());
+//        System.out.println("food size: " + food.size());
         if (food.size() != 275) {
             isFood = false;
             return isFood;
@@ -451,16 +457,18 @@ public class WorldParser {
                 }
             }
         }
-        System.out.println("how many cells in redhill.." + redhill.size());
-        System.out.println(redhill);
+//        System.out.println("how many cells in redhill.." + redhill.size());
+//        System.out.println(redhill);
 
 //        //Is there the right amount of cells that make up the redhill?
 //        if (redhill.size() != (57 * 2) + 13) {
 //            redHillCheck = false;
 //            return redHillCheck;
 //        }
+        
+//        System.out.println("First value? " + redhill.get(1));
+        
         //Now check the shape and make sure
-        System.out.println("First value? " + redhill.get(1));
         int x = redhill.get(1).x;
         int y = redhill.get(1).y;
 
@@ -796,16 +804,18 @@ public class WorldParser {
                 }
             }
         }
-        System.out.println("how many cells in redhill.." + blackhill.size());
-        System.out.println(blackhill);
+//        System.out.println("how many cells in redhill.." + blackhill.size());
+//        System.out.println(blackhill);
 
 //        //Is there the right amount of cells that make up the redhill?
 //        if (redhill.size() != (57 * 2) + 13) {
 //            redHillCheck = false;
 //            return redHillCheck;
 //        }
+        
+//        System.out.println("First value? " + blackhill.get(1));
+        
         //Now check the shape and make sure
-        System.out.println("First value? " + blackhill.get(1));
         int x = blackhill.get(1).x;
         int y = blackhill.get(1).y;
 
