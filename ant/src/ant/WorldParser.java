@@ -25,6 +25,8 @@ import java.util.logging.Logger;
  *
  * @author Mo
  */
+
+//Github was a pain, does it commit again?
 public class WorldParser {
 
     private String worldFile;//Store the whole file
