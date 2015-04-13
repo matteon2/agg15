@@ -521,10 +521,10 @@ public class RandomWorld {
 //    }
     
     /**
-     * get world
+     * get random world
      * @return 
      */
-    public char[][] getWorld() {
+    public char[][] getRandomWorld() {
         int x, y;
 
         makeWorld();
