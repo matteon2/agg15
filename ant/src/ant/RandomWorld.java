@@ -110,6 +110,8 @@ public class RandomWorld {
 //        // Gets two random poits at least 1 clear cell away from edge
 //        int numb1 = ranX.nextInt(Y - 4) + 2;
 //        int numb2 = ranY.nextInt(X - 4) + 2;
+        
+        //Makes sure the random point is not next to the wall
         x += 3;
         y += 3;
 
@@ -499,8 +501,8 @@ public class RandomWorld {
 
         makeWorld();
         while (redAnthillCalled < NO_OF_REDANTHILL) {
-            x = ran.nextInt(X - 4) + 4;
-            y = ran.nextInt(Y - 4) + 4;
+            x = ran.nextInt(X - 6) + 6;
+            y = ran.nextInt(Y - 10) + 4;
             if (isClear(x, y, 15, 15)) {
                 redAnthill(x, y);
             }
@@ -508,8 +510,8 @@ public class RandomWorld {
         }
         
         while (blackAnthillCalled < NO_OF_BLACKANTHILL) {
-            x = ran.nextInt(X - 4) + 4;
-            y = ran.nextInt(Y - 4) + 4;
+            x = ran.nextInt(X - 6) + 6;
+            y = ran.nextInt(Y - 10) + 4;
             if (isClear(x, y, 15, 15)) {
                 blackAnthill(x,y);
             }
