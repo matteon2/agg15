@@ -29,6 +29,8 @@ public class DrawHexagon extends JPanel {
     public int[] HexaX = new int[6];
     public int[] HexaY = new int[6];
     
+    /* Pass it a World, an if statement to get the cell and paint*/
+    
     @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
