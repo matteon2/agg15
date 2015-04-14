@@ -211,7 +211,7 @@ public class AntGameFrameGUI extends JFrame {
                         world = true;
                         uploadWorldDuel.setEnabled(false);//disable the upload world button
                         if (teamOne && teamTwo && world) {
-                            //rw.getRandomWorld(); -> UNCOMMENT LATER
+                            
                             playDuel.setEnabled(true);
                         }
 
@@ -233,6 +233,9 @@ public class AntGameFrameGUI extends JFrame {
                 getContentPane().removeAll();
                 getContentPane().add(gameDisplay); //Adding to content pane, not to AntGameFrameGUI
                 repaint();
+                
+                //rw.getRandomWorld(); -> UNCOMMENT LATER
+                
                 printAll(getGraphics());
             }
         });
