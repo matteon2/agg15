@@ -16,7 +16,7 @@ public class AntGameFrameGUI extends JFrame {
             uploadWorldDuel, playDuel, backDuel, uploadBrainTournament,
             uploadWorldTournament, playTournament, backTournament, backFromDisplay;
     private JCheckBox randomWorldDuel, randomWorldTournament;
-    private JLabel antImg, duelModeText, tournamentModeText;
+    private JLabel antImg, duelModeText, tournamentModeText, playerOne, playerTwo;
     private JTextField pathName, playerName;
 
     private int count = 0;
@@ -26,6 +26,14 @@ public class AntGameFrameGUI extends JFrame {
 
     private WorldParser wp;
     private RandomWorld rw;
+
+    private JPanel topPaneNames;
+    private JPanel topPaneButton;
+    private JPanel middlePaneWorld;
+    private JPanel bottomPaneButton;
+
+    private JLabel cross1, cross2, cross3;
+    private JLabel tick1, tick2, tick3;
 
     public AntGameFrameGUI() {
 
@@ -82,11 +90,12 @@ public class AntGameFrameGUI extends JFrame {
         // Creates features for Duel Mode JPanel
         duelModeText = new JLabel("Duel Mode");
         duelModeText.setFont(new Font("Comic Sans MS", 0, 36));
-        
+
         Font font = new Font("Comic Sans MS", 0, 11);
         UIManager.put("OptionPane.messageFont", font);
-        UIManager.put("OptionPane.buttonFont",font);
+        UIManager.put("OptionPane.buttonFont", font);
 
+        //Creates basic layout panels
         uploadBrainOneDuel = new JButton("Upload Black Ant Brain");
         uploadBrainOneDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainOneDuel.addActionListener(new addButtonListener() {
@@ -119,7 +128,6 @@ public class AntGameFrameGUI extends JFrame {
                 }
             }
         });
-
 
         uploadWorldDuel = new JButton("Upload Ant World");
         uploadWorldDuel.setFont(new Font("Comic Sans MS", 0, 11));
@@ -164,6 +172,8 @@ public class AntGameFrameGUI extends JFrame {
                                 && wp.checkRedAnthill() && wp.checkBlackAnthill()) {
                             //The file is correctly validated
                             System.out.println("Correctly parsed");
+                            tick3.setVisible(true);
+                            cross3.setVisible(false);
                             //do this
 
                             //Change button to true (tick)
@@ -178,6 +188,8 @@ public class AntGameFrameGUI extends JFrame {
                             String message = wp.getMessage();
                             world = false;
                             playDuel.setEnabled(false);
+                            tick3.setVisible(false);
+                            cross3.setVisible(true);
                             JOptionPane.showMessageDialog(null, message, "File Not Parsed", JOptionPane.WARNING_MESSAGE);
 
                         }
@@ -186,6 +198,7 @@ public class AntGameFrameGUI extends JFrame {
                         //If the wrong file is chosen, disable the play button
                         world = false;
                         playDuel.setEnabled(false);
+                        cross3.setVisible(true);
                         JOptionPane.showMessageDialog(null, "Please choose a .world file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
@@ -208,21 +221,26 @@ public class AntGameFrameGUI extends JFrame {
                 if (e.getID() == ActionEvent.ACTION_PERFORMED) {
                     System.out.println("HI");
                     //rw = new RandomWorld(); -> UNCOMMENT LATER
-                    
+
                     //Every other click either enable or disable options
                     if (count % 2 == 0) {
                         world = true;
                         uploadWorldDuel.setEnabled(false);//disable the upload world button
+                        tick3.setVisible(true);
+                        cross3.setVisible(false);
+                        
                         if (teamOne && teamTwo && world) {
-                            
+
                             playDuel.setEnabled(true);
                         }
 
                     } else {
+                        tick3.setVisible(false);
+                        cross3.setVisible(false);
                         world = false;
                         uploadWorldDuel.setEnabled(true);
                     }
-                    count++; 
+                    count++;
                 }
             }
         });
@@ -236,9 +254,8 @@ public class AntGameFrameGUI extends JFrame {
                 getContentPane().removeAll();
                 getContentPane().add(gameDisplay); //Adding to content pane, not to AntGameFrameGUI
                 repaint();
-                
+
                 //rw.getRandomWorld(); -> UNCOMMENT LATER
-                
                 printAll(getGraphics());
             }
         });
@@ -254,6 +271,52 @@ public class AntGameFrameGUI extends JFrame {
                 printAll(getGraphics());
             }
         });
+
+        //Adds image to file
+        cross1 = new JLabel();
+        cross1.setIcon(new ImageIcon(getClass().getResource("/ant/cross.png")));
+        cross2 = new JLabel();
+        cross2.setIcon(new ImageIcon(getClass().getResource("/ant/cross.png")));
+        cross3 = new JLabel();
+        cross3.setIcon(new ImageIcon(getClass().getResource("/ant/cross.png")));
+
+        tick1 = new JLabel();
+        tick1.setIcon(new ImageIcon(getClass().getResource("/ant/tick.png")));
+        tick2 = new JLabel();
+        tick2.setIcon(new ImageIcon(getClass().getResource("/ant/tick.png")));
+        tick3 = new JLabel();
+        tick3.setIcon(new ImageIcon(getClass().getResource("/ant/tick.png")));
+
+        topPaneNames = new JPanel(new GridLayout(0, 4));
+        //topPaneButton = new JPanel();
+        //middlePaneWorld = new JPanel();
+        bottomPaneButton = new JPanel();
+
+        playerOne = new JLabel("Red Team");
+
+        playerTwo = new JLabel("Black Team");
+
+        //Adds first tick
+        topPaneNames.add(playerOne);
+        topPaneNames.add(uploadBrainOneDuel);
+        topPaneNames.add(tick1);
+        topPaneNames.add(cross1);
+        tick1.setVisible(false);
+        cross1.setVisible(false);
+
+        topPaneNames.add(playerTwo);
+        topPaneNames.add(uploadBrainTwoDuel);
+        topPaneNames.add(tick2);
+        topPaneNames.add(cross2);
+        tick2.setVisible(false);
+        cross2.setVisible(false);
+
+        topPaneNames.add(randomWorldDuel);
+        topPaneNames.add(uploadWorldDuel);
+        topPaneNames.add(tick3);
+        topPaneNames.add(cross3);
+        tick3.setVisible(false);
+        cross3.setVisible(false);
 
         // Creates features for Tournament Mode JPanel
         tournamentModeText = new JLabel("Tournament Mode");
@@ -362,13 +425,13 @@ public class AntGameFrameGUI extends JFrame {
                 if (e.getID() == ActionEvent.ACTION_PERFORMED) {
                     System.out.println("HI");
                     //rw = new RandomWorld(); -> UNCOMMENT LATER
-                    
+
                     //Every other click either enable or disable options
                     if (count % 2 == 0) {
                         world = true;
                         uploadWorldTournament.setEnabled(false);//disable the upload world button
                         if (teamOne && teamTwo && world) {
-                            
+
                             playTournament.setEnabled(true);
                         }
 
@@ -376,7 +439,7 @@ public class AntGameFrameGUI extends JFrame {
                         world = false;
                         uploadWorldTournament.setEnabled(true);
                     }
-                    count++; 
+                    count++;
                 }
             }
         });
@@ -430,11 +493,14 @@ public class AntGameFrameGUI extends JFrame {
         add(mMenu);
 
         duelMode.add(duelModeText);
-        duelMode.add(uploadBrainOneDuel);
-        duelMode.add(uploadBrainTwoDuel);
+        duelMode.add(topPaneNames);
+//        duelMode.add(uploadBrainOneDuel);
+//        duelMode.add(uploadBrainTwoDuel);
+        //duelMode.add(topPaneButton);
 //        duelMode.add(pathName);
-        duelMode.add(uploadWorldDuel);
-        duelMode.add(randomWorldDuel);
+//        duelMode.add(uploadWorldDuel);
+//        duelMode.add(randomWorldDuel);
+        //duelMode.add(middlePaneWorld);
         duelMode.add(playDuel);
         duelMode.add(backDuel);
 
@@ -563,14 +629,15 @@ public class AntGameFrameGUI extends JFrame {
     }
 
     public static void main(String args[]) {
-        int WINDOW_WIDTH = 500;
-        int WINDOW_HEIGHT = 500;
+        int WINDOW_WIDTH = 650;
+        int WINDOW_HEIGHT = 650;
         AntGameFrameGUI frame = new AntGameFrameGUI();
         // JFrame properties
         frame.setTitle("Ant Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         //frame.pack();
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);  // to show at center of screen
         frame.setVisible(true);
     }
