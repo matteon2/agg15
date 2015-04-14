@@ -8,7 +8,6 @@ import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -24,18 +23,17 @@ import javax.swing.JPanel;
  *
  * @author Wayne Kwok
  */
-public class DrawHexagon extends JPanel {
+public class WorldViewer extends JPanel {
 
     public int[] HexaX = new int[6];
     public int[] HexaY = new int[6];
-    Random r = new Random();
     World w = new World(127);
 
     /* Pass it a World, an if statement to get the cell and paint*/
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        //Graphics2D g2d = (Graphics2D) g;
 //            //if cell is Rocky, block is black
 //
 //            g.setColor(java.awt.Color.black);
@@ -68,47 +66,36 @@ public class DrawHexagon extends JPanel {
 //            g.fillPolygon(HexaX,HexaY, 6);
 //            }
 
-        int n = 6;
-//        Color col = new Color(0, 0, 0);
-//        int cellcolor = 3;
+        int n = 6; //length of sides
+        Cell[][] unitCell = w.getAntWorld();
         for (int column = 0; column < 150; column++) {
             for (int row = 0; row < 150; row++) {
 
 
 
-                //If the random position is on an odd line, count is 1
+                //If the random position is on an odd line, column is odd
                 if (column % 2 == 1) {
-//                    switch (cellcolor) {
-//                        case 1:
-//                            colorCodeR = 192;
-//                            colorCodeG = 192;
-//                            colorCodeB = 192;
-//                            break;
-//                        case 2:
-//                            colorCodeR = 255;
-//                            colorCodeG = 204;
-//                            colorCodeB = 255;
-//                            break;
-//                        case 3:
-//                            colorCodeR = 0;
-//                            colorCodeG = 255;
-//                            colorCodeB = 0;
-//                            break;
-//                        case 4:
-//                            colorCodeR = 0;
-//                            colorCodeG = 0;
-//                            colorCodeB = 0;
-//                            break;
-//                        case 5:
-//                            colorCodeR = 255;
-//                            colorCodeG = 255;
-//                            colorCodeB = 255;
-//                            break;
-//
-//                    }
-//                    g.setColor(new Color(colorCodeR, colorCodeG, colorCodeB));
-                    g.setColor(java.awt.Color.lightGray);
 
+                    if (unitCell[row][column].getRocky()) {
+                        g.setColor(java.awt.Color.BLACK); //Set Rock Cell in Black Color
+                    } else {
+                        if (unitCell[row][column].equals(new AntHillCell(Color.BLACK))) {
+                            g.setColor(java.awt.Color.lightGray); //Set Black Ant hill in Lightgrey Color
+                        } else {
+                            if (unitCell[row][column].equals(new AntHillCell(Color.RED))) {
+                                g.setColor(java.awt.Color.PINK); //Set Red Ant hill in Pink Color
+                            } else {
+                                if (unitCell[row][column].getFoodNumber() > 0) {
+                                    g.setColor(java.awt.Color.GREEN); //Set Food in Green Color
+                                } else {
+                                    g.setColor(java.awt.Color.WHITE); //Set Empty Cells in White Color
+                                }
+                            }
+                        }
+                    }
+
+
+                    // g.setColor(java.awt.Color.white);
                     this.getHexaX(10 + (int) (row * n * Math.sqrt(3)) + (int) (n * Math.sqrt(3) / 2), n);
                     this.getHexaY(10 + 3 * n * column * 1 / 2, n);
                     g.fillPolygon(HexaX, HexaY, 6);
@@ -116,7 +103,25 @@ public class DrawHexagon extends JPanel {
                     g.drawPolygon(HexaX, HexaY, 6);
                 } else {
 
-                    g.setColor(java.awt.Color.pink);
+                    if (unitCell[row][column].getRocky()) {
+                        g.setColor(java.awt.Color.BLACK); //Set Rock Cell in Black Color
+                    } else {
+                        if (unitCell[row][column].equals(new AntHillCell(Color.BLACK))) {
+                            g.setColor(java.awt.Color.lightGray); //Set Black Ant hill in Lightgrey Color
+                        } else {
+                            if (unitCell[row][column].equals(new AntHillCell(Color.RED))) {
+                                g.setColor(java.awt.Color.PINK); //Set Red Ant hill in Pink Color
+                            } else {
+                                if (unitCell[row][column].getFoodNumber() > 0) {
+                                    g.setColor(java.awt.Color.GREEN); //Set Food in Green Color
+                                } else {
+                                    g.setColor(java.awt.Color.WHITE); //Set Empty Cells in White Color
+                                }
+                            }
+                        }
+                    }
+
+                    // g.setColor(java.awt.Color.white);
 
                     this.getHexaX(10 + (int) (row * n * Math.sqrt(3)), n);
                     this.getHexaY(10 + 3 * n * column * 1 / 2, n);
@@ -129,17 +134,6 @@ public class DrawHexagon extends JPanel {
             }
         }
 
-//        for (int ec = 0; ec < 75; ec++) {
-//            for (int row = 0; row < 150; row++) {
-//                g.setColor(java.awt.Color.pink);
-//
-//                this.getHexaX(10 + (int) (row * 6 * Math.sqrt(3)) + (int) (6 * Math.sqrt(3) / 2), 6);
-//                this.getHexaY(10 + 9 + 3 * 6 * ec, 6);
-//                g.fillPolygon(HexaX, HexaY, 6);
-//                g.setColor(java.awt.Color.black);
-//                g.drawPolygon(HexaX, HexaY, 6);
-//            }
-//        }
     }
 
     public int[] getHexaX(int x, int n) {
@@ -178,12 +172,13 @@ public class DrawHexagon extends JPanel {
         frame.setTitle("DrawPoly");
         frame.setSize(1600, 1405);
         frame.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
         Container contentPane = frame.getContentPane();
-        contentPane.add(new DrawHexagon());
+        contentPane.add(new WorldViewer());
 
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
