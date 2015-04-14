@@ -26,6 +26,7 @@ import java.io.IOException;
  */
 public class AntBrainParser {
     
+    private boolean brainParsed = false;
     /**
      * Read the brain file and convert it to string
      * @param brainFile
@@ -33,7 +34,7 @@ public class AntBrainParser {
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    public static String readBrainFile(File brainFile) throws FileNotFoundException, IOException{
+    public String readBrainFile(File brainFile) throws FileNotFoundException, IOException{
         File brain = brainFile;
         String brainStr = "";
         String buffstr;
@@ -50,7 +51,7 @@ public class AntBrainParser {
      * @param filePath
      * @return the instruction string
      */
-    public static String readBrainFile(String filePath){
+    public String readBrainFile(String filePath){
         try{
             File f = new File(filePath);
             return readBrainFile(f);
@@ -65,7 +66,7 @@ public class AntBrainParser {
      * @param input
      * @return instruction list
      */
-    public static String[] convertToInstructionList(String input){
+    public String[] convertToInstructionList(String input){
         String[] instructionList = input.trim().split("\n"); 
         return instructionList;
     }
@@ -75,7 +76,7 @@ public class AntBrainParser {
      * @param filePath
      * @return AntBrain
      */
-    public static AntBrain createBrain(String filePath){
+    public AntBrain createBrain(String filePath){
         try{
             File f = new File(filePath);
             return createBrain(f);
@@ -92,15 +93,17 @@ public class AntBrainParser {
      * @throws IOException
      * @throws Exception 
      */
-    public static AntBrain createBrain(File brainFile) throws IOException, Exception{
+    public AntBrain createBrain(File brainFile) throws IOException, Exception{
         String[] list = convertToInstructionList(readBrainFile(brainFile));
         Instruction[] insList = new Instruction[list.length];
         for(int i = 0; i < insList.length;i++){
              insList[i] = allocateInstruction(list[i]);
         }
         if(insList.length > 10000 || insList.length < 1){
-            throw new Exception("The number of instructions is between 1 and 10000!");
+            //throw new Exception("The number of instructions is between 1 and 10000!");
+            brainParsed = false;
         }
+        brainParsed = true;
         return new AntBrain(insList, brainFile.getName());
     }
     
@@ -110,7 +113,7 @@ public class AntBrainParser {
      * @return Instrucition
      * @throws Exception 
      */
-    public static Instruction allocateInstruction(String ins) throws Exception{
+    public Instruction allocateInstruction(String ins) throws Exception{
         Instruction instruction;
         String[] insToken = ins.trim().split(" ");
         switch(insToken[0].toUpperCase()){
@@ -170,10 +173,13 @@ public class AntBrainParser {
                 break;
                 
             default:
-                throw new Exception("The instruction is invalid!");
+                //throw new Exception("The instruction is invalid!");
+                instruction = null;
+                brainParsed = false;
         }
         if(insToken.length != instruction.getTokenLength()){
-            throw new Exception("The instruction length is invalid!");
+            //throw new Exception("The instruction length is invalid!");
+            brainParsed = false;
         }
         return instruction;
     }
@@ -184,8 +190,8 @@ public class AntBrainParser {
      * @return SenseDir
      * @throws Exception 
      */
-    public static SenseDir checkSenseDirection(String dirString) throws Exception{
-        SenseDir direction;
+    public SenseDir checkSenseDirection(String dirString) throws Exception{
+        SenseDir direction ;
         switch(dirString.toUpperCase()){
             case "HERE":
                 direction = SenseDir.HERE;
@@ -200,7 +206,9 @@ public class AntBrainParser {
                 direction = SenseDir.AHEAD;
                 break;
             default:
-                throw new Exception("This direction " + dirString + " is unvalid!");
+                //throw new Exception("This direction " + dirString + " is unvalid!");
+                direction = null;
+                brainParsed = false;
         }
         return direction;
     }
@@ -211,7 +219,7 @@ public class AntBrainParser {
      * @return Condition
      * @throws Exception 
      */
-    public static Condition checkCondition(String condString) throws Exception{
+    public Condition checkCondition(String condString) throws Exception{
         Condition condition;
         switch(condString.toUpperCase()){
             case "FRIEND":
@@ -245,7 +253,9 @@ public class AntBrainParser {
                 condition = Condition.FOEHOME;
                 break;
             default:
-                throw new Exception("The condition " + condString + " is not valid!");
+                //throw new Exception("The condition " + condString + " is not valid!");
+                condition = null;
+                brainParsed = false;
         }
         return condition;
     }
@@ -256,10 +266,11 @@ public class AntBrainParser {
      * @return int
      * @throws Exception 
      */
-    public static int checkStateNumber(String stateNumString) throws Exception{
+    public int checkStateNumber(String stateNumString) throws Exception{
         int stateNum = Integer.valueOf(stateNumString);
         if(stateNum < 0 || stateNum > 9999){
-            throw new Exception("The state number " + stateNumString + " is invalid!");
+            //throw new Exception("The state number " + stateNumString + " is invalid!");
+            brainParsed = false;
         }
         return stateNum;
     }
@@ -270,10 +281,11 @@ public class AntBrainParser {
      * @return int
      * @throws Exception 
      */
-    public static int checkMarker(String markerString) throws Exception{
+    public int checkMarker(String markerString) throws Exception{
         int marker = Integer.valueOf(markerString);
         if(marker < 0 || marker > 5){
-            throw new Exception("The marker " + marker + " is invalid!");
+            //throw new Exception("The marker " + marker + " is invalid!");
+            brainParsed = false;
         }
         return marker;
     }
@@ -284,7 +296,7 @@ public class AntBrainParser {
      * @return TurnDir
      * @throws Exception 
      */
-    public static TurnDir checkTurnDirection(String lrString) throws Exception{
+    public TurnDir checkTurnDirection(String lrString) throws Exception{
         TurnDir lr;
         switch(lrString.toUpperCase()){
             case "LEFT":
@@ -294,9 +306,15 @@ public class AntBrainParser {
                 lr = TurnDir.RIGHT;
                 break;
             default:
-                throw new Exception("The turn direction " + lrString + " is invalid!");
+                //throw new Exception("The turn direction " + lrString + " is invalid!");
+                lr = null;
+                brainParsed = false;
         }
         return lr;      
+    }
+    
+    public boolean isParsed(){
+        return brainParsed;
     }
     
     /**
@@ -309,5 +327,17 @@ public class AntBrainParser {
 //        for (Instruction insList : ant.insList) {
 //            insList.execute();
 //        }
+        AntBrain brain;
+        AntBrainParser ps = new AntBrainParser();
+        brain = ps.createBrain("C:\\Users\\Mo\\Documents\\antBrainRight.ant");
+        //System.out.println(brain.fileName);
+        //System.out.println(brain.insList[7]);
+        System.out.println(ps.brainParsed);
+        
+        ps = new AntBrainParser();
+        ps.createBrain("C:\\Users\\Mo\\Documents\\antBrainWrong.ant");
+        System.out.println(ps.brainParsed);
+        
+        
     }
 }
