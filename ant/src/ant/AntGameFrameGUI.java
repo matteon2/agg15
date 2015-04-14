@@ -87,7 +87,7 @@ public class AntGameFrameGUI extends JFrame {
         UIManager.put("OptionPane.messageFont", font);
         UIManager.put("OptionPane.buttonFont",font);
 
-        uploadBrainOneDuel = new JButton("Upload Ant Brain");
+        uploadBrainOneDuel = new JButton("Upload Black Ant Brain");
         uploadBrainOneDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainOneDuel.addActionListener(new addButtonListener() {
             @Override
@@ -104,7 +104,7 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
 
-        uploadBrainTwoDuel = new JButton("Upload Ant Brain");
+        uploadBrainTwoDuel = new JButton("Upload Red Ant Brain");
         uploadBrainTwoDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainTwoDuel.addActionListener(new addButtonListener() {
             @Override
@@ -280,28 +280,109 @@ public class AntGameFrameGUI extends JFrame {
         uploadWorldTournament.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                wp = new WorldParser();
+
                 JFileChooser chooser = new JFileChooser();
-                chooser.showOpenDialog(null);
-                File f = chooser.getSelectedFile();
-//                String filename = f.getAbsolutePath();
-//                pathName.setText(filename);
+                //chooser.showOpenDialog(null);
+                //File f = chooser.getSelectedFile(); //-------------------------------------->
+
+                int returnVal = chooser.showOpenDialog(null);
+                //Is a file selected?
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    //Check extension is .world
+                    File f = chooser.getSelectedFile();
+                    String extension = "";
+
+                    //Do the rest (copy from below)
+                    String path = f.getAbsolutePath(); //path to file
+                    System.out.println(path);
+
+                    int i = path.lastIndexOf('.');
+                    if (i > 0) {
+                        extension = path.substring(i + 1);
+                    }
+
+                    //file extension test
+                    //System.out.println(extension);
+                    //Is the file extension correct?
+                    if (extension.equals("world")) {
+                        //System.out.println("RIGHT FILE TYPE");
+
+                        //do correct stuff here
+                        wp.openFile(path);
+                        wp.readFile();
+                        wp.toArray();
+
+                        if (wp.checkX() && wp.checkY() && wp.checkCharacter() && wp.checkPerimeter()
+                                && wp.checkEmptyPerimeter() && wp.checkRocks() && wp.checkFoodBlob()
+                                && wp.checkRedAnthill() && wp.checkBlackAnthill()) {
+                            //The file is correctly validated
+                            System.out.println("Correctly parsed");
+                            //do this
+
+                            //Change button to true (tick)
+                            world = true;
+                            if (world && teamOne && teamTwo) {
+                                playTournament.setEnabled(true);
+                            }
+
+                        } else {
+                            //If the file failed parsing, the play button is disabled
+                            System.out.println("Not parsed");
+                            String message = wp.getMessage();
+                            world = false;
+                            playTournament.setEnabled(false);
+                            JOptionPane.showMessageDialog(null, message, "File Not Parsed", JOptionPane.WARNING_MESSAGE);
+
+                        }
+
+                    } else {
+                        //If the wrong file is chosen, disable the play button
+                        world = false;
+                        playTournament.setEnabled(false);
+                        JOptionPane.showMessageDialog(null, "Please choose a .world file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
+                    }
+                } else {
+                    System.out.println("No file chosen or error");
+                }
+                //String path = f.getAbsolutePath(); //path to file
+                //pathName.setText(path);
+
             }
         });
 
         randomWorldTournament = new JCheckBox("Random World");
         randomWorldTournament.setFont(new Font("Comic Sans MS", 0, 11));
-//        randomWorldTournament.addActionListener(new ActionListener() {
-//            
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                //when button is checked
-//                if(e.getID() == ActionEvent.ACTION_PERFORMED){
-//                    System.out.println("HI");
-//                }
-//            }
-//        });
+        randomWorldTournament.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //when button is checked
+                if (e.getID() == ActionEvent.ACTION_PERFORMED) {
+                    System.out.println("HI");
+                    //rw = new RandomWorld(); -> UNCOMMENT LATER
+                    
+                    //Every other click either enable or disable options
+                    if (count % 2 == 0) {
+                        world = true;
+                        uploadWorldTournament.setEnabled(false);//disable the upload world button
+                        if (teamOne && teamTwo && world) {
+                            
+                            playTournament.setEnabled(true);
+                        }
+
+                    } else {
+                        world = false;
+                        uploadWorldTournament.setEnabled(true);
+                    }
+                    count++; 
+                }
+            }
+        });
 
         playTournament = new JButton("PLAY");
+        playTournament.setEnabled(false);
         playTournament.setFont(new Font("Comic Sans MS", 0, 11));
         playTournament.addActionListener(new addButtonListener() {
             @Override
