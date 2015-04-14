@@ -198,6 +198,7 @@ public class AntGameFrameGUI extends JFrame {
                         //If the wrong file is chosen, disable the play button
                         world = false;
                         playDuel.setEnabled(false);
+                        tick3.setVisible(false);
                         cross3.setVisible(true);
                         JOptionPane.showMessageDialog(null, "Please choose a .world file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
                     }
@@ -226,8 +227,13 @@ public class AntGameFrameGUI extends JFrame {
                     if (count % 2 == 0) {
                         world = true;
                         uploadWorldDuel.setEnabled(false);//disable the upload world button
-                        tick3.setVisible(true);
-                        cross3.setVisible(false);
+                        if (!tick3.isEnabled()) {
+                            tick3.setVisible(false);
+                            cross3.setVisible(false);
+                        }else{
+                            tick3.setVisible(true);
+                            cross3.setVisible(false);
+                        }
                         
                         if (teamOne && teamTwo && world) {
 
@@ -235,10 +241,21 @@ public class AntGameFrameGUI extends JFrame {
                         }
 
                     } else {
-                        tick3.setVisible(false);
-                        cross3.setVisible(false);
+                        if (!tick3.isEnabled()) {
+                            tick3.setVisible(true);
+                            cross3.setVisible(false);
+                        }else{
+                            tick3.setVisible(false);
+                            cross3.setVisible(false);
+                        }
+
                         world = false;
                         uploadWorldDuel.setEnabled(true);
+                        
+                        if (teamOne && teamTwo && world) {
+
+                            playDuel.setEnabled(true);
+                        }
                     }
                     count++;
                 }
