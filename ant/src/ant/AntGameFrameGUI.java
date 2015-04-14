@@ -82,6 +82,10 @@ public class AntGameFrameGUI extends JFrame {
         // Creates features for Duel Mode JPanel
         duelModeText = new JLabel("Duel Mode");
         duelModeText.setFont(new Font("Comic Sans MS", 0, 36));
+        
+        Font font = new Font("Comic Sans MS", 0, 11);
+        UIManager.put("OptionPane.messageFont", font);
+        UIManager.put("OptionPane.buttonFont",font);
 
         uploadBrainOneDuel = new JButton("Upload Ant Brain");
         uploadBrainOneDuel.setFont(new Font("Comic Sans MS", 0, 11));
@@ -116,8 +120,7 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
 
-//        pathName = new JTextField();
-//        pathName.setEditable(False);
+
         uploadWorldDuel = new JButton("Upload Ant World");
         uploadWorldDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadWorldDuel.addActionListener(new addButtonListener() {
