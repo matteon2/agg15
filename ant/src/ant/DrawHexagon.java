@@ -69,8 +69,8 @@ public class DrawHexagon extends JPanel {
 //            }
 
         int n = 6;
-        Color col = new Color(0, 0, 0);
-        int cellcolor = 3;
+//        Color col = new Color(0, 0, 0);
+//        int cellcolor = 3;
         for (int column = 0; column < 150; column++) {
             for (int row = 0; row < 150; row++) {
 
@@ -78,36 +78,36 @@ public class DrawHexagon extends JPanel {
 
                 //If the random position is on an odd line, count is 1
                 if (column % 2 == 1) {
-                    switch (cellcolor) {
-                        case 1:
-                            colorCodeR = 192;
-                            colorCodeG = 192;
-                            colorCodeB = 192;
-                            break;
-                        case 2:
-                            colorCodeR = 255;
-                            colorCodeG = 204;
-                            colorCodeB = 255;
-                            break;
-                        case 3:
-                            colorCodeR = 0;
-                            colorCodeG = 255;
-                            colorCodeB = 0;
-                            break;
-                        case 4:
-                            colorCodeR = 0;
-                            colorCodeG = 0;
-                            colorCodeB = 0;
-                            break;
-                        case 5:
-                            colorCodeR = 255;
-                            colorCodeG = 255;
-                            colorCodeB = 255;
-                            break;
-
-                    }
-                    g.setColor(new Color(colorCodeR, colorCodeG, colorCodeB));
-                    //g.setColor(java.awt.Color.lightGray);
+//                    switch (cellcolor) {
+//                        case 1:
+//                            colorCodeR = 192;
+//                            colorCodeG = 192;
+//                            colorCodeB = 192;
+//                            break;
+//                        case 2:
+//                            colorCodeR = 255;
+//                            colorCodeG = 204;
+//                            colorCodeB = 255;
+//                            break;
+//                        case 3:
+//                            colorCodeR = 0;
+//                            colorCodeG = 255;
+//                            colorCodeB = 0;
+//                            break;
+//                        case 4:
+//                            colorCodeR = 0;
+//                            colorCodeG = 0;
+//                            colorCodeB = 0;
+//                            break;
+//                        case 5:
+//                            colorCodeR = 255;
+//                            colorCodeG = 255;
+//                            colorCodeB = 255;
+//                            break;
+//
+//                    }
+//                    g.setColor(new Color(colorCodeR, colorCodeG, colorCodeB));
+                    g.setColor(java.awt.Color.lightGray);
 
                     this.getHexaX(10 + (int) (row * n * Math.sqrt(3)) + (int) (n * Math.sqrt(3) / 2), n);
                     this.getHexaY(10 + 3 * n * column * 1 / 2, n);
