@@ -10,14 +10,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +21,6 @@ import java.util.logging.Logger;
  *
  * @author Mo
  */
-
 //Github was a pain, does it commit again?
 public class WorldParser {
 
@@ -34,10 +29,13 @@ public class WorldParser {
     private char[][] worldArray;//World array whice I will perform the validation
     private int worldY, worldX;
     //Scanner scanner = null;
-    BufferedReader input = null;
-    FileReader fReader = null;
+    private BufferedReader input = null;
+    private FileReader fReader = null;
 
-    ArrayList<Point> food = new ArrayList<>();
+    private ArrayList<Point> food = new ArrayList<>();
+
+    //Issues the user with a message wether the world has passed or not
+    private String message;
 
     private char[] parsedWorld;
 
@@ -46,13 +44,15 @@ public class WorldParser {
         world = "";
         worldY = 0;
         worldX = 0;
+        message = "";
         //scanner = new Scanner(System.in);
     }
 
-    public void openFile() {
+    public void openFile(String path) {
         //Change path when I refactor with git
-        String name = "C:\\Users\\Mo\\Documents\\NetBeansProjects\\Learn Java\\ScreenTest\\src\\screentest\\antworld.world";
+        //String name = "C:\\Users\\Mo\\Documents\\NetBeansProjects\\Learn Java\\ScreenTest\\src\\screentest\\antworld.world";
         //String name = "C:\\Users\\Mo\\Downloads\\4.world";
+        String name = path;
         File file = new File(name/*fName*/);
 
         try {
@@ -110,24 +110,17 @@ public class WorldParser {
 
     public char[][] toArray() {
         //Stores world from a string to an array
+        //THIS METHOD MUST BE CALLED BEFORE ATTEMPING TESTING
 
-//        for(int i=0; i<world.length();i++){
-//            System.out.println("world leng: "+world.charAt(i));
-//            System.out.println(i);
-//        }
-        //Prints the world and world len (string containing just the world)
-        //System.out.println(world);
-        //System.out.println("world length: "+world.length());
-        //Should initialise at the beginning
         worldArray = new char[worldY][worldX];
 
         //Removes whitespaces from string
         world = world.replaceAll("\\s+", "");
-        System.out.println("new WORLD:");
-        System.out.println(world);
-
-        System.out.println("worldX: " + worldX);
-        System.out.println("worldY: " + worldY);
+//        System.out.println("new WORLD:");
+//        System.out.println(world);
+//
+//        System.out.println("worldX: " + worldX);
+//        System.out.println("worldY: " + worldY);
         int count = 0;
         for (int i = 0; i < worldY; i++) {
             for (int j = 0; j < worldX; j++) {
@@ -142,11 +135,17 @@ public class WorldParser {
     /* Methods */
     //Check x dimension
     public boolean checkX() {
+        if (!(worldX == 150)) {
+            message = "The File must have 150 cells width";
+        }
         return worldX == 150;
     }
 
     //Check y dimension
     public boolean checkY() {
+        if (!(worldX == 150)) {
+            message = "The File must have 150 cells height";
+        }
         return worldY == 150;
     }
 
@@ -171,6 +170,7 @@ public class WorldParser {
                     case '5':
                         break;
                     default:
+                        message = "The File contains illegal characters";
                         illegalCheck = false;
                         return illegalCheck;
                 }
@@ -185,12 +185,14 @@ public class WorldParser {
         // Checks if the perimeter is blocked (top + bottom)
         for (int i = 0; i < worldY; i++) {
             if (worldArray[0][i] != '#') {
+                message = "The File must have blocked cells around the perimeter";
                 blocked = false;
                 return blocked;
             }
         }
         for (int i = 0; i < worldY; i++) {
             if (worldArray[worldY - 1][i] != '#') {
+                message = "The File must have blocked cells around the perimeter";
                 blocked = false;
                 return blocked;
             }
@@ -198,12 +200,14 @@ public class WorldParser {
         // Checks if the perimeter is blocked (left + right)
         for (int i = 0; i < worldX; i++) {
             if (worldArray[i][0] != '#') {
+                message = "The File must have blocked cells around the perimeter";
                 blocked = false;
                 return blocked;
             }
         }
         for (int i = 0; i < worldX; i++) {
             if (worldArray[i][worldX - 1] != '#') {
+                message = "The File must have blocked cells around the perimeter";
                 blocked = false;
                 return blocked;
             }
@@ -219,12 +223,14 @@ public class WorldParser {
         // Checks if the perimeter is blocked (top + bottom)
         for (int i = 1; i < worldY - 1; i++) {
             if (worldArray[1][i] != '.') {
+                message = "The File must have a free cell next to a rock";
                 emptyPerimeter = false;
                 return emptyPerimeter;
             }
         }
         for (int i = 1; i < worldY - 1; i++) {
             if (worldArray[worldY - 2][i] != '.') {
+                message = "The File must have a free cell next to a rock";
                 emptyPerimeter = false;
                 return emptyPerimeter;
             }
@@ -232,12 +238,14 @@ public class WorldParser {
         // Sets the perimeter to blocked (left + right)
         for (int i = 1; i < worldX - 1; i++) {
             if (worldArray[i][1] != '.') {
+                message = "The File must have a free cell next to a rock";
                 emptyPerimeter = false;
                 return emptyPerimeter;
             }
         }
         for (int i = 1; i < worldX - 1; i++) {
             if (worldArray[i][worldX - 2] != '.') {
+                message = "The File must have a free cell next to a rock";
                 emptyPerimeter = false;
                 return emptyPerimeter;
             }
@@ -264,6 +272,7 @@ public class WorldParser {
 
         // If there is not 14 rocks (not including the perimeter) return false
         if (rocks.size() != 14) {
+            message = "The File must have 14 rocks";
             rockCheck = false;
             return rockCheck;
         }
@@ -284,6 +293,7 @@ public class WorldParser {
                         || worldArray[rockY + 1][rockX - 1] != '.'
                         || worldArray[rockY + 1][rockX] != '.') {
                     // There is something adjacent to the point
+                    message = "The File must have a free cell next to a rock";
                     rockCheck = false;
                     return rockCheck;
                 }
@@ -299,6 +309,7 @@ public class WorldParser {
                         || worldArray[rockY + 1][rockX + 1] != '.'
                         || worldArray[rockY + 1][rockX] != '.') {
                     // There is something adjacent to the point
+                    message = "The File must have a free cell next to a rock";
                     rockCheck = false;
                     return rockCheck;
                 }
@@ -324,7 +335,7 @@ public class WorldParser {
                     if (i % 2 == 0) {
                         if (!food.contains(new Point(j, i))) {
                             isFood = doCheckShape(new Point(j, i), 1);
-                            if(!isFood){
+                            if (!isFood) {
                                 return isFood;
                             }
                         }
@@ -333,7 +344,7 @@ public class WorldParser {
                         //if the point is on an even line
                         if (!food.contains(new Point(j, i))) {
                             isFood = doCheckShape(new Point(j, i), 0);
-                            if(!isFood){
+                            if (!isFood) {
                                 return isFood;
                             }
                         }
@@ -344,6 +355,7 @@ public class WorldParser {
         }
 //        System.out.println("food size: " + food.size());
         if (food.size() != 275) {
+            message = "The File must 11 food blobs";
             isFood = false;
             return isFood;
         }
@@ -424,6 +436,7 @@ public class WorldParser {
             for (int j = 0; j < 5; j++) {
 
                 if (worldArray[pointY][pointX] != '5') {
+                    message = "The File must have 5x5 food blobs";
                     rightShape = false;
                     return rightShape;
                 }
@@ -467,9 +480,7 @@ public class WorldParser {
 //            redHillCheck = false;
 //            return redHillCheck;
 //        }
-        
 //        System.out.println("First value? " + redhill.get(1));
-        
         //Now check the shape and make sure
         int x = redhill.get(1).x;
         int y = redhill.get(1).y;
@@ -484,6 +495,7 @@ public class WorldParser {
             //PRINTS FIRST ROW AWAY FROM PERIMETER
             for (int j = 0; j < 7; j++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -504,6 +516,7 @@ public class WorldParser {
             offsetY = numb2 + 1;
             for (int i = 0; i < 11; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -515,6 +528,7 @@ public class WorldParser {
             offsetY = numb2 + 3;
             for (int i = 0; i < 7; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -526,6 +540,7 @@ public class WorldParser {
             offsetY = numb2 + 5;
             for (int i = 0; i < 3; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -537,6 +552,7 @@ public class WorldParser {
             offsetY = numb2 + 2;
             for (int i = 0; i < 9; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -548,6 +564,7 @@ public class WorldParser {
             offsetY = numb2 + 4;
             for (int i = 0; i < 5; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -558,6 +575,7 @@ public class WorldParser {
             offsetX++;
             offsetY = numb2 + 6;
             if (worldArray[offsetY][offsetX] != '+') {
+                message = "The File must have a red anthill";
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -571,6 +589,7 @@ public class WorldParser {
             offsetY = numb2 + 2;
             for (int i = 0; i < 9; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -581,6 +600,7 @@ public class WorldParser {
             offsetY = numb2 + 4;
             for (int i = 0; i < 5; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -591,6 +611,7 @@ public class WorldParser {
             offsetX--;
             offsetY = numb2 + 6;
             if (worldArray[offsetY][offsetX] != '+') {
+                message = "The File must have a red anthill";
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -600,6 +621,7 @@ public class WorldParser {
             offsetY = numb2 + 1;
             for (int i = 0; i < 11; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -611,6 +633,7 @@ public class WorldParser {
             offsetY = numb2 + 3;
             for (int i = 0; i < 7; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -622,6 +645,7 @@ public class WorldParser {
             offsetY = numb2 + 5;
             for (int i = 0; i < 3; i++) {
                 if (worldArray[offsetY][offsetX] != '+') {
+                    message = "The File must have a red anthill";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -642,6 +666,7 @@ public class WorldParser {
             offsetY--;
             for (int i = 0; i < 8; i++) {
                 if (worldArray[offsetY][offsetX] != '.') {
+                    message = "The red anthill must have a free cell around the perimeter";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -659,6 +684,8 @@ public class WorldParser {
                     || worldArray[++offsetY][++offsetX] != '.'
                     || worldArray[++offsetY][offsetX] != '.'
                     || worldArray[++offsetY][++offsetX] != '.') {
+                message = "The red anthill must have a free cell around the perimeter";
+
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -672,6 +699,7 @@ public class WorldParser {
                     || worldArray[++offsetY][--offsetX] != '.'
                     || worldArray[++offsetY][offsetX] != '.'
                     || worldArray[++offsetY][--offsetX] != '.') {
+                message = "The red anthill must have a free cell around the perimeter";
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -681,6 +709,7 @@ public class WorldParser {
             offsetY = y + 13;
             for (int i = 0; i < 7; i++) {
                 if (worldArray[offsetY][offsetX] != '.') {
+                    message = "The red anthill must have a free cell around the perimeter";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -698,6 +727,7 @@ public class WorldParser {
                     || worldArray[--offsetY][offsetX] != '.'
                     || worldArray[--offsetY][--offsetX] != '.'
                     || worldArray[--offsetY][offsetX] != '.') {
+                message = "The red anthill must have a free cell around the perimeter";
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -710,6 +740,7 @@ public class WorldParser {
                     || worldArray[--offsetY][++offsetX] != '.'
                     || worldArray[--offsetY][offsetX] != '.'
                     || worldArray[--offsetY][++offsetX] != '.') {
+                message = "The red anthill must have a free cell around the perimeter";
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -719,6 +750,7 @@ public class WorldParser {
             offsetY--;
             for (int i = 0; i < 8; i++) {
                 if (worldArray[offsetY][offsetX] != '.') {
+                    message = "The red anthill must have a free cell around the perimeter";
                     redHillCheck = false;
                     return redHillCheck;
                 }
@@ -736,6 +768,7 @@ public class WorldParser {
                     || worldArray[++offsetY][offsetX] != '.'
                     || worldArray[++offsetY][++offsetX] != '.'
                     || worldArray[++offsetY][offsetX] != '.') {
+                message = "The red anthill must have a free cell around the perimeter";
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -748,6 +781,7 @@ public class WorldParser {
                     || worldArray[++offsetY][offsetX] != '.'
                     || worldArray[++offsetY][--offsetX] != '.'
                     || worldArray[++offsetY][offsetX] != '.') {
+                message = "The red anthill must have a free cell around the perimeter";
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -773,6 +807,7 @@ public class WorldParser {
                     || worldArray[--offsetY][--offsetX] != '.'
                     || worldArray[--offsetY][offsetX] != '.'
                     || worldArray[--offsetY][--offsetX] != '.') {
+                message = "The red anthill must have a free cell around the perimeter";
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -783,6 +818,7 @@ public class WorldParser {
                     || worldArray[--offsetY][offsetX] != '.'
                     || worldArray[--offsetY][++offsetX] != '.'
                     || worldArray[--offsetY][offsetX] != '.') {
+                message = "The red anthill must have a free cell around the perimeter";
                 redHillCheck = false;
                 return redHillCheck;
             }
@@ -814,9 +850,7 @@ public class WorldParser {
 //            redHillCheck = false;
 //            return redHillCheck;
 //        }
-        
 //        System.out.println("First value? " + blackhill.get(1));
-        
         //Now check the shape and make sure
         int x = blackhill.get(1).x;
         int y = blackhill.get(1).y;
@@ -831,6 +865,7 @@ public class WorldParser {
             //PRINTS FIRST ROW AWAY FROM PERIMETER
             for (int j = 0; j < 7; j++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -851,6 +886,7 @@ public class WorldParser {
             offsetY = numb2 + 1;
             for (int i = 0; i < 11; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -862,6 +898,7 @@ public class WorldParser {
             offsetY = numb2 + 3;
             for (int i = 0; i < 7; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -873,6 +910,7 @@ public class WorldParser {
             offsetY = numb2 + 5;
             for (int i = 0; i < 3; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -884,6 +922,7 @@ public class WorldParser {
             offsetY = numb2 + 2;
             for (int i = 0; i < 9; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -895,6 +934,7 @@ public class WorldParser {
             offsetY = numb2 + 4;
             for (int i = 0; i < 5; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -905,6 +945,7 @@ public class WorldParser {
             offsetX++;
             offsetY = numb2 + 6;
             if (worldArray[offsetY][offsetX] != '-') {
+                message = "The File must have a black anthill";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
@@ -918,6 +959,7 @@ public class WorldParser {
             offsetY = numb2 + 2;
             for (int i = 0; i < 9; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -928,6 +970,7 @@ public class WorldParser {
             offsetY = numb2 + 4;
             for (int i = 0; i < 5; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -938,6 +981,7 @@ public class WorldParser {
             offsetX--;
             offsetY = numb2 + 6;
             if (worldArray[offsetY][offsetX] != '-') {
+                message = "The File must have a black anthill";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
@@ -947,6 +991,7 @@ public class WorldParser {
             offsetY = numb2 + 1;
             for (int i = 0; i < 11; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -958,6 +1003,7 @@ public class WorldParser {
             offsetY = numb2 + 3;
             for (int i = 0; i < 7; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -969,6 +1015,7 @@ public class WorldParser {
             offsetY = numb2 + 5;
             for (int i = 0; i < 3; i++) {
                 if (worldArray[offsetY][offsetX] != '-') {
+                    message = "The File must have a black anthill";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -989,6 +1036,7 @@ public class WorldParser {
             offsetY--;
             for (int i = 0; i < 8; i++) {
                 if (worldArray[offsetY][offsetX] != '.') {
+                    message = "The black anthill must have a free cell around the perimeter";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -1006,6 +1054,7 @@ public class WorldParser {
                     || worldArray[++offsetY][++offsetX] != '.'
                     || worldArray[++offsetY][offsetX] != '.'
                     || worldArray[++offsetY][++offsetX] != '.') {
+                message = "The black anthill must have a free cell around the perimeter";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
@@ -1019,6 +1068,7 @@ public class WorldParser {
                     || worldArray[++offsetY][--offsetX] != '.'
                     || worldArray[++offsetY][offsetX] != '.'
                     || worldArray[++offsetY][--offsetX] != '.') {
+                message = "The black anthill must have a free cell around the perimeter";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
@@ -1028,6 +1078,7 @@ public class WorldParser {
             offsetY = y + 13;
             for (int i = 0; i < 7; i++) {
                 if (worldArray[offsetY][offsetX] != '.') {
+                    message = "The black anthill must have a free cell around the perimeter";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -1045,6 +1096,7 @@ public class WorldParser {
                     || worldArray[--offsetY][offsetX] != '.'
                     || worldArray[--offsetY][--offsetX] != '.'
                     || worldArray[--offsetY][offsetX] != '.') {
+                message = "The black anthill must have a free cell around the perimeter";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
@@ -1057,6 +1109,7 @@ public class WorldParser {
                     || worldArray[--offsetY][++offsetX] != '.'
                     || worldArray[--offsetY][offsetX] != '.'
                     || worldArray[--offsetY][++offsetX] != '.') {
+                message = "The black anthill must have a free cell around the perimeter";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
@@ -1066,6 +1119,7 @@ public class WorldParser {
             offsetY--;
             for (int i = 0; i < 8; i++) {
                 if (worldArray[offsetY][offsetX] != '.') {
+                    message = "The black anthill must have a free cell around the perimeter";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -1083,6 +1137,7 @@ public class WorldParser {
                     || worldArray[++offsetY][offsetX] != '.'
                     || worldArray[++offsetY][++offsetX] != '.'
                     || worldArray[++offsetY][offsetX] != '.') {
+                message = "The black anthill must have a free cell around the perimeter";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
@@ -1095,6 +1150,7 @@ public class WorldParser {
                     || worldArray[++offsetY][offsetX] != '.'
                     || worldArray[++offsetY][--offsetX] != '.'
                     || worldArray[++offsetY][offsetX] != '.') {
+                message = "The black anthill must have a free cell around the perimeter";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
@@ -1104,6 +1160,7 @@ public class WorldParser {
             offsetY = y + 13;
             for (int i = 0; i < 7; i++) {
                 if (worldArray[offsetY][offsetX] != '.') {
+                    message = "The black anthill must have a free cell around the perimeter";
                     blackHillCheck = false;
                     return blackHillCheck;
                 }
@@ -1120,6 +1177,7 @@ public class WorldParser {
                     || worldArray[--offsetY][--offsetX] != '.'
                     || worldArray[--offsetY][offsetX] != '.'
                     || worldArray[--offsetY][--offsetX] != '.') {
+                message = "The black anthill must have a free cell around the perimeter";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
@@ -1130,12 +1188,17 @@ public class WorldParser {
                     || worldArray[--offsetY][offsetX] != '.'
                     || worldArray[--offsetY][++offsetX] != '.'
                     || worldArray[--offsetY][offsetX] != '.') {
+                message = "The black anthill must have a free cell around the perimeter";
                 blackHillCheck = false;
                 return blackHillCheck;
             }
         }
 
         return blackHillCheck;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
 }
