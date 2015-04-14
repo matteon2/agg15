@@ -26,6 +26,7 @@ public class AntGameFrameGUI extends JFrame {
 
     private WorldParser wp;
     private RandomWorld rw;
+    private AntBrainParser abp;
 
     private JPanel topPaneNames;
     private JPanel topPaneButton;
@@ -104,11 +105,81 @@ public class AntGameFrameGUI extends JFrame {
                 //Make player name local?
                 String Player_Name = JOptionPane.showInputDialog("Player Name", "Enter Your Player Name");
                 if ((Player_Name != null) && (Player_Name.length() > 0)) {
-                    JFileChooser chooser = new JFileChooser();
-                    chooser.showOpenDialog(null);
-                    File f = chooser.getSelectedFile();
+                    abp = new AntBrainParser();
+
+//                    JFileChooser chooser = new JFileChooser();
+//                    chooser.showOpenDialog(null);
+//                    File f = chooser.getSelectedFile();
                     //                String filename = f.getAbsolutePath();
                     //                pathName.setText(filename);
+                    //--------------------------------
+                    JFileChooser chooser = new JFileChooser();
+                    //chooser.showOpenDialog(null);
+                    //File f = chooser.getSelectedFile(); //-------------------------------------->
+
+                    int returnVal = chooser.showOpenDialog(null);
+                    //Is a file selected?
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        //Check extension is .world
+                        File f = chooser.getSelectedFile();
+                        String extension = "";
+
+                        //Do the rest (copy from below)
+                        String path = f.getAbsolutePath(); //path to file
+                        System.out.println(path);
+
+                        int i = path.lastIndexOf('.');
+                        if (i > 0) {
+                            extension = path.substring(i + 1);
+                        }
+
+                        //file extension test
+                        //System.out.println(extension);
+                        //Is the file extension correct?
+                        if (extension.equals("ant")) {
+                        //System.out.println("RIGHT FILE TYPE");
+
+                            //do correct stuff here
+                            abp.createBrain(path);
+
+                            if (abp.isParsed()) {
+                                //The file is correctly validated
+                                System.out.println("Correctly parsed");
+                                tick1.setVisible(true);
+                                cross1.setVisible(false);
+                            //do this
+
+                                //Change button to true (tick)
+                                teamOne = true;
+                                if (world && teamOne && teamTwo) {
+                                    playDuel.setEnabled(true);
+                                }
+
+                            } else {
+                                //If the file failed parsing, the play button is disabled
+                                System.out.println("Not parsed");
+                                //String message = wp.getMessage();
+                                teamOne = false;
+                                playDuel.setEnabled(false);
+                                tick1.setVisible(false);
+                                cross1.setVisible(true);
+                                JOptionPane.showMessageDialog(null, "Incorrect Brain", "File Not Parsed", JOptionPane.WARNING_MESSAGE);
+
+                            }
+
+                        } else {
+                            //If the wrong file is chosen, disable the play button
+                            teamOne = false;
+                            playDuel.setEnabled(false);
+                            tick1.setVisible(false);
+                            cross1.setVisible(true);
+                            JOptionPane.showMessageDialog(null, "Please choose a .ant file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } else {
+                        System.out.println("No file chosen or error");
+                    }
+
+                    //--------------------------------
                 }
             }
         });
@@ -118,13 +189,86 @@ public class AntGameFrameGUI extends JFrame {
         uploadBrainTwoDuel.addActionListener(new addButtonListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                //Make player name local?
                 String Player_Name = JOptionPane.showInputDialog("Player Name", "Enter Your Player Name");
                 if ((Player_Name != null) && (Player_Name.length() > 0)) {
-                    JFileChooser chooser = new JFileChooser();
-                    chooser.showOpenDialog(null);
-                    File f = chooser.getSelectedFile();
+                    abp = new AntBrainParser();
+
+//                    JFileChooser chooser = new JFileChooser();
+//                    chooser.showOpenDialog(null);
+//                    File f = chooser.getSelectedFile();
                     //                String filename = f.getAbsolutePath();
                     //                pathName.setText(filename);
+                    //--------------------------------
+                    JFileChooser chooser = new JFileChooser();
+                    //chooser.showOpenDialog(null);
+                    //File f = chooser.getSelectedFile(); //-------------------------------------->
+
+                    int returnVal = chooser.showOpenDialog(null);
+                    //Is a file selected?
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        //Check extension is .world
+                        File f = chooser.getSelectedFile();
+                        String extension = "";
+
+                        //Do the rest (copy from below)
+                        String path = f.getAbsolutePath(); //path to file
+                        System.out.println(path);
+
+                        int i = path.lastIndexOf('.');
+                        if (i > 0) {
+                            extension = path.substring(i + 1);
+                        }
+
+                        //file extension test
+                        //System.out.println(extension);
+                        //Is the file extension correct?
+                        if (extension.equals("ant")) {
+                        //System.out.println("RIGHT FILE TYPE");
+
+                            //do correct stuff here
+                            abp.createBrain(path);
+
+                            if (abp.isParsed()) {
+                                //The file is correctly validated
+                                System.out.println("Correctly parsed");
+                                tick2.setVisible(true);
+                                cross2.setVisible(false);
+                            //do this
+
+                                //Change button to true (tick)
+                                teamTwo = true;
+                                if (world && teamOne && teamTwo) {
+                                    playDuel.setEnabled(true);
+                                } else {
+                                    playDuel.setEnabled(false);
+                                }
+
+                            } else {
+                                //If the file failed parsing, the play button is disabled
+                                System.out.println("Not parsed");
+                                //String message = wp.getMessage();
+                                teamTwo = false;
+                                playDuel.setEnabled(false);
+                                tick2.setVisible(false);
+                                cross2.setVisible(true);
+                                JOptionPane.showMessageDialog(null, "Incorrect Brain", "File Not Parsed", JOptionPane.WARNING_MESSAGE);
+
+                            }
+
+                        } else {
+                            //If the wrong file is chosen, disable the play button
+                            teamTwo = false;
+                            playDuel.setEnabled(false);
+                            tick2.setVisible(false);
+                            cross2.setVisible(true);
+                            JOptionPane.showMessageDialog(null, "Please choose a .ant file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } else {
+                        System.out.println("No file chosen or error");
+                    }
+
+                    //--------------------------------
                 }
             }
         });
@@ -180,6 +324,8 @@ public class AntGameFrameGUI extends JFrame {
                             world = true;
                             if (world && teamOne && teamTwo) {
                                 playDuel.setEnabled(true);
+                            } else {
+                                playDuel.setEnabled(false);
                             }
 
                         } else {
@@ -230,31 +376,35 @@ public class AntGameFrameGUI extends JFrame {
                         if (!tick3.isEnabled()) {
                             tick3.setVisible(false);
                             cross3.setVisible(false);
-                        }else{
+                        } else {
                             tick3.setVisible(true);
                             cross3.setVisible(false);
                         }
-                        
+
                         if (teamOne && teamTwo && world) {
 
                             playDuel.setEnabled(true);
+                        } else {
+                            playDuel.setEnabled(false);
                         }
 
                     } else {
                         if (!tick3.isEnabled()) {
                             tick3.setVisible(true);
                             cross3.setVisible(false);
-                        }else{
+                        } else {
                             tick3.setVisible(false);
                             cross3.setVisible(false);
                         }
 
                         world = false;
                         uploadWorldDuel.setEnabled(true);
-                        
+
                         if (teamOne && teamTwo && world) {
 
                             playDuel.setEnabled(true);
+                        } else {
+                            playDuel.setEnabled(false);
                         }
                     }
                     count++;
@@ -350,7 +500,7 @@ public class AntGameFrameGUI extends JFrame {
                     chooser.showOpenDialog(null);
                     File f = chooser.getSelectedFile();
                     //                String filename = f.getAbsolutePath();
-                    //                pathName.setText(filename);
+                    //                pathName.setText(filename);    
                 }
             }
         });
