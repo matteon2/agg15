@@ -16,7 +16,8 @@ public class AntGameFrameGUI extends JFrame {
             uploadWorldDuel, playDuel, backDuel, uploadBrainTournament,
             uploadWorldTournament, playTournament, backTournament, backFromDisplay;
     private JCheckBox randomWorldDuel, randomWorldTournament;
-    private JLabel antImg, duelModeText, tournamentModeText, playerOne, playerTwo;
+    private JLabel antImg, duelModeText, tournamentModeText, playerOne, playerTwo,
+            noOfPlayers;
     private JTextField pathName, playerName;
 
     private int count = 0;
@@ -31,10 +32,12 @@ public class AntGameFrameGUI extends JFrame {
     private JPanel topPaneNames;
     private JPanel topPaneButton;
     private JPanel middlePaneWorld;
-    private JPanel bottomPaneButton;
+    private JPanel bottomPane;
 
     private JLabel cross1, cross2, cross3;
     private JLabel tick1, tick2, tick3;
+    private JPanel flowL;
+    private JPanel flowLa;
 
     public AntGameFrameGUI() {
 
@@ -458,7 +461,7 @@ public class AntGameFrameGUI extends JFrame {
         topPaneNames = new JPanel(new GridLayout(0, 4));
         //topPaneButton = new JPanel();
         //middlePaneWorld = new JPanel();
-        bottomPaneButton = new JPanel();
+        
 
         playerOne = new JLabel("Red Team");
 
@@ -506,113 +509,22 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
 
-        uploadWorldTournament = new JButton("Upload Ant World");
-        uploadWorldTournament.setFont(new Font("Comic Sans MS", 0, 11));
-        uploadWorldTournament.addActionListener(new addButtonListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                wp = new WorldParser();
-
-                JFileChooser chooser = new JFileChooser();
-                //chooser.showOpenDialog(null);
-                //File f = chooser.getSelectedFile(); //-------------------------------------->
-
-                int returnVal = chooser.showOpenDialog(null);
-                //Is a file selected?
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    //Check extension is .world
-                    File f = chooser.getSelectedFile();
-                    String extension = "";
-
-                    //Do the rest (copy from below)
-                    String path = f.getAbsolutePath(); //path to file
-                    //System.out.println(path);
-
-                    int i = path.lastIndexOf('.');
-                    if (i > 0) {
-                        extension = path.substring(i + 1);
-                    }
-
-                    //file extension test
-                    //System.out.println(extension);
-                    //Is the file extension correct?
-                    if (extension.equals("world")) {
-                        //System.out.println("RIGHT FILE TYPE");
-
-                        //do correct stuff here
-                        wp.openFile(path);
-                        wp.readFile();
-                        wp.toArray();
-
-                        if (wp.checkX() && wp.checkY() && wp.checkCharacter() && wp.checkPerimeter()
-                                && wp.checkEmptyPerimeter() && wp.checkRocks() && wp.checkFoodBlob()
-                                && wp.checkRedAnthill() && wp.checkBlackAnthill()) {
-                            //The file is correctly validated
-                            //System.out.println("Correctly parsed");
-                            //do this
-
-                            //BEW BOOLEAN NEEDED HERE
-//                            world = true;
-//                            if (world && teamOne && teamTwo) {
-//                                playTournament.setEnabled(true);
-//                            }
-
-                        } else {
-                            //If the file failed parsing, the play button is disabled
-                            //System.out.println("Not parsed");
-                            String message = wp.getMessage();
-                            //world = false;
-                            playTournament.setEnabled(false);
-                            JOptionPane.showMessageDialog(null, message, "File Not Parsed", JOptionPane.WARNING_MESSAGE);
-
-                        }
-
-                    } else {
-                        //If the wrong file is chosen, disable the play button
-                        //world = false;
-                        playTournament.setEnabled(false);
-                        JOptionPane.showMessageDialog(null, "Please choose a .world file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
-                    }
-                } else {
-                    //System.out.println("No file chosen or error");
-                    JOptionPane.showMessageDialog(null, "No File Chosen", "Please Choose a File", JOptionPane.WARNING_MESSAGE);
-                }
-                //String path = f.getAbsolutePath(); //path to file
-                //pathName.setText(path);
-
-            }
-        });
-
         randomWorldTournament = new JCheckBox("Random World");
         randomWorldTournament.setFont(new Font("Comic Sans MS", 0, 11));
-        randomWorldTournament.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                //when button is checked
-                if (e.getID() == ActionEvent.ACTION_PERFORMED) {
-                    //System.out.println("HI");
-                    //rw = new RandomWorld(); -> UNCOMMENT LATER
-
-                    //Every other click either enable or disable options
-                    if (count % 2 == 0) {
-                        //NEW BOOLEAN NEEDED
-                        //world = true;
-                        uploadWorldTournament.setEnabled(false);//disable the upload world button
-//                        if (teamOne && teamTwo && world) {
+        randomWorldTournament.setSelected(true);
+        randomWorldTournament.setEnabled(false);
+//        randomWorldTournament.addActionListener(new ActionListener() {
 //
-//                            playTournament.setEnabled(true);
-//                        }
-
-                    } else {
-                        //world = false;
-                        uploadWorldTournament.setEnabled(true);
-                    }
-                    count++;
-                }
-            }
-        });
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                //when button is checked
+//                //do nothing
+//            }
+//        });
+             
+        //Adds the no of players label
+        noOfPlayers = new JLabel("No of Players: 0");
+        noOfPlayers.setFont(new Font("Comic Sans MS", 0, 14));
 
         playTournament = new JButton("PLAY");
         playTournament.setEnabled(false);
@@ -638,6 +550,14 @@ public class AntGameFrameGUI extends JFrame {
                 printAll(getGraphics());
             }
         });
+        
+        bottomPane = new JPanel(new GridLayout(0,2));
+        bottomPane.add(uploadBrainTournament);
+        bottomPane.add(randomWorldTournament);
+        bottomPane.add(noOfPlayers);
+        
+        flowLa = new JPanel();
+        flowLa.add(bottomPane);
 
         gameDisplay = new JPanel();
         backFromDisplay = new JButton("Exit to Menu");
@@ -651,6 +571,10 @@ public class AntGameFrameGUI extends JFrame {
                 printAll(getGraphics());
             }
         });
+        
+        flowL = new JPanel();
+        flowL.add(playTournament);
+        flowL.add(backTournament);
     }
 
     private void addPanel() {
@@ -675,11 +599,12 @@ public class AntGameFrameGUI extends JFrame {
         duelMode.add(backDuel);
 
         tournamentMode.add(tournamentModeText);
-        tournamentMode.add(uploadBrainTournament);
-        tournamentMode.add(uploadWorldTournament);
-        tournamentMode.add(randomWorldTournament);
-        tournamentMode.add(playTournament);
-        tournamentMode.add(backTournament);
+//        tournamentMode.add(uploadBrainTournament);
+//        tournamentMode.add(randomWorldTournament);
+        tournamentMode.add(flowLa);
+        tournamentMode.add(flowL);
+//        tournamentMode.add(backTournament);
+//        tournamentMode.add(noOfPlayers);
 
         gameDisplay.add(backFromDisplay);
 
