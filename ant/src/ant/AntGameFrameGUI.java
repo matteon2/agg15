@@ -97,7 +97,7 @@ public class AntGameFrameGUI extends JFrame {
         UIManager.put("OptionPane.buttonFont", font);
 
         //Creates basic layout panels
-        uploadBrainOneDuel = new JButton("Upload Black Ant Brain");
+        uploadBrainOneDuel = new JButton("Upload Red Ant Brain");
         uploadBrainOneDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainOneDuel.addActionListener(new addButtonListener() {
             @Override
@@ -126,7 +126,7 @@ public class AntGameFrameGUI extends JFrame {
 
                         //Do the rest (copy from below)
                         String path = f.getAbsolutePath(); //path to file
-                        System.out.println(path);
+                        //System.out.println(path);
 
                         int i = path.lastIndexOf('.');
                         if (i > 0) {
@@ -144,7 +144,7 @@ public class AntGameFrameGUI extends JFrame {
 
                             if (abp.isParsed()) {
                                 //The file is correctly validated
-                                System.out.println("Correctly parsed");
+                                //System.out.println("Correctly parsed");
                                 tick1.setVisible(true);
                                 cross1.setVisible(false);
                             //do this
@@ -157,7 +157,7 @@ public class AntGameFrameGUI extends JFrame {
 
                             } else {
                                 //If the file failed parsing, the play button is disabled
-                                System.out.println("Not parsed");
+                                //System.out.println("Not parsed");
                                 //String message = wp.getMessage();
                                 teamOne = false;
                                 playDuel.setEnabled(false);
@@ -176,7 +176,8 @@ public class AntGameFrameGUI extends JFrame {
                             JOptionPane.showMessageDialog(null, "Please choose a .ant file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
                         }
                     } else {
-                        System.out.println("No file chosen or error");
+                        //System.out.println("No file chosen or error");
+                        JOptionPane.showMessageDialog(null, "No File Chosen", "Please Choose a File", JOptionPane.WARNING_MESSAGE);
                     }
 
                     //--------------------------------
@@ -184,7 +185,7 @@ public class AntGameFrameGUI extends JFrame {
             }
         });
 
-        uploadBrainTwoDuel = new JButton("Upload Red Ant Brain");
+        uploadBrainTwoDuel = new JButton("Upload Black Ant Brain");
         uploadBrainTwoDuel.setFont(new Font("Comic Sans MS", 0, 11));
         uploadBrainTwoDuel.addActionListener(new addButtonListener() {
             @Override
@@ -213,7 +214,7 @@ public class AntGameFrameGUI extends JFrame {
 
                         //Do the rest (copy from below)
                         String path = f.getAbsolutePath(); //path to file
-                        System.out.println(path);
+                        //System.out.println(path);
 
                         int i = path.lastIndexOf('.');
                         if (i > 0) {
@@ -231,7 +232,7 @@ public class AntGameFrameGUI extends JFrame {
 
                             if (abp.isParsed()) {
                                 //The file is correctly validated
-                                System.out.println("Correctly parsed");
+                                //System.out.println("Correctly parsed");
                                 tick2.setVisible(true);
                                 cross2.setVisible(false);
                             //do this
@@ -246,7 +247,7 @@ public class AntGameFrameGUI extends JFrame {
 
                             } else {
                                 //If the file failed parsing, the play button is disabled
-                                System.out.println("Not parsed");
+                                //System.out.println("Not parsed");
                                 //String message = wp.getMessage();
                                 teamTwo = false;
                                 playDuel.setEnabled(false);
@@ -265,7 +266,8 @@ public class AntGameFrameGUI extends JFrame {
                             JOptionPane.showMessageDialog(null, "Please choose a .ant file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
                         }
                     } else {
-                        System.out.println("No file chosen or error");
+                        //System.out.println("No file chosen or error");
+                        JOptionPane.showMessageDialog(null, "No File Chosen", "Please Choose a File", JOptionPane.WARNING_MESSAGE);
                     }
 
                     //--------------------------------
@@ -293,7 +295,7 @@ public class AntGameFrameGUI extends JFrame {
 
                     //Do the rest (copy from below)
                     String path = f.getAbsolutePath(); //path to file
-                    System.out.println(path);
+                    //System.out.println(path);
 
                     int i = path.lastIndexOf('.');
                     if (i > 0) {
@@ -315,7 +317,7 @@ public class AntGameFrameGUI extends JFrame {
                                 && wp.checkEmptyPerimeter() && wp.checkRocks() && wp.checkFoodBlob()
                                 && wp.checkRedAnthill() && wp.checkBlackAnthill()) {
                             //The file is correctly validated
-                            System.out.println("Correctly parsed");
+                            //System.out.println("Correctly parsed");
                             tick3.setVisible(true);
                             cross3.setVisible(false);
                             //do this
@@ -330,7 +332,7 @@ public class AntGameFrameGUI extends JFrame {
 
                         } else {
                             //If the file failed parsing, the play button is disabled
-                            System.out.println("Not parsed");
+                            //System.out.println("Not parsed");
                             String message = wp.getMessage();
                             world = false;
                             playDuel.setEnabled(false);
@@ -349,7 +351,8 @@ public class AntGameFrameGUI extends JFrame {
                         JOptionPane.showMessageDialog(null, "Please choose a .world file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    System.out.println("No file chosen or error");
+                    //System.out.println("No file chosen or error");
+                    JOptionPane.showMessageDialog(null, "No File Chosen", "Please Choose a File", JOptionPane.WARNING_MESSAGE);
                 }
                 //String path = f.getAbsolutePath(); //path to file
                 //pathName.setText(path);
@@ -366,7 +369,7 @@ public class AntGameFrameGUI extends JFrame {
 
                 //when button is checked
                 if (e.getID() == ActionEvent.ACTION_PERFORMED) {
-                    System.out.println("HI");
+                    //System.out.println("HI");
                     //rw = new RandomWorld(); -> UNCOMMENT LATER
 
                     //Every other click either enable or disable options
@@ -382,7 +385,6 @@ public class AntGameFrameGUI extends JFrame {
                         }
 
                         if (teamOne && teamTwo && world) {
-
                             playDuel.setEnabled(true);
                         } else {
                             playDuel.setEnabled(false);
@@ -401,7 +403,6 @@ public class AntGameFrameGUI extends JFrame {
                         uploadWorldDuel.setEnabled(true);
 
                         if (teamOne && teamTwo && world) {
-
                             playDuel.setEnabled(true);
                         } else {
                             playDuel.setEnabled(false);
@@ -525,7 +526,7 @@ public class AntGameFrameGUI extends JFrame {
 
                     //Do the rest (copy from below)
                     String path = f.getAbsolutePath(); //path to file
-                    System.out.println(path);
+                    //System.out.println(path);
 
                     int i = path.lastIndexOf('.');
                     if (i > 0) {
@@ -547,20 +548,20 @@ public class AntGameFrameGUI extends JFrame {
                                 && wp.checkEmptyPerimeter() && wp.checkRocks() && wp.checkFoodBlob()
                                 && wp.checkRedAnthill() && wp.checkBlackAnthill()) {
                             //The file is correctly validated
-                            System.out.println("Correctly parsed");
+                            //System.out.println("Correctly parsed");
                             //do this
 
-                            //Change button to true (tick)
-                            world = true;
-                            if (world && teamOne && teamTwo) {
-                                playTournament.setEnabled(true);
-                            }
+                            //BEW BOOLEAN NEEDED HERE
+//                            world = true;
+//                            if (world && teamOne && teamTwo) {
+//                                playTournament.setEnabled(true);
+//                            }
 
                         } else {
                             //If the file failed parsing, the play button is disabled
-                            System.out.println("Not parsed");
+                            //System.out.println("Not parsed");
                             String message = wp.getMessage();
-                            world = false;
+                            //world = false;
                             playTournament.setEnabled(false);
                             JOptionPane.showMessageDialog(null, message, "File Not Parsed", JOptionPane.WARNING_MESSAGE);
 
@@ -568,12 +569,13 @@ public class AntGameFrameGUI extends JFrame {
 
                     } else {
                         //If the wrong file is chosen, disable the play button
-                        world = false;
+                        //world = false;
                         playTournament.setEnabled(false);
                         JOptionPane.showMessageDialog(null, "Please choose a .world file", "Incorrect File Type", JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    System.out.println("No file chosen or error");
+                    //System.out.println("No file chosen or error");
+                    JOptionPane.showMessageDialog(null, "No File Chosen", "Please Choose a File", JOptionPane.WARNING_MESSAGE);
                 }
                 //String path = f.getAbsolutePath(); //path to file
                 //pathName.setText(path);
@@ -590,20 +592,21 @@ public class AntGameFrameGUI extends JFrame {
 
                 //when button is checked
                 if (e.getID() == ActionEvent.ACTION_PERFORMED) {
-                    System.out.println("HI");
+                    //System.out.println("HI");
                     //rw = new RandomWorld(); -> UNCOMMENT LATER
 
                     //Every other click either enable or disable options
                     if (count % 2 == 0) {
-                        world = true;
+                        //NEW BOOLEAN NEEDED
+                        //world = true;
                         uploadWorldTournament.setEnabled(false);//disable the upload world button
-                        if (teamOne && teamTwo && world) {
-
-                            playTournament.setEnabled(true);
-                        }
+//                        if (teamOne && teamTwo && world) {
+//
+//                            playTournament.setEnabled(true);
+//                        }
 
                     } else {
-                        world = false;
+                        //world = false;
                         uploadWorldTournament.setEnabled(true);
                     }
                     count++;
