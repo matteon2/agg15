@@ -6,6 +6,7 @@ package ant;
 
 import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -27,7 +28,13 @@ public class WorldViewer extends JPanel {
 
     public int[] HexaX = new int[6];
     public int[] HexaY = new int[6];
-    World w = new World(127);
+    World w;
+    Cell[][] unitCell;
+    
+    public WorldViewer(){
+        w = new World();
+        unitCell = w.initialiseWorld();
+    }
 
     /* Pass it a World, an if statement to get the cell and paint*/
     @Override
@@ -36,103 +43,94 @@ public class WorldViewer extends JPanel {
         //Graphics2D g2d = (Graphics2D) g;
 //            //if cell is Rocky, block is black
 //
-//            g.setColor(java.awt.Color.black);
-//            this.getHexaX(200, 50);
-//            this.getHexaY(200, 50);
-//            g.fillPolygon(HexaX, HexaY, 6);
-//
-//            //if cell is Black ant hill, block is grey
-//            g.setColor(java.awt.Color.gray);
-//            this.getHexaX(200, 50);
-//            this.getHexaY(350, 50);
-//            g.fillPolygon(HexaX,HexaY, 6);
-//
-//            //if cell is food, block is green
-//            g.setColor(java.awt.Color.green);
-//            this.getHexaX(200 + (int) (50 * Math.sqrt(3) / 2), 50);
-//            this.getHexaY(275, 50);
-//            g.fillPolygon(HexaX,HexaY, 6);
-//
-//            //if cell is Red ant hill, block is pink (as soften red color)
-//            g.setColor(java.awt.Color.pink);
-//            this.getHexaX(200 + (int) (50 * 3 * Math.sqrt(3) / 2), 50);
-//            this.getHexaY(275, 50);
-//            g.fillPolygon(HexaX,HexaY, 6);
-//
-//            //if cell is empty, block is white
-//            g.setColor(java.awt.Color.white);
-//            this.getHexaX(200 + (int) (50 * Math.sqrt(3)), 50);
-//            this.getHexaY(200, 50);
-//            g.fillPolygon(HexaX,HexaY, 6);
-//            }
+
 
         int n = 6; //length of sides
-        Cell[][] unitCell = w.getAntWorld();
+        
+        
         for (int column = 0; column < 150; column++) {
             for (int row = 0; row < 150; row++) {
 
-
-
                 //If the random position is on an odd line, column is odd
                 if (column % 2 == 1) {
-
-                    if (unitCell[row][column].getRocky()) {
-                        g.setColor(java.awt.Color.BLACK); //Set Rock Cell in Black Color
-                    } else {
-                        if (unitCell[row][column].equals(new AntHillCell(Color.BLACK))) {
-                            g.setColor(java.awt.Color.lightGray); //Set Black Ant hill in Lightgrey Color
-                        } else {
-                            if (unitCell[row][column].equals(new AntHillCell(Color.RED))) {
-                                g.setColor(java.awt.Color.PINK); //Set Red Ant hill in Pink Color
-                            } else {
-                                if (unitCell[row][column].getFoodNumber() > 0) {
-                                    g.setColor(java.awt.Color.GREEN); //Set Food in Green Color
-                                } else {
-                                    g.setColor(java.awt.Color.WHITE); //Set Empty Cells in White Color
-                                }
-                            }
-                        }
-                    }
-
-
-                    // g.setColor(java.awt.Color.white);
                     this.getHexaX(10 + (int) (row * n * Math.sqrt(3)) + (int) (n * Math.sqrt(3) / 2), n);
                     this.getHexaY(10 + 3 * n * column * 1 / 2, n);
-                    g.fillPolygon(HexaX, HexaY, 6);
-                    g.setColor(java.awt.Color.black);
-                    g.drawPolygon(HexaX, HexaY, 6);
-                } else {
+                    
+                    
+                    if (unitCell[column][row].isContainRock()) {
+                        g.setColor(Color.BLACK); //Set Rock Cell in Black Color
+                         // g.setColor(java.awt.Color.white);
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
+                    } 
+                    else if(unitCell[column][row].isIsClear()) {
+                        g.setColor(Color.WHITE); //Set Black Ant hill in Lightgrey Color
+                         // g.setColor(java.awt.Color.white);
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
+                    } 
+                    else if (unitCell[column][row].isContainsRedAnt()) {
+                        g.setColor(Color.RED); //Set Red Ant hill in Pink Color
+                         // g.setColor(java.awt.Color.white);
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
+                    
+                    }else if (unitCell[column][row].isContainsBlackAnt()){
+                        g.setColor(Color.BLACK); //Set Black Ant hill in Pink Color
+                         // g.setColor(java.awt.Color.white);
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
+                    }
+                    else if (unitCell[column][row].hasFood()) {
+                        g.setColor(Color.GREEN); //Set Food in Green Color
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
+                    }
+                
+            
 
-                    if (unitCell[row][column].getRocky()) {
-                        g.setColor(java.awt.Color.BLACK); //Set Rock Cell in Black Color
-                    } else {
-                        if (unitCell[row][column].equals(new AntHillCell(Color.BLACK))) {
-                            g.setColor(java.awt.Color.lightGray); //Set Black Ant hill in Lightgrey Color
-                        } else {
-                            if (unitCell[row][column].equals(new AntHillCell(Color.RED))) {
-                                g.setColor(java.awt.Color.PINK); //Set Red Ant hill in Pink Color
-                            } else {
-                                if (unitCell[row][column].getFoodNumber() > 0) {
-                                    g.setColor(java.awt.Color.GREEN); //Set Food in Green Color
-                                } else {
-                                    g.setColor(java.awt.Color.WHITE); //Set Empty Cells in White Color
-                                }
-                            }
-                        }
+                   
+                } else {
+                    this.getHexaX(10 + (int) (row * n * Math.sqrt(3)), n);
+                    this.getHexaY(10 + 3 * n * column * 1 / 2, n);
+                    
+
+                    if (unitCell[column][row].isContainRock()) {
+                        g.setColor(Color.BLACK); //Set Rock Cell in Black Color
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
+                        
+                    } 
+                    else if(unitCell[column][row].isIsClear()) {
+                        g.setColor(Color.WHITE); //Set Black Ant hill in Lightgrey Color
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
+                    } 
+                    else if (unitCell[column][row].isContainsRedAnt()) {
+                        g.setColor(Color.RED); //Set Red Ant hill in Pink Color
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
+                    }else if (unitCell[column][row].isContainsBlackAnt()){
+                        g.setColor(Color.BLACK); //Set Black Ant hill in Pink Color
+                         // g.setColor(java.awt.Color.white);
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
+                    }
+                    else if (unitCell[column][row].hasFood()) {
+                        g.setColor(Color.GREEN); //Set Food in Green Color
+                        g.fillPolygon(HexaX, HexaY, 6);
+                        g.drawPolygon(HexaX, HexaY, 6);
                     }
 
                     // g.setColor(java.awt.Color.white);
 
-                    this.getHexaX(10 + (int) (row * n * Math.sqrt(3)), n);
-                    this.getHexaY(10 + 3 * n * column * 1 / 2, n);
-                    g.fillPolygon(HexaX, HexaY, 6);
-                    g.setColor(java.awt.Color.black);
-                    g.drawPolygon(HexaX, HexaY, 6);
+                    
                 }
 
 
             }
         }
+        
 
     }
 
@@ -171,16 +169,16 @@ public class WorldViewer extends JPanel {
         JFrame frame = new JFrame();
         frame.setTitle("DrawPoly");
         frame.setSize(1600, 1405);
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
+//        frame.addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowClosing(WindowEvent e) {
+//                System.exit(0);
+//            }
+//        });
         Container contentPane = frame.getContentPane();
         contentPane.add(new WorldViewer());
 
         frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+       // frame.setLocationRelativeTo(null);
     }
 }

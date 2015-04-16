@@ -6,6 +6,7 @@
 
 package ant;
 
+import Game.Player;
 import Instruction.Instruction;
 import Instruction.SenseDir;
 import Instruction.TurnDir;
@@ -24,9 +25,10 @@ public class Ant {
     private AntBrain brain;
     private Position antPosition; //the current location of the ant
     
-    public Ant(Color color, int id, Dir d){
+    public Ant(Color color, Dir d){
         this.color = color;
-        this.id = id;
+        this.id = 0;
+        id++;
         this.state = 0;
         this.resting = 0;
         this.direction = d;
@@ -34,8 +36,20 @@ public class Ant {
         this.antPosition.setX(0);
         this.antPosition.setY(0);
     }
-    
-    
+
+    public Ant(Player player) {
+        this.id = 0;
+        id++;
+        this.brain = player.getAntbrain();
+        this.state = 0;
+	this.antPosition.setX(0);
+        this.antPosition.setY(0);
+	this.direction = Dir.EAST;
+	this.resting = 0;
+	this.color = player.getColor();
+	this.hasFood = false;
+    }
+
     public int getID(){
         return id;
     }
@@ -315,8 +329,17 @@ public class Ant {
 //        Dir d = a.turn(TurnDir.RIGHT, Dir.NORTHEAST);
 //        System.out.println(d);
         Position p = new Position(3,2);
-        Ant a = new Ant(Color.RED, 0, Dir.EAST);
+        Ant a = new Ant(Color.RED, Dir.EAST);
         //Position sensedP = a.sensed_cell(p, Dir.WEST, SenseDir.RIGHTAHEAD);
         //System.out.println(sensedP.getX() + ", " + sensedP.getY());
+    }
+
+    
+    public void simulate(World world){
+        if(resting > 0){
+            resting--;
+        }else{
+            brain.simulate(this, world);
+        }
     }
 }

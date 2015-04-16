@@ -46,7 +46,7 @@ public class Move extends Instruction{
     public void execute(World world, Ant ant) {
         try {
             Position newp = ant.adjacent_cell(ant.getPosition(), ant.get_direction());
-            if(world.rocky(newp) || world.some_ant_is_at(newp)){
+            if(world.isRocky(newp) || world.some_ant_is_at(newp)){
                 ant.set_state(state2);
             }
             else{

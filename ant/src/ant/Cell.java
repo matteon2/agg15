@@ -13,47 +13,46 @@ import java.util.HashSet;
 public class Cell {
     
     //private Position cellPosition;
-    private boolean isRocky;
     private int foodNumber;
     private HashMap<Color, HashSet<Integer>> markerWithColor; //the marker with color label shows which ant team leaves this marker
     private Ant ant;
+    private boolean containRock;
+    private boolean isClear;    //no rock, no food, no ants
+    private boolean containsRedAnt;
+    private boolean containsBlackAnt;
+    private boolean hasFood;
+    
     
     
     //assume all cell start from clear
     public Cell(int foodNum){
         //this.cellPosition = p;
-        isRocky = false;
         foodNumber = foodNum;
         this.markerWithColor = new HashMap<Color, HashSet<Integer>>();
         markerWithColor.put(Color.RED, new HashSet<Integer>());
         markerWithColor.put(Color.BLACK, new HashSet<Integer>());
         ant = null;
+        isClear = true;
+        containsRedAnt = false;
+        containsBlackAnt = false;
+        hasFood = true;
     }
     
     public Cell(){
         this(0);
+        this.isClear = true;
+        this.containRock = false;
+        containsRedAnt = false;
+        containsBlackAnt = false;
+        hasFood = false;
     }
     
     public boolean isAntHill(){
         return false;
     }
-    
-    
-    
-    /**
-     * check whether this cell is rocky
-     * @return boolean
-     */
-    public boolean getRocky(){
-        return isRocky;
-    }
-    
-    /**
-     * make the current cell rocky;
-     * @param rocky
-     */
-    public void setRocky(boolean rocky){
-        this.isRocky = rocky;
+ 
+    public boolean hasFood(){
+        return foodNumber > 0;
     }
     
     /**
@@ -63,7 +62,8 @@ public class Cell {
     public int getFoodNumber(){
         return foodNumber;
     }
-     
+
+
     
     /**
      * set the number of food in this cell, the food numebr is non-negative
@@ -181,4 +181,76 @@ public class Cell {
 //        System.out.println(c1.checkAnyMarker(Color.BLACK));
         System.out.println(c1.hasAnt());
     }
+
+    /**
+     * @return the containRock
+     */
+    public boolean isContainRock() {
+        return containRock;
+    }
+
+    /**
+     * @param containRock the containRock to set
+     */
+    public void setContainRock(boolean containRock) {
+        this.containRock = containRock;
+    }
+
+    /**
+     * @return the isClear
+     */
+    public boolean isIsClear() {
+        return isClear;
+    }
+
+    /**
+     * @param isClear the isClear to set
+     */
+    public void setIsClear(boolean isClear) {
+        this.isClear = isClear;
+    }
+
+    /**
+     * @return the containsAnt
+     */
+    public boolean isContainsRedAnt() {
+        return containsRedAnt;
+    }
+
+    /**
+     * @param containsAnt the containsAnt to set
+     */
+    public void setContainsRedAnt(boolean containsAnt) {
+        this.containsRedAnt = containsAnt;
+    }
+
+    /**
+     * @return the containsBlackAnt
+     */
+    public boolean isContainsBlackAnt() {
+        return containsBlackAnt;
+    }
+
+    /**
+     * @param containsBlackAnt the containsBlackAnt to set
+     */
+    public void setContainsBlackAnt(boolean containsBlackAnt) {
+        this.containsBlackAnt = containsBlackAnt;
+    }
+
+    /**
+     * @return the hasFood
+     */
+    public boolean isHasFood() {
+        return hasFood;
+    }
+
+    /**
+     * @param hasFood the hasFood to set
+     */
+    public void setHasFood(boolean hasFood) {
+        this.hasFood = hasFood;
+    }
+
+   
 }

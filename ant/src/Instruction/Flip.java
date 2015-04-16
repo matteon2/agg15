@@ -6,6 +6,7 @@
 
 package Instruction;
 
+import Game.Game;
 import ant.Ant;
 import ant.World;
 
@@ -45,7 +46,7 @@ public class Flip extends Instruction {
     @Override
     public void execute(World world, Ant ant) {
         int st;
-        if(world.randomint(n) == 0){
+        if(Game.randomint(n) == 0){
             st = state1;
         }else{
             st = state2;

@@ -6,9 +6,13 @@
 
 package ant;
 
+import Game.Game;
+import Game.Player;
 import Instruction.Condition;
+import java.util.ArrayList;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  *
@@ -18,24 +22,140 @@ public class World {
     
     private final Cell[][] antWorld;
     private final HashMap<Integer, Ant> ants; //a list of alived ants with id as the key and the Ant object as the object
-    private int seed;
-    private int randomCallCounter = 0;
     
-    public World(int antNum){
+    private final RandomWorld ranWorld;
+    private ArrayList<AntHillCell> antHills;
+    
+    public World(){
         antWorld = new Cell[150][150];
         ants = new HashMap<>();
-        seed = 12345;
+        ranWorld = new RandomWorld();
+        antHills = new ArrayList();
     }
     
-    /**
-     * GEOGRAPHY
-     * check if the cell at position p is rocky and false if p is clear
-     * @param p
-     * @return boolean
-     */
-    public boolean rocky(Position p){
-        return getAntWorld()[p.getX()][p.getY()].getRocky();
+    public World(Cell[][] world){
+        this.antWorld = world;
+        this.ants = new HashMap<>();
+        this.antHills = new ArrayList();
+        this.ranWorld = new RandomWorld();
     }
+    
+    public boolean isRocky(Position p){
+        return antWorld[p.getX()][p.getY()].isContainRock();
+    }
+    
+    public Cell[][] initialiseWorld(){
+        
+        char[][] world = ranWorld.getRandomWorld();
+        
+        for (int i = 0; i < 150; i++) {
+            for (int j = 0; j < 150; j++) {
+                
+                if(world[i][j] == '#'){
+                    Cell c = new Cell();
+                    c.setContainRock(true);
+                    c.setIsClear(false);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '.'){
+                    Cell c = new Cell();
+                    c.setIsClear(true);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '+'){
+                    AntHillCell ahc = new AntHillCell(Color.RED);
+                    ahc.setIsClear(false);
+                    ahc.setContainRock(false);
+                    ahc.setContainsRedAnt(true);
+                    antWorld[i][j] = ahc;
+                }
+                if(world[i][j] == '-'){
+                    AntHillCell ahc = new AntHillCell(Color.BLACK);
+                    ahc.setIsClear(false);
+                    ahc.setContainRock(false);
+                    ahc.setContainsBlackAnt(true);
+                    antWorld[i][j] = ahc;
+                }
+                if(world[i][j] == '1'){
+                    Cell c = new Cell();
+                    c.setIsClear(false);
+                    c.setFoodNumber(1);
+                    c.setHasFood(true);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '2'){
+                    Cell c = new Cell();
+                    c.setIsClear(false);
+                    c.setFoodNumber(2);
+                    c.setHasFood(true);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '3'){
+                    Cell c = new Cell();
+                    c.setIsClear(false);
+                    c.setFoodNumber(3);
+                    c.setHasFood(true);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '4'){
+                    Cell c = new Cell();
+                    c.setIsClear(false);
+                    c.setFoodNumber(4);
+                    c.setHasFood(true);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '5'){
+                    Cell c = new Cell();
+                    c.setIsClear(false);
+                    c.setFoodNumber(5);
+                    c.setHasFood(true);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '6'){
+                    Cell c = new Cell();
+                    c.setIsClear(false);
+                    c.setFoodNumber(6);
+                    c.setHasFood(true);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '7'){
+                    Cell c = new Cell();
+                    c.setIsClear(false);
+                    c.setFoodNumber(7);
+                    c.setHasFood(true);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '8'){
+                    Cell c = new Cell();
+                    c.setIsClear(false);
+                    c.setFoodNumber(8);
+                    c.setHasFood(true);
+                    antWorld[i][j] = c;
+                }
+                if(world[i][j] == '9'){
+                    Cell c = new Cell();
+                    c.setIsClear(false);
+                    c.setFoodNumber(9);
+                    c.setHasFood(true);
+                    antWorld[i][j] = c;
+                }
+            }
+        }
+        return antWorld;
+    }
+    
+    
+//    public World getWorld(){
+//        this.initialiseWorld();
+//        
+//    }
+//    
+    
+    public static void main(String args[]){
+        World w = new World();
+        w.initialiseWorld();
+    }
+
     
     /**
      * GEOGRAPHY
@@ -44,7 +164,7 @@ public class World {
      * @return boolean
      */
     public boolean some_ant_is_at(Position p){
-        return getAntWorld()[p.getX()][p.getY()].hasAnt();
+        return initialiseWorld()[p.getX()][p.getY()].hasAnt();
     }
     
     /**
@@ -55,7 +175,7 @@ public class World {
      * @throws Exception 
      */
     public Ant ant_at(Position p) throws Exception{
-        return getAntWorld()[p.getX()][p.getY()].getAnt();
+        return initialiseWorld()[p.getX()][p.getY()].getAnt();
     }
     
     /**
@@ -65,7 +185,7 @@ public class World {
      * @param a 
      */
     public void set_ant_at(Position p, Ant a){
-        getAntWorld()[p.getX()][p.getY()].setAnt(a);
+        initialiseWorld()[p.getX()][p.getY()].setAnt(a);
         a.setPosition(p);
     }
     
@@ -75,7 +195,7 @@ public class World {
      * @param p 
      */
     public void clear_ant_at(Position p) throws Exception{
-        getAntWorld()[p.getX()][p.getY()].clearAnt();
+        initialiseWorld()[p.getX()][p.getY()].clearAnt();
     }
     
     /**
@@ -85,7 +205,7 @@ public class World {
      * @return boolean
      */
     public boolean ant_is_alive(int id){
-        return ants.containsKey(id);
+        return getAnts().containsKey(id);
     }
     
     /**
@@ -97,7 +217,7 @@ public class World {
      */
     public Position find_ant(int id) throws Exception{
         if(ant_is_alive(id)){
-            Ant a = ants.get(id);
+            Ant a = getAnts().get(id);
             return a.getPosition();
         }else{
             throw new Exception("The ant is not exist!");
@@ -111,7 +231,7 @@ public class World {
      */
     public void kill_ant_at(Position p) throws Exception{
         clear_ant_at(p);
-        ants.remove(getAntWorld()[p.getX()][p.getY()].getAnt().getID());
+        getAnts().remove(initialiseWorld()[p.getX()][p.getY()].getAnt());
     }
     
     /**
@@ -121,7 +241,7 @@ public class World {
      * @return int
      */
     public int food_at(Position p){
-        return getAntWorld()[p.getX()][p.getY()].getFoodNumber();
+        return initialiseWorld()[p.getX()][p.getY()].getFoodNumber();
     }
 
     /**
@@ -131,7 +251,7 @@ public class World {
      * @param f 
      */
     public void set_food_at(Position p, int f){
-        getAntWorld()[p.getX()][p.getY()].setFoodNumber(f);
+        initialiseWorld()[p.getX()][p.getY()].setFoodNumber(f);
     }
     
     /**
@@ -142,7 +262,7 @@ public class World {
      * @return boolean
      */
     public boolean anthill_at(Position p, Color c){
-        return getAntWorld()[p.getX()][p.getY()].isAntHill();
+        return initialiseWorld()[p.getX()][p.getY()].isAntHill();
     }
     
     /**
@@ -154,7 +274,7 @@ public class World {
      * @throws Exception 
      */
     public void set_marker_at(Position p, Color c, int marker) throws Exception{
-        getAntWorld()[p.getX()][p.getY()].setMarker(c, marker);
+        initialiseWorld()[p.getX()][p.getY()].setMarker(c, marker);
     }
     
     /**
@@ -165,7 +285,7 @@ public class World {
      * @param marker 
      */
     public void clear_marker_at(Position p, Color c, int marker) throws Exception{
-        getAntWorld()[p.getX()][p.getY()].clearMarker(c, marker);
+        initialiseWorld()[p.getX()][p.getY()].clearMarker(c, marker);
     }
     
     /**
@@ -177,7 +297,7 @@ public class World {
      * @return boolean
      */
     public boolean check_marker_at(Position p, Color c, int marker){
-        return getAntWorld()[p.getX()][p.getY()].checkMarker(c, marker);
+        return initialiseWorld()[p.getX()][p.getY()].checkMarker(c, marker);
     }
  
     /**
@@ -188,7 +308,7 @@ public class World {
      * @return boolean
      */
     public boolean check_any_marker_at(Position p, Color c){
-        return getAntWorld()[p.getX()][p.getY()].checkAnyMarker(c);
+        return initialiseWorld()[p.getX()][p.getY()].checkAnyMarker(c);
     }
     
     
@@ -204,7 +324,7 @@ public class World {
     public boolean cellMatches(Position p, Condition cond, Color c, int marker) throws Exception{
         boolean match;
         
-        if(rocky(p)){
+        if(initialiseWorld()[p.getX()][p.getY()].isContainRock()){
             match = cond.equals(Condition.ROCK);
         }
         else{
@@ -320,110 +440,77 @@ public class World {
             }
         }
     }
+
     
-    public void setSeed(int seed){
-        this.seed = seed;
+  
+
+ 
+    
+    public void setCell(int x, int y, Cell cell){
+        antWorld[x][y] = cell;
     }
     
-    public int getSeed(){
-        return seed;
-    }
-    
-    /**
-     * NUMBER THEORY
-     * random number generator that same as customer's
-     * @param n
-     * @return int 
-     */
-    public int randomint(int n){
-        for(; randomCallCounter < 3; randomCallCounter++){
-            seed = seed * 22695477 + 1;
-        }
-        seed = (seed * 22695477) + 1;
-	randomCallCounter++;
-	int x = (int) ((Math.floor((double) seed / 65536)) % 16384);
-	if (x < 0) {
-            x = ((x + 16384) % 16384);
-	}
-        return x % n;
-    }
-    
-    /**
-     * initialize the world with empty cell
-     * @return Cell[][]
-     */
-    public Cell[][] initWorld(){
-        World w = new World(0);
-        Cell[][] worldWithCell = w.getAntWorld();
-        for(int i = 0; i < worldWithCell.length; i++){
-            for(int j = 0; j < worldWithCell.length; j++){
-                worldWithCell[i][j] = new Cell();
-            }
-        }
-        return worldWithCell;
-    }
-    
-    
-    /**
-     * make the random world 
-     */
-    public Cell[][] generateRandomWorld(){
-        Cell[][] wwc = initWorld();
-        RandomWorld r = new RandomWorld();
-        char[][] rw = r.getRandomWorld();
-        System.out.println(rw.length);
-        for(int i = 0; i < rw.length; i++){
-            for(int j = 0; j < rw.length; j++){
-                if(rw[i][j] == '#'){
-                    wwc[i][j].setRocky(true);
-                }
-                if(rw[i][j] == '.'){
-                    
-                }
-                if(rw[i][j] == '+'){
-                    wwc[i][j] = new AntHillCell(Color.RED);
-                }
-                if(rw[i][j] == '-'){
-                    wwc[i][j] = new AntHillCell(Color.BLACK);
-                }
-                if(rw[i][j] == '1'){
-                    wwc[i][j].setFoodNumber(1);
-                }
-                if(rw[i][j] == '2'){
-                    wwc[i][j].setFoodNumber(2);
-                }
-                if(rw[i][j] == '3'){
-                    wwc[i][j].setFoodNumber(3);
-                }
-                if(rw[i][j] == '4'){
-                    wwc[i][j].setFoodNumber(4);
-                }
-                if(rw[i][j] == '5'){
-                    wwc[i][j].setFoodNumber(5);
-                }
-                if(rw[i][j] == '6'){
-                    wwc[i][j].setFoodNumber(6);
-                }
-                if(rw[i][j] == '7'){
-                    wwc[i][j].setFoodNumber(7);
-                }
-                if(rw[i][j] == '8'){
-                    wwc[i][j].setFoodNumber(8);
-                }
-                if(rw[i][j] == '9'){
-                    wwc[i][j].setFoodNumber(9);
-                }
-            }
-        }
-        return wwc;
+    public Cell getCell(int x, int y){
+        return antWorld[x][y];
     }
 
     /**
-     * @return the antWorld
+     * @return the ants
      */
-    public Cell[][] getAntWorld() {
-        return antWorld;
+    public HashMap<Integer, Ant> getAnts() {
+        return ants;
+    }
+
+//    private boolean setChange(int cellID) {
+//        return changes.add(cellID);
+//    }
+    
+//    public void resetChanges() {
+//	changes = new HashSet<Integer>();
+//    }
+    
+    public ArrayList<AntHillCell> getAntHills(){
+        return antHills;
     }
     
     
+//    public void triggerUpdates(int cellID) throws Exception {
+//	update(cellID);
+//        for (int i = 0; i < 6; i++) {
+//            update(getAhead(i, cellID, lengthX));
+//        }
+//    }
+
+//    /**
+//     * 
+//     * @param cellID 
+//     */
+//    private void update(int tileID) throws Exception {
+//		
+//        int x1 = ((tileID % lengthX) + lengthX) % lengthX;
+//	int y1 = tileID / lengthX;
+//        Cell currentCell = getCell(x1, y1);
+//        if ((!currentCell.isRocky()) && ((EmptyCell) currentCell).hasAnt()) {
+//            int antCount = 0;
+//            for (int i = 0; i < 6; i++) {
+//                int newCellID = getAhead(i, tileID, lengthX);
+//                int x2 = ((newCellID % lengthX) + lengthX) % lengthX;
+//		int y2 = newCellID / lengthX;
+//		Cell newCell = getCell(x2, y2);
+//                    if ((!newCell.isRocky()) && ((EmptyCell) newCell).hasAnt() && (!((EmptyCell) newCell).getAnt().get_color().equals(((EmptyCell) currentCell).getAnt().get_color()))) {
+//			antCount++;
+//                    }
+//		}
+//		if (antCount >= 5) {
+//                    if (Game.DEBUG) {
+//			System.out.println("DEBUG | ANT DEATH: " + ((EmptyCell) currentCell).getAnt().get_color() + " AntDied " + ((EmptyCell) currentCell).getAnt().getID());
+//                    }
+//                    ants.remove(((EmptyCell) currentCell).getAnt().getID());
+//                    setChange(tileID);
+//                    ((EmptyCell) currentCell).clearAnt();
+//                    ((EmptyCell) currentCell).setFoodNumber(((EmptyCell) currentCell).getFoodNumber() + 3);
+//                }
+//            }
+//	}
+
 }

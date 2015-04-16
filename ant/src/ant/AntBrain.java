@@ -44,4 +44,8 @@ public class AntBrain {
     public String getFileName(){
         return fileName;
     }
+    
+    public void simulate(Ant ant, World world) {
+        insList[ant.get_state()].execute(world, ant);
+    }
 }
