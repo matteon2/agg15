@@ -9,6 +9,7 @@ import javax.swing.*;
  *
  * @author joycecorsel
  */
+
 public class AntGameFrameGUI extends JFrame {
 
     private JPanel mMenu, tournamentMode, duelMode, gameDisplay;
@@ -39,13 +40,18 @@ public class AntGameFrameGUI extends JFrame {
     private JPanel flowL;
     private JPanel flowLa;
 
+    /**
+     * This calls the createPanel and addPanel method to add all components to the JFrame
+     */
     public AntGameFrameGUI() {
 
         createPanel();
         addPanel();
-        // formatComponents();       // THIS DOES NOT WORK YET
     }
 
+    /**
+     * Creates all components for the GUI and adds functionality to them when required
+     */
     private void createPanel() {
 
         // Creates JPanels for different 'windows'
@@ -577,6 +583,9 @@ public class AntGameFrameGUI extends JFrame {
         flowL.add(backTournament);
     }
 
+    /**
+     * Adds all GUI components to the correct JPanels
+     */
     private void addPanel() {
         // Adding features to JPanels
         mMenu.add(antImg);
@@ -610,119 +619,11 @@ public class AntGameFrameGUI extends JFrame {
 
     }
 
-    private void formatComponents() {           // DOES NOT WORK YET
-        // Formatting of mMenu
-
-        javax.swing.GroupLayout mMenuLayout = new javax.swing.GroupLayout(mMenu);
-        mMenu.setLayout(mMenuLayout);
-        mMenuLayout.setHorizontalGroup(
-                mMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mMenuLayout.createSequentialGroup()
-                        .addGroup(mMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(mMenuLayout.createSequentialGroup()
-                                        .addGap(38, 38, 38)
-                                        .addComponent(duel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(77, 77, 77)
-                                        .addComponent(tournament)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(quit))
-                                .addGroup(mMenuLayout.createSequentialGroup()
-                                        .addContainerGap(19, Short.MAX_VALUE)
-                                        .addComponent(antImg)))
-                        .addGap(18, 18, 18))
-        );
-        mMenuLayout.setVerticalGroup(
-                mMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(mMenuLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(antImg)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(mMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(duel)
-                                .addComponent(tournament)
-                                .addComponent(quit))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(mMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(mMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-        );
-
-        // Formatting of duelMode
-        javax.swing.GroupLayout duelModeLayout = new javax.swing.GroupLayout(duelMode);
-        duelMode.setLayout(duelModeLayout);
-        duelModeLayout.setHorizontalGroup(
-                duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(duelModeLayout.createSequentialGroup()
-                        .addGroup(duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(duelModeLayout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(backDuel))
-                                .addGroup(duelModeLayout.createSequentialGroup()
-                                        .addGap(200, 200, 200)
-                                        .addGroup(duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(duelModeText)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, duelModeLayout.createSequentialGroup()
-                                                        .addComponent(playDuel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(7, 7, 7))))
-                                .addGroup(duelModeLayout.createSequentialGroup()
-                                        .addGap(115, 115, 115)
-                                        .addGroup(duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(uploadWorldDuel)
-                                                .addComponent(uploadBrainOneDuel))
-                                        .addGap(18, 18, 18)
-                                        .addComponent(randomWorldDuel)))
-                        .addContainerGap(109, Short.MAX_VALUE))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, duelModeLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(playerName, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(161, 161, 161))
-        );
-        duelModeLayout.setVerticalGroup(
-                duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(duelModeLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(duelModeText)
-                        .addGap(80, 80, 80)
-                        .addComponent(playerName, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(uploadBrainOneDuel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(duelModeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(uploadWorldDuel)
-                                .addComponent(randomWorldDuel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                        .addComponent(playDuel, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
-                        .addComponent(backDuel)
-                        .addContainerGap())
-        );
-
-        //javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(duelMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(duelMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        // Formatting of tournamentMode
-        pack();
-    }
-
+    /**
+     * Main method - This runs the Ant Game
+     * The JFrame is created and additional formatting features are added
+     * @param args 
+     */
     public static void main(String args[]) {
         int WINDOW_WIDTH = 650;
         int WINDOW_HEIGHT = 650;
