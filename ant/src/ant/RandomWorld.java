@@ -83,6 +83,7 @@ public class RandomWorld {
     }
 
     public void printWorld() {
+        //TESTING PURPOSES ONLY
 //        int num = 0;
 
         System.out.println(Y);
@@ -567,7 +568,7 @@ public class RandomWorld {
             }
 
         }
-        writeToFile();
+        //writeToFile();
         //printWorld();
         return world;
     }
@@ -577,6 +578,16 @@ public class RandomWorld {
 //        System.out.println(blockedCellsPerimeter);
 //        System.out.println(blockedCellsPerimeter.size());
 //    }
+    
+    /**
+     * Given a position and a size, would check for free cells
+     * 
+     * @param x
+     * @param y
+     * @param sizeX
+     * @param sizeY
+     * @return true if there is sizeX * sizeY free cells at point x, y
+     */
     public boolean isClear(int x, int y, int sizeX, int sizeY) {
         boolean isFree = true;
         int tempX = x; //To reset x after loop
@@ -597,7 +608,15 @@ public class RandomWorld {
         }
         return isFree;
     }
-
+    
+    /**
+     * Given a position, it checks if the surrounding cells
+     * are empty
+     * 
+     * @param x
+     * @param y
+     * @return true is empty
+     */
     public boolean isSurroundingClear(int x, int y) {
         boolean surroundCheck = true;
         int rockX = x;
@@ -637,12 +656,17 @@ public class RandomWorld {
         }
         return surroundCheck;
     }
-
-    public void writeToFile(/*String fName*/) {
+    
+    /**
+     * Saves file to path
+     * @param path 
+     */
+    public void writeToFile(String path) {
         int line = 0;
         try {
             //Change path when I refactor with git
-            String name = "C:\\Users\\Mo\\Documents\\NetBeansProjects\\Learn Java\\ScreenTest\\src\\screentest\\antworld.world";
+            //String name = "C:\\Users\\Mo\\Documents\\NetBeansProjects\\Learn Java\\ScreenTest\\src\\screentest\\antworld.world";
+            String name = path;
             File file = new File(name/*fName*/);
             BufferedWriter output = new BufferedWriter(new FileWriter(file));
 
